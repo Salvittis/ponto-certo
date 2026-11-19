@@ -1,0 +1,295 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-11-19T13:42:19.029843+00:00",
+  "repository": "https://github.com/Salvittis/ponto-certo",
+  "commit": "b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+  "commit_url": "https://github.com/Salvittis/ponto-certo/commit/b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+  "run_id": 44534096169,
+  "run_attempt": 1,
+  "run_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169",
+  "run_conclusion": "failure",
+  "run_started_at_utc": "2026-11-19T13:30:20Z",
+  "run_completed_at_utc": "2026-11-19T13:39:34Z",
+  "policy": {
+    "trivy_severities": [
+      "HIGH",
+      "CRITICAL"
+    ],
+    "include_unfixed": true,
+    "trivy_scanners": [
+      "vuln",
+      "secret"
+    ],
+    "semgrep_findings_block": true,
+    "gitleaks_full_history": true
+  },
+  "counting_note": "Vulnerability instances count affected package/CVE pairs; unique CVEs deduplicate identifiers. Zero findings applies to selected HIGH/CRITICAL policy and recognized scanner targets/database at scan time, not every possible software defect.",
+  "jobs": [
+    {
+      "name": "Gitleaks / full history",
+      "databaseId": 135594851118,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135594851118",
+      "startedAt": "2026-11-19T13:30:23Z",
+      "completedAt": "2026-11-19T13:30:36Z"
+    },
+    {
+      "name": "Build + Trivy / llm",
+      "databaseId": 135594851526,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135594851526",
+      "startedAt": "2026-11-19T13:30:23Z",
+      "completedAt": "2026-11-19T13:39:34Z"
+    },
+    {
+      "name": "Semgrep / security policy",
+      "databaseId": 135594851617,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135594851617",
+      "startedAt": "2026-11-19T13:30:28Z",
+      "completedAt": "2026-11-19T13:30:54Z"
+    },
+    {
+      "name": "Build + Trivy / app",
+      "databaseId": 135594851655,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135594851655",
+      "startedAt": "2026-11-19T13:30:23Z",
+      "completedAt": "2026-11-19T13:31:17Z"
+    },
+    {
+      "name": "API regression tests",
+      "databaseId": 135594851659,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135594851659",
+      "startedAt": "2026-11-19T13:30:22Z",
+      "completedAt": "2026-11-19T13:30:39Z"
+    },
+    {
+      "name": "Build + Trivy / proxy",
+      "databaseId": 135594853288,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135594853288",
+      "startedAt": "2026-11-19T13:30:24Z",
+      "completedAt": "2026-11-19T13:31:16Z"
+    },
+    {
+      "name": "Publish the approved images",
+      "databaseId": 135600208858,
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135600208858",
+      "startedAt": "2026-11-19T13:39:34Z",
+      "completedAt": "2026-11-19T13:39:34Z"
+    },
+    {
+      "name": "Deploy to AWS Academy / session",
+      "databaseId": 135600210513,
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135600210513",
+      "startedAt": "2026-11-19T13:39:34Z",
+      "completedAt": "2026-11-19T13:39:34Z"
+    },
+    {
+      "name": "Deploy to Azure / production",
+      "databaseId": 135600211011,
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135600211011",
+      "startedAt": "2026-11-19T13:39:34Z",
+      "completedAt": "2026-11-19T13:39:34Z"
+    }
+  ],
+  "reports": {
+    "trivy-app": {
+      "artifact_name": "trivy-app-b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+      "artifact_id": 14535421839,
+      "artifact_archive_sha256": "sha256:9f8ba13df5bf39964e730a4bd1dc8e04dcb3dabc627fab148b3702fd55989d20",
+      "report_sha256": "b2ba9814515ada40d8138cef81d48bb0ecbac39ef488ebf25a85a46d1a3fee21",
+      "scanner": "Trivy",
+      "scanner_version": "0.76.2",
+      "scanned_at_utc": "2026-11-19T13:31:06.635850937Z",
+      "os": {
+        "Family": "alpine",
+        "Name": "3.24.4"
+      },
+      "architecture": "amd64",
+      "image_id": "sha256:5201376e745c090695be6398eb37745ce772a287eed43612b7823f0fd1bbd057",
+      "image_revision": "b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+      "vulnerability_finding_count": 0,
+      "severity_counts": {},
+      "unique_cve_count": 0,
+      "secret_finding_count": 0,
+      "targets": [
+        {
+          "target": "/image.tar (alpine 3.24.4)",
+          "type": "alpine",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        },
+        {
+          "target": "Python",
+          "type": "python-pkg",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        }
+      ],
+      "findings": []
+    },
+    "trivy-llm": {
+      "artifact_name": "trivy-llm-b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+      "artifact_id": 14536950460,
+      "artifact_archive_sha256": "sha256:410a3e36f48bebfbbb350ba818e3cdd8ea1c80f0f9c82d72f964d81f72817320",
+      "report_sha256": "c812e582fc57867252c46325c903dd019005c9e0c750c67af52df3b158a1b883",
+      "scanner": "Trivy",
+      "scanner_version": "0.76.2",
+      "scanned_at_utc": "2026-11-19T13:39:23.094335523Z",
+      "os": {
+        "Family": "ubuntu",
+        "Name": "26.04"
+      },
+      "architecture": "amd64",
+      "image_id": "sha256:a767dd4be4604bffc6732c457c8cc3e4b2b517667c50eba1725100a113eca88f",
+      "image_revision": "b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+      "vulnerability_finding_count": 1,
+      "severity_counts": {
+        "HIGH": 1
+      },
+      "unique_cve_count": 1,
+      "secret_finding_count": 0,
+      "targets": [
+        {
+          "target": "/image.tar (ubuntu 26.04)",
+          "type": "ubuntu",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        },
+        {
+          "target": "usr/bin/pebble",
+          "type": "gobinary",
+          "vulnerability_finding_count": 1,
+          "secret_finding_count": 0
+        }
+      ],
+      "findings": [
+        {
+          "target": "usr/bin/pebble",
+          "VulnerabilityID": "CVE-2026-97054",
+          "PkgName": "stdlib",
+          "InstalledVersion": "v1.27.3",
+          "FixedVersion": "1.26.11, 1.27.4",
+          "Severity": "HIGH",
+          "Status": "fixed",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-97054",
+          "DataSource": {
+            "ID": "govulndb",
+            "Name": "The Go Vulnerability Database",
+            "URL": "https://pkg.go.dev/vuln/"
+          },
+          "official_advisory": "https://pkg.go.dev/vuln/GO-2026-6859",
+          "official_release_history": "https://go.dev/doc/devel/release#go1.27.4"
+        }
+      ]
+    },
+    "trivy-proxy": {
+      "artifact_name": "trivy-proxy-b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+      "artifact_id": 14533694697,
+      "artifact_archive_sha256": "sha256:f327baac325197584e1e5cb2dd08144ec89faace4c9acfd4948fe80593732b48",
+      "report_sha256": "75427d3a3c8001b8552df5be3767d72535fe14210f27567a042d46d59857adff",
+      "scanner": "Trivy",
+      "scanner_version": "0.76.2",
+      "scanned_at_utc": "2026-11-19T13:31:01.201076352Z",
+      "os": {
+        "Family": "alpine",
+        "Name": "3.24.4"
+      },
+      "architecture": "amd64",
+      "image_id": "sha256:f28986bf613712a92f157579de45e032a882b6933d69d6f36f9431ca6a4d80b7",
+      "image_revision": "b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+      "vulnerability_finding_count": 0,
+      "severity_counts": {},
+      "unique_cve_count": 0,
+      "secret_finding_count": 0,
+      "targets": [
+        {
+          "target": "/image.tar (alpine 3.24.4)",
+          "type": "alpine",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        },
+        {
+          "target": "usr/bin/caddy",
+          "type": "gobinary",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        }
+      ],
+      "findings": []
+    },
+    "gitleaks": {
+      "artifact_name": "gitleaks-b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+      "artifact_id": 14534613810,
+      "artifact_archive_sha256": "sha256:322efdc7f6fac8aeb4f1da8957cb6ca57a317d2a57d0ac52f5a038ef77fbe1dd",
+      "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "scanner": "gitleaks",
+      "finding_count": 0
+    },
+    "semgrep": {
+      "artifact_name": "semgrep-b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+      "artifact_id": 14534992849,
+      "artifact_archive_sha256": "sha256:d6660ac222c2eaf1cd3b3efe8b6f8942a82f6030000a3a5ec99709ce473a6d5a",
+      "report_sha256": "788a9a4c43fa592a8486ca9b9051aa0eb5ca0661acb403b3a9f216647f079b3a",
+      "scanner": "semgrep",
+      "finding_count": 0,
+      "scanner_version": "1.186.0",
+      "errors": 0
+    }
+  },
+  "tests": {
+    "artifact_name": "tests-b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+    "artifact_id": 14534518969,
+    "artifact_archive_sha256": "sha256:0b868c8f7f6462bb34aa90b24bb034214c84ffbb2b06b22ece02b333a83022ed",
+    "report_sha256": "36d82a9b2c7a6ff751f403c5e1e8adc88ab674b896fef8d1ad58a44743cc06e2",
+    "total": 125,
+    "passed": 125,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "duration_seconds": 2.801
+  },
+  "deployments": {
+    "aws-academy": {
+      "job_conclusion": "skipped",
+      "deployed_by_this_run": false
+    },
+    "azure": {
+      "job_conclusion": "skipped",
+      "deployed_by_this_run": false
+    }
+  },
+  "publication": {
+    "job_conclusion": "skipped",
+    "published_by_this_run": false,
+    "registry_digests_available_from_this_run": false
+  },
+  "failure": {
+    "classification": "security_policy_blocked",
+    "failed_job": "Build + Trivy / llm",
+    "failed_step": "Block HIGH/CRITICAL vulnerabilities and secrets",
+    "high_count": 1,
+    "critical_count": 0,
+    "secret_count": 0,
+    "operational_scanner_failure": false,
+    "upstream_component": "/usr/bin/pebble",
+    "cve": "CVE-2026-97054",
+    "no_policy_exemptions_added": true
+  },
+  "privacy": "Only allowlisted run/scanner metadata, target names, immutable image digests and bounded smoke results are included. No secret values, source excerpts, freeform questions/answers, runtime variables, model weights or container archives."
+}

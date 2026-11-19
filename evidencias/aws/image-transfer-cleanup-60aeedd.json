@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-11-19T13:41:51.613257+00:00",
+  "repository": "Salvittis/ponto-certo",
+  "run_id": 44528188191,
+  "deleted_temporary_transfer_artifacts": [
+    {
+      "id": 14532482144,
+      "name": "image-app-60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "size_in_bytes": 28124800
+    },
+    {
+      "id": 14532398099,
+      "name": "image-llm-60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "size_in_bytes": 1397167744
+    },
+    {
+      "id": 14531972051,
+      "name": "image-proxy-60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "size_in_bytes": 44783748
+    }
+  ],
+  "total_deleted_bytes": 1470076292,
+  "preserved": [
+    "Published GHCR images by digest",
+    "Small security, tests and deployment reports",
+    "Source commits and all evidence files"
+  ],
+  "reason": "Successful historical deployment is preserved in GHCR and reports; remove temporary runner-to-publication image archives to limit retained storage. Re-running old publication would require rebuilding/re-uploading the transfer archives."
+}

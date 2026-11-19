@@ -9,6 +9,7 @@ Requires reportlab/Pillow.
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 from functools import partial
 from hashlib import sha256
 from html import escape
@@ -18,6 +19,7 @@ from pathlib import Path
 import re
 import sys
 from urllib.parse import quote, urlsplit
+from zoneinfo import ZoneInfo
 
 from PIL import Image as PILImage
 from reportlab import rl_config
@@ -108,6 +110,19 @@ def clean(value, limit=1800):
     for char in ("\u2010", "\u2011", "\u2012", "\u2013", "\u2014", "\u2212"):
         text = text.replace(char, "-")
     return text[:limit]
+
+
+def sao_paulo_deadline(value, date_format):
+    """Format a recorded, timezone-aware deadline without inventing a date."""
+    if not isinstance(value, str):
+        return "PENDENTE"
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return "PENDENTE"
+    if parsed.tzinfo is None:
+        return "PENDENTE"
+    return parsed.astimezone(ZoneInfo("America/Sao_Paulo")).strftime(date_format)
 
 
 def public_url(value):
@@ -562,7 +577,8 @@ class Report:
             self.table([["Sessão registrada", "Valor"],
                 ["Duração anunciada (horas)", escape(clean(hours, 30))],
                 ["Início / expiração", escape(clean(session.get("started_at"), 55) + " / " + clean(session.get("expires_at"), 55))],
-                ["Crédito monetário confirmado", money("lab_budget_usd")]], [230, WIDTH - 230]),
+                ["Crédito monetário confirmado", "Não informado na interface consultada"
+                 if cost.get("lab_budget_usd") is None else money("lab_budget_usd")]], [230, WIDTH - 230]),
             p("Estimativa comercial de referência", "h2"),
             self.table([["Cotação AWS registrada", "Valor"],
                 ["Região / data da consulta", escape(clean(cost.get("region"), 60) + " / " + clean(cost.get("checked_at"), 65))],
@@ -614,6 +630,22 @@ class Report:
                 ". Seleção: " + location + ", fora do Brasil. Alocação ainda sem validação completa "
                 "no manifesto. ")
         sec = self.section("Ficha Técnica", "PONTO CERTO / DEPLOY BLINDADO / CLOUD COMPUTING")
+        if self.is_aws:
+            session = self.data.get("session", {})
+            session = session if isinstance(session, dict) else {}
+            hosting = self.data.get("ia_hosting", {})
+            hosting = hosting if isinstance(hosting, dict) else {}
+            aws_deadline = sao_paulo_deadline(session.get("expires_at"), "%d/%m/%Y até %H:%M:%S")
+            ia_deadline = sao_paulo_deadline(hosting.get("maintenance_planned_until"), "%d/%m, %Hh%M")
+            access_links = [
+                p(self.link("Ambiente Cloud AWS — sessão " + aws_deadline + " (São Paulo)", self.url) +
+                  "<br/>" + self.link(self.url or "URL AWS", self.url), "small", markup=True),
+                p(self.link("Site da IA mantido para avaliação até " + ia_deadline + " (São Paulo)", self.ia_url) +
+                  "<br/>" + self.link(self.ia_url, self.ia_url), "small", markup=True),
+            ]
+        else:
+            access_links = [p(self.link("MVP deste ambiente: " + self.url, self.url)
+                              if self.url else "MVP deste ambiente: <b>PENDENTE</b>", markup=True)]
         sec += [p("Informação de ônibus com evidência, IA local e uma publicação verificável."),
                 self.table([["Campo", "Definição"],
                     ["Produto / território", "Ponto Certo / ônibus municipais de São Paulo"],
@@ -627,12 +659,10 @@ class Report:
                     ["ODS / impacto", "ODS 11 / contribuição proposta; redução de espera não medida"]], [127, WIDTH - 127]),
                 Spacer(1, 10), self.table([["Integrante", "RM"], *[[escape(a), b] for a, b in self.team]], [WIDTH - 90, 90]),
                 p("Responsável por IA e Cloud: Pedro Henrique Salvitti Habiro.", "small"),
-                p(self.link("Repositório e código", self.repo) + "<br/>" +
-                  (self.link("MVP deste ambiente: " + self.url, self.url) if self.url else "MVP deste ambiente: <b>PENDENTE</b>"), markup=True),
+                p(self.link("Repositório e código", self.repo), markup=True),
+                *access_links,
                 p(f"Documento v{VERSION} | {DOCUMENT_DATE}. Evidências atualizadas: {self.updated}.<br/>"
-                  f"Revisão Git registrada: {self.revision}.", "small", markup=True),
-                p("Uma URL registrada não comprova disponibilidade. O manifesto distingue configuração, "
-                  "teste local e execução pública; lacunas permanecem PENDENTE.", "small")]
+                  f"Revisão Git registrada: {self.revision}.", "small", markup=True)]
 
         sec = self.section("01 / Arquitetura da mesma IA", "Configuração de publicação, sem trocar a aplicação avaliada")
         sec += [self.architecture(), Spacer(1, 8),
@@ -736,6 +766,11 @@ class Report:
                 p("Não se presume GHCR público. Pull privado usa GITHUB_TOKEN efêmero com packages: read, "
                   "parâmetro protegido e login Docker temporário removido ao final. O código público "
                   "permite reprodução por build das fontes.", "small"),
+                p("O registro de bloqueio identifica o scanner, a causa e os jobs impedidos. Na execução "
+                  "da pipeline documentada, o Trivy detectou CVE-2026-97054 (HIGH) no binário Pebble (Go) "
+                  "herdado e não utilizado pela aplicação; publicação e deploys AWS/Azure ficaram "
+                  "skipped. A correção remove o binário sem uso e mantém a mesma política de "
+                  "severidade. Relatórios originais preservam a comparação entre bloqueio e aprovação.") if self.is_aws else
                 p("Ensaio: fixture sintética nunca executada introduz eval; Semgrep deve barrar o commit "
                   "e impedir deploy. Remover a fixture e repetir a mesma política deve aprovar a correção. "
                   "Não usar segredo real, desabilitar scanner ou abrandar severidade."),
@@ -974,7 +1009,7 @@ class Report:
         canv.setLineWidth(0.5)
         canv.line(44, 37, page_width - 44, 37)
         canv.setFont(self.body_font, 7.5)
-        canv.drawString(44, 24, f"v{VERSION} | revisão {self.revision[:12]} | evidência ≠ configuração".replace("≠", "não é"))
+        canv.drawString(44, 24, f"v{VERSION} | revisão {self.revision[:12]} | Ponto Certo · Cloud Computing")
         canv.drawRightString(page_width - 44, 24, f"{doc.page:02d}")
         canv.restoreState()
 

@@ -1,0 +1,591 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-11-19T13:42:19.029843+00:00",
+  "provider": "aws-academy",
+  "runId": 44534096169,
+  "runAttempt": 1,
+  "headSha": "b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+  "status": "completed",
+  "conclusion": "failure",
+  "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169",
+  "startedAt": "2026-11-19T13:30:20Z",
+  "completedAt": "2026-11-19T13:39:34Z",
+  "jobs": [
+    {
+      "name": "Gitleaks / full history",
+      "databaseId": 135594851118,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135594851118",
+      "startedAt": "2026-11-19T13:30:23Z",
+      "completedAt": "2026-11-19T13:30:36Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:23Z",
+          "completed_at": "2026-11-19T13:30:24Z"
+        },
+        {
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:24Z",
+          "completed_at": "2026-11-19T13:30:25Z"
+        },
+        {
+          "name": "Run scripts/check-security.sh gitleaks",
+          "number": 3,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:25Z",
+          "completed_at": "2026-11-19T13:30:32Z"
+        },
+        {
+          "name": "Preserve redacted findings",
+          "number": 4,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:32Z",
+          "completed_at": "2026-11-19T13:30:33Z"
+        },
+        {
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 8,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:33Z",
+          "completed_at": "2026-11-19T13:30:34Z"
+        },
+        {
+          "name": "Complete job",
+          "number": 9,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:34Z",
+          "completed_at": "2026-11-19T13:30:34Z"
+        }
+      ]
+    },
+    {
+      "name": "Build + Trivy / llm",
+      "databaseId": 135594851526,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135594851526",
+      "startedAt": "2026-11-19T13:30:23Z",
+      "completedAt": "2026-11-19T13:39:34Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:24Z",
+          "completed_at": "2026-11-19T13:30:28Z"
+        },
+        {
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:28Z",
+          "completed_at": "2026-11-19T13:30:34Z"
+        },
+        {
+          "name": "Calculate the immutable version tag",
+          "number": 3,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:34Z",
+          "completed_at": "2026-11-19T13:30:34Z"
+        },
+        {
+          "name": "Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069",
+          "number": 4,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:34Z",
+          "completed_at": "2026-11-19T13:30:47Z"
+        },
+        {
+          "name": "Build once, without publishing",
+          "number": 5,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:47Z",
+          "completed_at": "2026-11-19T13:39:06Z"
+        },
+        {
+          "name": "Validate the real HTTPS proxy configuration without network access",
+          "number": 6,
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-11-19T13:39:06Z",
+          "completed_at": "2026-11-19T13:39:06Z"
+        },
+        {
+          "name": "Block HIGH/CRITICAL vulnerabilities and secrets",
+          "number": 7,
+          "status": "completed",
+          "conclusion": "failure",
+          "started_at": "2026-11-19T13:39:06Z",
+          "completed_at": "2026-11-19T13:39:25Z"
+        },
+        {
+          "name": "Preserve vulnerability findings",
+          "number": 8,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:39:25Z",
+          "completed_at": "2026-11-19T13:39:27Z"
+        },
+        {
+          "name": "Preserve the exact scanned image for publication",
+          "number": 9,
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-11-19T13:39:27Z",
+          "completed_at": "2026-11-19T13:39:27Z"
+        },
+        {
+          "name": "Post Build once, without publishing",
+          "number": 16,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:39:27Z",
+          "completed_at": "2026-11-19T13:39:29Z"
+        },
+        {
+          "name": "Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069",
+          "number": 17,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:39:29Z",
+          "completed_at": "2026-11-19T13:39:30Z"
+        },
+        {
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 18,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:39:30Z",
+          "completed_at": "2026-11-19T13:39:30Z"
+        },
+        {
+          "name": "Complete job",
+          "number": 19,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:39:30Z",
+          "completed_at": "2026-11-19T13:39:30Z"
+        }
+      ]
+    },
+    {
+      "name": "Semgrep / security policy",
+      "databaseId": 135594851617,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135594851617",
+      "startedAt": "2026-11-19T13:30:28Z",
+      "completedAt": "2026-11-19T13:30:54Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:29Z",
+          "completed_at": "2026-11-19T13:30:31Z"
+        },
+        {
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:31Z",
+          "completed_at": "2026-11-19T13:30:35Z"
+        },
+        {
+          "name": "Run scripts/check-security.sh semgrep",
+          "number": 3,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:35Z",
+          "completed_at": "2026-11-19T13:30:49Z"
+        },
+        {
+          "name": "Preserve static-analysis findings",
+          "number": 4,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:49Z",
+          "completed_at": "2026-11-19T13:30:51Z"
+        },
+        {
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 8,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:51Z",
+          "completed_at": "2026-11-19T13:30:51Z"
+        },
+        {
+          "name": "Complete job",
+          "number": 9,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:51Z",
+          "completed_at": "2026-11-19T13:30:51Z"
+        }
+      ]
+    },
+    {
+      "name": "Build + Trivy / app",
+      "databaseId": 135594851655,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135594851655",
+      "startedAt": "2026-11-19T13:30:23Z",
+      "completedAt": "2026-11-19T13:31:17Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:24Z",
+          "completed_at": "2026-11-19T13:30:27Z"
+        },
+        {
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:27Z",
+          "completed_at": "2026-11-19T13:30:31Z"
+        },
+        {
+          "name": "Calculate the immutable version tag",
+          "number": 3,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:31Z",
+          "completed_at": "2026-11-19T13:30:31Z"
+        },
+        {
+          "name": "Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069",
+          "number": 4,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:31Z",
+          "completed_at": "2026-11-19T13:30:41Z"
+        },
+        {
+          "name": "Build once, without publishing",
+          "number": 5,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:41Z",
+          "completed_at": "2026-11-19T13:30:59Z"
+        },
+        {
+          "name": "Validate the real HTTPS proxy configuration without network access",
+          "number": 6,
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-11-19T13:30:59Z",
+          "completed_at": "2026-11-19T13:30:59Z"
+        },
+        {
+          "name": "Block HIGH/CRITICAL vulnerabilities and secrets",
+          "number": 7,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:59Z",
+          "completed_at": "2026-11-19T13:31:06Z"
+        },
+        {
+          "name": "Preserve vulnerability findings",
+          "number": 8,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:31:06Z",
+          "completed_at": "2026-11-19T13:31:08Z"
+        },
+        {
+          "name": "Preserve the exact scanned image for publication",
+          "number": 9,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:31:08Z",
+          "completed_at": "2026-11-19T13:31:11Z"
+        },
+        {
+          "name": "Post Build once, without publishing",
+          "number": 16,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:31:11Z",
+          "completed_at": "2026-11-19T13:31:13Z"
+        },
+        {
+          "name": "Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069",
+          "number": 17,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:31:13Z",
+          "completed_at": "2026-11-19T13:31:13Z"
+        },
+        {
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 18,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:31:13Z",
+          "completed_at": "2026-11-19T13:31:13Z"
+        },
+        {
+          "name": "Complete job",
+          "number": 19,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:31:13Z",
+          "completed_at": "2026-11-19T13:31:13Z"
+        }
+      ]
+    },
+    {
+      "name": "API regression tests",
+      "databaseId": 135594851659,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135594851659",
+      "startedAt": "2026-11-19T13:30:22Z",
+      "completedAt": "2026-11-19T13:30:39Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:23Z",
+          "completed_at": "2026-11-19T13:30:24Z"
+        },
+        {
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:24Z",
+          "completed_at": "2026-11-19T13:30:25Z"
+        },
+        {
+          "name": "Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+          "number": 3,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:25Z",
+          "completed_at": "2026-11-19T13:30:27Z"
+        },
+        {
+          "name": "Install the application and test dependencies",
+          "number": 4,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:27Z",
+          "completed_at": "2026-11-19T13:30:32Z"
+        },
+        {
+          "name": "Run contract and failure-mode tests",
+          "number": 5,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:32Z",
+          "completed_at": "2026-11-19T13:30:36Z"
+        },
+        {
+          "name": "Preserve test results",
+          "number": 6,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:36Z",
+          "completed_at": "2026-11-19T13:30:37Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+          "number": 11,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:37Z",
+          "completed_at": "2026-11-19T13:30:37Z"
+        },
+        {
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 12,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:37Z",
+          "completed_at": "2026-11-19T13:30:37Z"
+        },
+        {
+          "name": "Complete job",
+          "number": 13,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:37Z",
+          "completed_at": "2026-11-19T13:30:37Z"
+        }
+      ]
+    },
+    {
+      "name": "Build + Trivy / proxy",
+      "databaseId": 135594853288,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135594853288",
+      "startedAt": "2026-11-19T13:30:24Z",
+      "completedAt": "2026-11-19T13:31:16Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:25Z",
+          "completed_at": "2026-11-19T13:30:28Z"
+        },
+        {
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:28Z",
+          "completed_at": "2026-11-19T13:30:33Z"
+        },
+        {
+          "name": "Calculate the immutable version tag",
+          "number": 3,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:33Z",
+          "completed_at": "2026-11-19T13:30:33Z"
+        },
+        {
+          "name": "Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069",
+          "number": 4,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:33Z",
+          "completed_at": "2026-11-19T13:30:44Z"
+        },
+        {
+          "name": "Build once, without publishing",
+          "number": 5,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:44Z",
+          "completed_at": "2026-11-19T13:30:53Z"
+        },
+        {
+          "name": "Validate the real HTTPS proxy configuration without network access",
+          "number": 6,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:53Z",
+          "completed_at": "2026-11-19T13:30:53Z"
+        },
+        {
+          "name": "Block HIGH/CRITICAL vulnerabilities and secrets",
+          "number": 7,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:30:53Z",
+          "completed_at": "2026-11-19T13:31:06Z"
+        },
+        {
+          "name": "Preserve vulnerability findings",
+          "number": 8,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:31:06Z",
+          "completed_at": "2026-11-19T13:31:08Z"
+        },
+        {
+          "name": "Preserve the exact scanned image for publication",
+          "number": 9,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:31:08Z",
+          "completed_at": "2026-11-19T13:31:11Z"
+        },
+        {
+          "name": "Post Build once, without publishing",
+          "number": 16,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:31:11Z",
+          "completed_at": "2026-11-19T13:31:13Z"
+        },
+        {
+          "name": "Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069",
+          "number": 17,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:31:13Z",
+          "completed_at": "2026-11-19T13:31:13Z"
+        },
+        {
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 18,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:31:13Z",
+          "completed_at": "2026-11-19T13:31:13Z"
+        },
+        {
+          "name": "Complete job",
+          "number": 19,
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-19T13:31:13Z",
+          "completed_at": "2026-11-19T13:31:13Z"
+        }
+      ]
+    },
+    {
+      "name": "Publish the approved images",
+      "databaseId": 135600208858,
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135600208858",
+      "startedAt": "2026-11-19T13:39:34Z",
+      "completedAt": "2026-11-19T13:39:34Z",
+      "steps": []
+    },
+    {
+      "name": "Deploy to AWS Academy / session",
+      "databaseId": 135600210513,
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135600210513",
+      "startedAt": "2026-11-19T13:39:34Z",
+      "completedAt": "2026-11-19T13:39:34Z",
+      "steps": []
+    },
+    {
+      "name": "Deploy to Azure / production",
+      "databaseId": 135600211011,
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169/job/135600211011",
+      "startedAt": "2026-11-19T13:39:34Z",
+      "completedAt": "2026-11-19T13:39:34Z",
+      "steps": []
+    }
+  ]
+}

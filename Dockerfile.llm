@@ -12,7 +12,10 @@ LABEL org.opencontainers.image.source="https://github.com/Salvittis/ponto-certo"
       org.opencontainers.image.title="Ponto Certo local LLM" \
       org.opencontainers.image.revision=$APP_REVISION \
       org.opencontainers.image.licenses="MIT AND Apache-2.0"
+# llama-server runs directly; the inherited Pebble supervisor is unused and
+# embeds Go affected by GO-2026-6859. Remove that executable from the final image.
 RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/* \
+    && rm -f /usr/bin/pebble && test ! -e /usr/bin/pebble \
     && groupadd --gid 10001 pontocerto \
     && useradd --uid 10001 --gid 10001 --no-create-home --shell /usr/sbin/nologin pontocerto
 COPY --from=weights --chown=10001:10001 /models/qwen.gguf /models/qwen.gguf

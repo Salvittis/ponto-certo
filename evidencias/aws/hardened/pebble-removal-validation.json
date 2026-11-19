@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-11-19T13:43:58.846929+00:00",
+  "scope": "local_arm64_working_tree_validation_not_amd64_ci_or_public_deployment",
+  "blocked_commit": "b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+  "blocked_run": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169",
+  "reason": "CVE-2026-97054 in inherited unused /usr/bin/pebble, Go stdlib v1.27.3",
+  "remediation": "Remove the unused supervisor executable from the final runtime image; keep the security policy unchanged.",
+  "primary_sources": [
+    "https://pkg.go.dev/vuln/GO-2026-6859",
+    "https://go.dev/doc/devel/release#go1.27.4",
+    "https://ubuntu.com/docs/pebble/",
+    "https://github.com/ggml-org/llama.cpp/blob/d3c3e242c16b8cbf51400fad410cd69b22d64f35/.devops/cpu.Dockerfile"
+  ],
+  "base_reference": "ghcr.io/ggml-org/llama.cpp:server@sha256:5b43086e3ba7ea5794d72904654f6cd41224a9b1c6ac0398f4940ee380d30f23",
+  "base_image": {
+    "id": "sha256:5b43086e3ba7ea5794d72904654f6cd41224a9b1c6ac0398f4940ee380d30f23",
+    "architecture": "arm64",
+    "entrypoint": [
+      "/app/llama-server"
+    ],
+    "user": null
+  },
+  "validation_image": {
+    "id": "sha256:750d4f15192f8de88ecfca554ea0a254eb2bfac058c208c9cba4d8fdb4af1fa0",
+    "architecture": "arm64",
+    "entrypoint": [
+      "/app/llama-server"
+    ],
+    "user": "10001:10001"
+  },
+  "dockerfile_sha256": "5b84d1e13fd66c159de67c4fb23546628bb2553cbcc2c3304a54a5b32dc47d2f",
+  "base_dpkg_ownership": "no_package_owns_usr_bin_pebble",
+  "dependency_check": {
+    "executables": [
+      "/app/llama-server",
+      "/usr/bin/curl",
+      "/usr/sbin/groupadd",
+      "/usr/sbin/useradd"
+    ],
+    "pebble_dependency": false,
+    "missing_libraries": false
+  },
+  "runtime_validation": {
+    "health": "ok",
+    "network": "none",
+    "published_ports": [],
+    "read_only_root_filesystem": true,
+    "all_capabilities_dropped": true,
+    "pebble_absent": true,
+    "llama_server_binary_unchanged": true,
+    "model_sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+    "real_inference_succeeded": true,
+    "model_alias": "qwen2.5-1.5b-instruct",
+    "expected_marker_verified": true,
+    "completion_tokens": 4,
+    "finish_reason": "stop",
+    "inference_seconds": 0.618
+  },
+  "amd64_ci_and_public_deployment_pending": true,
+  "passed": true,
+  "temporary_container_removed": true,
+  "finished_at_utc": "2026-11-19T13:44:03.108955+00:00"
+}

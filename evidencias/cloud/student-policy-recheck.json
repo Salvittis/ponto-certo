@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-11-19T13:33:52.090061+00:00",
+  "provider": "azure",
+  "subscription_id": "f44c39b2-fc0c-4fbe-bc8c-fe7786ee8d02",
+  "display_name": "Azure for Students",
+  "state": "Enabled",
+  "spending_limit": "On",
+  "quota_id": "AzureForStudents_2018-01-01",
+  "source": "Azure Resource Manager subscription resource",
+  "limitations": [
+    "This verifies subscription type and spending-limit policy; it is not a current credit balance or billing statement.",
+    "No change to payment method, offer or spending limit was requested."
+  ]
+}

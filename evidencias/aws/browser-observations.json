@@ -127,6 +127,23 @@
       "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals",
       "observation": "Gráficos complementares após restauração: erros e saturação, com inferência real após retorno.",
       "controlled_test": true
+    },
+    {
+      "file": "evidencias/aws/screenshots/ec2-instance.jpg",
+      "captured_at": "2026-11-19T13:31:28.507917+00:00",
+      "sha256": "f9d2d402c8a891de22cc1a68f5e61eaa55d677b3debc31dba964f47f28508b02",
+      "url": "https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#InstanceDetails:instanceId=i-0cd7e82843509189b",
+      "observation": "Console autenticado: instância Ponto Certo Running, t2.medium, IPv4 público54.210.161.95, LabRole e IMDSv2Required. Apenas leitura; não demonstra por si o SHA do aplicativo.",
+      "controlled_test": false
+    },
+    {
+      "file": "evidencias/aws/screenshots/pipeline-blocked-current.jpg",
+      "captured_at": "2026-11-19T13:42:29.099468+00:00",
+      "sha256": "ea91586561a69da40e08545875456ecd0271dabdf51d9d215763042521afcabf",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44534096169",
+      "revision": "b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+      "observation": "GitHub Actions Failure: Build+Trivy/llm falhou; Publish e deploys AWS/Azure skipped. Demais scanners/testes/imagens passaram. Não é implantação desse commit.",
+      "controlled_test": false
     }
   ],
   "note": "Capturas reais do navegador. Horários de chegada da aplicação são sintéticos; não são observações da SPTrans ao vivo.",
