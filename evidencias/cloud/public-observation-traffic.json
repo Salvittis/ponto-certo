@@ -1,0 +1,143 @@
+{
+  "started_at": "2026-11-19T12:24:35.997006+00:00",
+  "scope": "public",
+  "base_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "revision": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+  "purpose": "Bounded sequential real-inference traffic for golden-signal observation; not a capacity benchmark.",
+  "samples": [
+    {
+      "index": 1,
+      "checked_at": "2026-11-19T12:24:43.201113+00:00",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 7.204,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false
+    },
+    {
+      "index": 2,
+      "checked_at": "2026-11-19T12:24:55.723548+00:00",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 10.516,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true
+    },
+    {
+      "index": 3,
+      "checked_at": "2026-11-19T12:25:05.200798+00:00",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 7.471,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false
+    },
+    {
+      "index": 4,
+      "checked_at": "2026-11-19T12:25:15.986526+00:00",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 8.784,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true
+    },
+    {
+      "index": 5,
+      "checked_at": "2026-11-19T12:25:25.642859+00:00",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 7.651,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false
+    },
+    {
+      "index": 6,
+      "checked_at": "2026-11-19T12:25:35.841005+00:00",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 8.195,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true
+    },
+    {
+      "index": 7,
+      "checked_at": "2026-11-19T12:25:45.265584+00:00",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 7.421,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false
+    },
+    {
+      "index": 8,
+      "checked_at": "2026-11-19T12:25:56.066305+00:00",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 8.794,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true
+    },
+    {
+      "index": 9,
+      "checked_at": "2026-11-19T12:26:05.237978+00:00",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 7.165,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false
+    },
+    {
+      "index": 10,
+      "checked_at": "2026-11-19T12:26:15.528784+00:00",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 8.284,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true
+    },
+    {
+      "index": 11,
+      "checked_at": "2026-11-19T12:26:24.864531+00:00",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 7.329,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false
+    },
+    {
+      "index": 12,
+      "checked_at": "2026-11-19T12:26:36.981877+00:00",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 10.112,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true
+    }
+  ],
+  "finished_at": "2026-11-19T12:26:38.986874+00:00",
+  "passed": true
+}

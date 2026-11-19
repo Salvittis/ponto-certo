@@ -1,10 +1,12 @@
 # Contrato IA–Cloud — Ponto Certo v0.1.0
 
-Responsável IA: Pedro/Salvitti. Cloud mantém infraestrutura, Docker/Compose, Terraform, CI/CD e observabilidade. Mesma aplicação em `ponto-certo/`, sem outro repositório. Contrato inicial de 19/11/2026; commit será registrado após validação. Alterações incompatíveis exigem coordenação entre agentes.
+Responsável IA: Pedro/Salvitti. Cloud mantém infraestrutura, Docker/Compose, Terraform, CI/CD e observabilidade. Mesma aplicação em `ponto-certo/`, sem outro repositório. Contrato inicial de 19/11/2026; implantação validada na revisão `48752d037ee6b7feaee1806ab00dc60e465ad745`, aplicação v0.1.0. Alterações incompatíveis exigem coordenação entre agentes.
+
+A Azure permanece como hospedagem pública da IA, com operação e recuperação verificadas. Conforme relato de Pedro em 19/11/2026 sobre aceite do professor, AWS Academy Sandbox será a entrega Cloud; sua execução e o PDF final aguardam provas próprias. Esta nova implantação deve preservar o contrato e a mesma aplicação/modelo. O checkpoint atual não afirma provisionamento ou testes AWS.
 
 ## Execução
 
-Python 3.11+; `python -m venv .venv`; `.venv/bin/pip install -r requirements.lock`; `.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 --no-access-log`.
+Reprodução fixada em Python 3.12; `python3.12 -m venv .venv`; `.venv/bin/pip install -r requirements.lock`; `.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 --no-access-log`.
 Frontend HTML/CSS/JS servido por FastAPI em `/`. Sem build Node, banco ou conta do cidadão.
 LLM autohospedada via llama.cpp `llama-server -m /models/qwen2.5-1.5b-instruct-q4_k_m.gguf --alias qwen2.5-1.5b-instruct --host 127.0.0.1 --port 8081 -c 4096 -np 1 --metrics`.
 Cloud usa nome DNS privado do serviço no `LLM_BASE_URL`; somente porta web é pública. A API compatível OpenAI é protocolo local, não serviço comercial.
@@ -12,7 +14,7 @@ Cloud usa nome DNS privado do serviço no `LLM_BASE_URL`; somente porta web é p
 ## Modelo e recursos
 
 Qwen/Qwen2.5-1.5B-Instruct-GGUF, Q4_K_M, revisão `91cad51170dc346986eccefdc2dd33a9da36ead9`, Apache-2.0 conforme [model card oficial](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF). Arquivo `qwen2.5-1.5b-instruct-q4_k_m.gguf` (~1,1 GB). llama.cpp b12464, MIT, [release oficial](https://github.com/ggml-org/llama.cpp/releases/tag/b12464). Downloads iniciais exigem rede, inferência posterior funciona offline.
-Estimativa inicial: 2–4 GB RAM para pesos/cache/contexto e API, CPU 2+ vCPUs; GPU opcional. Disco persistente >=2 GB para pesos; build pode exigir mais. Tempos e RSS observados serão registrados em `evidencias/modelo-local.json`; estimativa não é medição de Cloud. Contexto 4096, 1 slot, temperature=0, seed=42, max_tokens=450.
+Estimativa inicial: 2–4 GB RAM para pesos/cache/contexto e API, CPU 2+ vCPUs; GPU opcional. Disco persistente >=2 GB para pesos; build pode exigir mais. Carregamento local de 9,477 s e RSS instantâneo de 1.106.160 KiB registrados em `evidencias/modelo-local.json` (Apple M4/16 GB, Metal); a estimativa de recursos não é medição de memória/pico da implantação Cloud. Contexto 4096, 1 slot, temperature=0, seed=42, max_tokens=450.
 
 ## Rotas
 
@@ -33,7 +35,7 @@ Resposta: `{"status":"ok|not_found|clarification|unavailable","answer":"texto","
 | LLM_BASE_URL | http://127.0.0.1:8081/v1 | não; rede privada |
 | LLM_MODEL | qwen2.5-1.5b-instruct | não |
 | LLM_TIMEOUT_SECONDS | 90 | não |
-| RETRIEVAL_THRESHOLD | 0.05, sujeito calibração dev | não |
+| RETRIEVAL_THRESHOLD | 0.05, calibrado em DEV | não |
 | MAX_DATA_AGE_SECONDS | 180 | não |
 | APP_VERSION | 0.1.0 | não |
 | APP_REVISION | local; Cloud informa commit | não |
@@ -47,10 +49,18 @@ Recorte inicial demonstrativo: exemplo 8000-10, códigos por sentido 1273/34041 
 
 ## Validação e coordenação
 
-`python -m pytest -q`, `python scripts/smoke.py --base-url http://127.0.0.1:8000` e `python -m avaliacao.run --split test --output avaliacao/runs/reproducao` (pesos carregados). Testes determinísticos isolam dependências; smoke e avaliação usam modelo real. Cloud deve executar smoke contra URL pública e preservar resultado separado do local. No modo demo readiness não atesta SPTrans real. Consulta SPTrans real pendente. Vídeo local em `evidencias/ponto-certo-demonstracao.mp4`, montagem de capturas reais, publicação com o repositório. Instrumentação exposta e contrato enviado ao agente Cloud; nenhuma infraestrutura alterada pela frente IA.
+`python -m pytest -q`, `python scripts/smoke.py --base-url http://127.0.0.1:8000` e `python -m avaliacao.run --split test --output avaliacao/runs/reproducao` (pesos carregados). Testes determinísticos isolam dependências; smoke e avaliação usam modelo real. O smoke contra a [URL pública](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com) foi executado em 19/11/2026, 09:23:20–09:23:36 (America/Sao_Paulo), com cinco checks aprovados e evidência separada em [smoke-publico-ia.json](../evidencias/smoke-publico-ia.json). A revisão observada em health/config/readiness foi `48752d037ee6b7feaee1806ab00dc60e465ad745`; modo demo, modelo Qwen e aplicação v0.1.0. Pergunta documental e chegada sintética levaram 7,664 s e 8,390 s; são amostras únicas de integração, não benchmark de desempenho. No modo demo readiness não atesta SPTrans real. Consulta SPTrans real pendente. Vídeo local em `evidencias/ponto-certo-demonstracao.mp4`, montagem de capturas reais, publicação com o repositório. Instrumentação exposta e contrato enviado ao agente Cloud; nenhuma infraestrutura alterada pela frente IA.
+
+A jornada pelo navegador público também foi verificada às 09:25 (America/Sao_Paulo) em 19/11/2026, com envio real do formulário para chegada demo e pergunta documental. Ambas retornaram `ok`, com fontes e avisos visíveis; a chegada exibiu atualização e a fonte documental respondeu HTTP 200. [Jornada pública](../evidencias/jornada-publica-ia.json), [captura da chegada](../evidencias/interface-publica-chegada.jpg) e [captura documental](../evidencias/interface-publica-documental.jpg). A [verificação de identidade](../evidencias/identidade-publica-ia.json) registrou as portas locais 8000/8002/8081 fechadas enquanto a aplicação pública respondia, distinguindo a publicação dos serviços locais. O ensaio posterior de indisponibilidade e recuperação integra as evidências operacionais descritas abaixo, sem substituir essa jornada ou o experimento de IA.
+
+## Recuperação pública verificada na Azure
+
+Em 19/11/2026, somente o container LLM sofreu stop/start, de **12:27:30 a 12:29:31 UTC**. A API permaneceu em `/healthz` 200, enquanto `/readyz` e a pergunta retornaram 503 com indisponibilidade explícita. Dois alertas estavam em `firing` às **12:28:51 UTC**. A restauração automática foi confirmada com prontidão 200, ausência de alertas ativos, três serviços saudáveis e [smoke com LLM real 5/5](../evidencias/cloud/smoke-public-recovered.json) concluído às **12:30:41 UTC**. [Registro do ensaio](../evidencias/cloud/alert-exercise.json), [falha](../evidencias/cloud/public-model-unavailable.json), [recuperação](../evidencias/cloud/observability-recovered.json) e [comparação após reinício](../evidencias/cloud/restart-public.json).
+
+As mesmas referências de imagem e o SHA-256/tamanho dos pesos foram preservados. Não houve reboot da VM nem reinício do proxy; esse ensaio não comprova recuperação de perda do host ou reemissão de certificados. A avaliação local original e seus hashes continuam preservados. As capturas [indisponível](../evidencias/cloud/screenshots/public-unavailable.jpg) e [recuperada](../evidencias/cloud/screenshots/public-recovered.jpg) complementam o comportamento funcional observado.
 
 ## Identidade verificada dos pesos
 
 GGUF: 1.117.320.736 bytes, SHA256 `6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e`, conferido no download local. Build llama.cpp alinhado b12464. Métricas: `ponto_certo_http_requests_total{method,route,status}`, `ponto_certo_http_request_duration_seconds`, `ponto_certo_llm_requests_total{outcome}`, `ponto_certo_llm_duration_seconds`, `ponto_certo_llm_inflight`, `ponto_certo_llm_capacity`, `ponto_certo_model_ready`; `process_resident_memory_bytes` disponível no coletor padrão em Linux. Health/config/readiness incluem `revision`. Readiness testa listagem do modelo, não geração nem autenticação real SPTrans.
 
-Proteção de admissão HTTP adicionada após o experimento: `app/limits.py` e registro em `main.py`, sem alterar Engine, prompts, recuperação, ferramentas ou parâmetros. Avaliação original preservada; 19 testes de código passaram. Cloud deve executar smoke na imagem que inclui essa proteção.
+Proteção de admissão HTTP adicionada após o experimento: `app/limits.py` e registro em `main.py`, sem alterar Engine, prompts, recuperação, ferramentas ou parâmetros. Avaliação original preservada; 19 testes de código passaram. O smoke público registrado acima validou a revisão `48752d037ee6b7feaee1806ab00dc60e465ad745`, que inclui essa proteção. O commit documental posterior permanece sob controle de Cloud; ele não foi antecipado como versão implantada.

@@ -22,18 +22,18 @@ from reportlab import rl_config
 from reportlab.graphics.shapes import Drawing, Line, Polygon, Rect, String
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
-from reportlab.lib.pagesizes import A4
+from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from reportlab.platypus import (
-    Image, KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer,
-    Table, TableStyle,
+    BaseDocTemplate, Flowable, Frame, Image, KeepTogether, NextPageTemplate,
+    PageBreak, PageTemplate, Paragraph, Spacer, Table, TableStyle,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 DOCUMENT_DATE = "19/11/2026"
 DEFAULT_REPO = "https://github.com/Salvittis/ponto-certo"
 DEFAULT_OUTPUT = ROOT / "output/pdf/Ponto-Certo-Deploy-Blindado.pdf"
@@ -44,6 +44,19 @@ PALE = colors.HexColor("#EAF5F4")
 LINE = colors.HexColor("#D8E3E8")
 AMBER = colors.HexColor("#9B5B00")
 WIDTH = A4[0] - 88
+LANDSCAPE = landscape(A4)
+APPENDIX_WIDTH = LANDSCAPE[0] - 88
+APPENDIX_HEIGHT = LANDSCAPE[1] - 48 - 43
+SCREENSHOTS = (
+    ("public_app", "MVP e interface", "public_app"),
+    ("container", "Containers e execução", "docker"),
+    ("terraform", "Provisionamento Terraform", "terraform"),
+    ("pipeline_block", "Pipeline barrado", "ci_block"),
+    ("pipeline_pass", "Pipeline aprovado", "ci_pass"),
+    ("dashboard", "Dashboard e métricas", "metrics"),
+    ("alert", "Alerta disparado", "alert"),
+    ("recovery", "Recuperação", "recovery"),
+)
 CHECKS = (
     ("docker", "Containers e IA"), ("terraform", "Terraform aplicado"),
     ("ci_pass", "CI aprovado"), ("ci_block", "CI barrado e deploy impedido"),
@@ -132,6 +145,48 @@ def register_fonts():
     return "Helvetica", "Helvetica-Bold"
 
 
+class EvidenceAppendix(Flowable):
+    """One complete, uncropped capture per landscape page, with readable context."""
+
+    def __init__(self, report, item):
+        super().__init__()
+        self.report, self.item = report, item
+        self.width, self.height = APPENDIX_WIDTH, APPENDIX_HEIGHT
+
+    def wrap(self, available_width, available_height):
+        return self.width, self.height
+
+    def draw(self):
+        report, item = self.report, self.item
+        self.canv.bookmarkPage(item["anchor"])
+        self.canv.addOutlineEntry(item["heading"], item["anchor"], level=0, closed=False)
+        heading = report.p(item["heading"], "appendix_title")
+        _, heading_height = heading.wrap(self.width, self.height)
+        heading.drawOn(self.canv, 0, self.height - heading_height)
+
+        # Captions remain text in the PDF, rather than tiny text baked into images.
+        caption = report.p(f"<b>{escape(item['scope'])}</b> | " +
+                           escape(item["caption"]), "appendix_caption", markup=True)
+        _, caption_height = caption.wrap(self.width, self.height)
+        origin = report.p(report.link("Abrir fonte ou execução", item["url"]) +
+                          " | " + report.repo_link("Abrir captura original", item["relative_path"]),
+                          "small", markup=True)
+        _, origin_height = origin.wrap(self.width, self.height)
+        origin.drawOn(self.canv, 0, 0)
+        caption.drawOn(self.canv, 0, origin_height + 7)
+        image_bottom = origin_height + 7 + caption_height + 10
+        image_top = self.height - heading_height - 10
+        image_height = image_top - image_bottom
+        if image_height < 100:
+            raise ValueError("Legenda excessiva para uma captura legível: " + item["key"])
+        source_width, source_height = item["pixels"]
+        scale = min(self.width / source_width, image_height / source_height)
+        width, height = source_width * scale, source_height * scale
+        self.canv.drawImage(str(item["path"]), (self.width - width) / 2,
+                           image_bottom + (image_height - height) / 2,
+                           width=width, height=height, mask="auto")
+
+
 class Report:
     def __init__(self, manifest_path):
         self.manifest_path = manifest_path
@@ -161,9 +216,15 @@ class Report:
             "code": ParagraphStyle("PCCode", fontName="Courier", fontSize=8,
                 leading=11, textColor=INK, backColor=PALE, borderPadding=8,
                 spaceBefore=5, spaceAfter=10, splitLongWords=True),
+            "appendix_title": ParagraphStyle("PCAppendixTitle", fontName=self.bold_font,
+                fontSize=16, leading=20, textColor=INK),
+            "appendix_caption": ParagraphStyle("PCAppendixCaption", fontName=self.body_font,
+                fontSize=10, leading=13, textColor=INK, splitLongWords=True),
         }
         self.sections = []
         self.team = self.read_team()
+        self.ficha = self.read_ficha()
+        self.appendices = self.screenshot_inventory()
 
     def read_team(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -171,6 +232,18 @@ class Report:
         if not matches:
             raise ValueError("Ficha Técnica sem nomes/RMs no README; não serão inventados")
         return [(name.strip(), rm.strip()) for name, rm in matches]
+
+    def read_ficha(self):
+        # README is the team's canonical Ficha; never invent missing fields.
+        opening = (ROOT / "README.md").read_text(encoding="utf-8").split("\n## ", 1)[0]
+        fields = {}
+        for name in ("Modelo", "Indicadores de impacto"):
+            match = re.search(r"^\|\s*" + re.escape(name) + r"\s*\|\s*([^|\n]+)\s*\|", opening, re.M)
+            if not match:
+                raise ValueError("Ficha Técnica sem campo obrigatório no README: " + name)
+            # These values enter ReportLab as escaped text, not executable markup.
+            fields[name] = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", match.group(1)).replace("`", "").replace("**", "").strip()
+        return fields
 
     def p(self, text, style="body", markup=False):
         value = clean(text)
@@ -183,7 +256,14 @@ class Report:
         return f'<link href="{escape(safe, quote=True)}" color="#007F83">{escape(clean(label))}</link>'
 
     def repo_link(self, label, path):
-        return self.link(label, f"{self.repo}/blob/{self.ref}/{quote(path, safe='/')}")
+        return self.link(label, self.artifact_url(path))
+
+    def artifact_url(self, path):
+        # Final evidence can be attached to the immutable release after deployment,
+        # avoiding a document commit that changes the SHA of the published service.
+        assets = self.data.get("artifact_urls", {})
+        asset = assets.get(path) if isinstance(assets, dict) else None
+        return public_url(asset) or f"{self.repo}/blob/{self.ref}/{quote(path, safe='/')}"
 
     def table(self, rows, widths=None, header=True):
         cells = [[self.p(cell, "cell", markup=True) for cell in row] for row in rows]
@@ -227,7 +307,7 @@ class Report:
                 links.append((clean(value, 180), value))
             elif (path := local_file(value)) is not None:
                 rel = path.relative_to(ROOT).as_posix()
-                links.append((rel, f"{self.repo}/blob/{self.ref}/{quote(rel, safe='/')}"))
+                links.append((rel, self.artifact_url(rel)))
         return links
 
     def status(self, record):
@@ -262,19 +342,38 @@ class Report:
         picture.hAlign = "LEFT"
         return KeepTogether([picture, self.p(caption, "caption")])
 
-    def screenshot(self, key, max_height=150):
+    def screenshot_inventory(self):
         shots = self.data.get("screenshots", {})
-        item = shots.get(key, {}) if isinstance(shots, dict) else {}
-        if isinstance(item, str):
-            item = {"path": item}
-        if not isinstance(item, dict):
-            return self.p("Captura PENDENTE: " + key + ". Nenhum espaço de imagem é reservado.", "small")
-        path = local_file(item.get("path"))
-        if not path or path.suffix.lower() not in {".png", ".jpg", ".jpeg"}:
+        results = []
+        for key, title, check in SCREENSHOTS:
+            item = shots.get(key, {}) if isinstance(shots, dict) else {}
+            if isinstance(item, str):
+                item = {"path": item}
+            if not isinstance(item, dict):
+                continue
+            path = local_file(item.get("path"))
+            if not path or path.suffix.lower() not in {".png", ".jpg", ".jpeg"}:
+                continue
+            with PILImage.open(path) as source:
+                pixels = source.size
+            relative_path = path.relative_to(ROOT).as_posix()
+            original_url = self.artifact_url(relative_path)
+            results.append({"key": key, "path": path, "pixels": pixels,
+                "relative_path": relative_path, "anchor": "appendix-" + key,
+                "heading": f"Apêndice {chr(65 + len(results))} / {title}",
+                "scope": SCOPE.get(item.get("scope"), "ESCOPO NÃO INFORMADO"),
+                "caption": clean(item.get("caption", title), 700),
+                "url": public_url(item.get("url")) or public_url(self.record(check).get("url")) or original_url})
+        return results
+
+    def screenshot(self, key, max_height=None):
+        # Keep the core report compact; full captures get their own landscape pages.
+        item = next((value for value in self.appendices if value["key"] == key), None)
+        if item is None:
             return self.p("Captura PENDENTE: " + key + ".", "small")
-        scope = SCOPE.get(item.get("scope"), "ESCOPO NÃO INFORMADO")
-        caption = f"{scope} | {clean(item.get('caption', key), 420)} | {path.relative_to(ROOT)}"
-        return self.image(path, caption, max_height)
+        return self.p(f'<link href="#{item["anchor"]}" color="#007F83">'
+                      f'{escape(item["heading"])}</link> - captura integral em paisagem. '
+                      f'Escopo: {escape(item["scope"])}.', "small", markup=True)
 
     def architecture(self):
         diagram = Drawing(WIDTH, 204)
@@ -293,27 +392,54 @@ class Report:
                 sign = 1 if y2 > y1 else -1
                 points = [x2, y2, x2 - 3, y2 - sign * 5, x2 + 3, y2 - sign * 5]
             diagram.add(Polygon(points, fillColor=TEAL, strokeColor=TEAL))
-        diagram.add(Rect(122, 12, WIDTH - 123, 132, rx=9, ry=9,
+        diagram.add(Rect(122, 6, WIDTH - 123, 140, rx=9, ry=9,
                          fillColor=colors.HexColor("#F5F8FA"), strokeColor=LINE))
-        diagram.add(String(134, 127, "VM Azure proposta / fronteira de rede", fontName=self.bold_font,
+        diagram.add(String(134, 134, "VM Azure / Chile Central", fontName=self.bold_font,
                            fontSize=9, fillColor=INK))
-        box(0, 59, 102, 53, "Navegador", "Internet / HTTPS")
-        box(133, 59, 108, 53, "Caddy", "80/443 no host")
-        box(262, 59, 108, 53, "FastAPI", "8000 / não root")
-        box(391, 59, WIDTH - 392, 53, "Qwen local", "8081 / privada")
-        arrow(102, 85, 133, 85)
-        arrow(241, 85, 262, 85)
-        arrow(370, 85, 391, 85)
+        box(0, 67, 102, 53, "Navegador", "Internet / HTTPS")
+        box(133, 67, 108, 53, "Caddy", "80/443 no host")
+        box(262, 67, 108, 53, "FastAPI", "8000 / não root")
+        box(391, 67, WIDTH - 392, 53, "Qwen local", "8081 / privada")
+        arrow(102, 93, 133, 93)
+        arrow(241, 93, 262, 93)
+        arrow(370, 93, 391, 93)
+        box(262, 12, 108, 43, "Base documental", "+ fixtures demo")
+        arrow(316, 55, 316, 67)
+        box(0, 12, 102, 43, "SPTrans", "live pendente")
+        # Dashed external data path is conditional; fixtures supply the demo.
+        for x1, y1, x2, y2 in [(102, 34, 114, 34), (114, 34, 114, 58),
+                              (114, 58, 250, 58), (250, 58, 250, 82)]:
+            diagram.add(Line(x1, y1, x2, y2, strokeColor=TEAL, strokeWidth=1.1, strokeDashArray=[3, 2]))
+        arrow(250, 82, 262, 82)
         box(0, 153, 225, 48, "GitHub Actions / GHCR", "Gates → digest aprovado → OIDC".replace("→", ">"))
         box(272, 153, WIDTH - 272, 48, "Prometheus / Grafana locais", "HTTPS /metrics + Bearer; /readyz")
-        arrow(187, 153, 187, 144)
-        arrow(316, 153, 316, 144)
-        diagram.add(String(135, 28, "NSG: só 80/443. Sem SSH, Docker socket ou LLM públicos.",
-                           fontName=self.body_font, fontSize=8.3, fillColor=MUTED))
+        arrow(187, 153, 187, 146)
+        arrow(316, 153, 316, 146)
+        diagram.add(String(135, 32, "NSG: só 80/443", fontName=self.body_font, fontSize=8.3, fillColor=MUTED))
+        diagram.add(String(135, 20, "Sem SSH público", fontName=self.body_font, fontSize=8.3, fillColor=MUTED))
+        diagram.add(String(391, 36, "Demo: sintético", fontName=self.body_font, fontSize=8, fillColor=MUTED))
+        diagram.add(String(391, 24, "Tracejado: live", fontName=self.body_font, fontSize=8, fillColor=MUTED))
+        diagram.add(String(391, 12, "ainda não validado", fontName=self.body_font, fontSize=8, fillColor=MUTED))
         return diagram
 
     def build_sections(self):
+        self.sections = []
         p = self.p
+        provisioning = self.data.get("provisioning", {})
+        provisioning = provisioning if isinstance(provisioning, dict) else {}
+        provisioned = self.status(provisioning) == "VALIDADO / PÚBLICO"
+        if provisioned:
+            provision_text = ("O manifesto registra provisionamento concluído em " +
+                clean(provisioning.get("region"), 80) + ". A evidência de apply e leitura da API "
+                "confirma alocação; a validação da aplicação pública é registrada separadamente. ")
+            location_text = ("VM alocada na região " + clean(provisioning.get("region"), 80) +
+                ", conforme evidência de provisionamento. Chile Central fica fora do Brasil. ")
+        else:
+            provision_text = ("Seleção: Chile Central (chilecentral). A conclusão do apply ainda "
+                "não está validada no manifesto; configuração e preflight não comprovam alocação. ")
+            location_text = ("Região registrada: " + clean(provisioning.get("region"), 80) +
+                ". Seleção: Chile Central, fora do Brasil. Alocação ainda sem validação completa "
+                "no manifesto. ")
         sec = self.section("Ficha Técnica", "PONTO CERTO / DEPLOY BLINDADO / CLOUD COMPUTING")
         sec += [p("Informação de ônibus com evidência, IA local e uma publicação verificável."),
                 self.table([["Campo", "Definição"],
@@ -322,6 +448,8 @@ class Report:
                     ["Disciplina", "Secure DevOps Tools &amp; Cloud Computing / FIAP / CitizenTech 2026.2"],
                     ["Arquitetura", "FastAPI + recuperação e consultas controladas + Qwen local + Caddy"],
                     ["Fontes / modo", "SPTrans e base documental; demonstração sintética, live depende de token"],
+                    ["Modelo", escape(self.ficha["Modelo"])],
+                    ["Indicadores de impacto", escape(self.ficha["Indicadores de impacto"])],
                     ["ODS / impacto", "ODS 11 / contribuição proposta; redução de espera não medida"]], [127, WIDTH - 127]),
                 Spacer(1, 10), self.table([["Integrante", "RM"], *[[escape(a), b] for a, b in self.team]], [WIDTH - 90, 90]),
                 p("Responsável por IA e Cloud: Pedro Henrique Salvitti Habiro.", "small"),
@@ -349,6 +477,8 @@ class Report:
                 p(self.repo_link("Contrato IA e endpoints", "docs/CONTRATO-IA-CLOUD.md") + " | " +
                   self.repo_link("Relatório e limitações da IA", "docs/RELATORIO-IA.md"), "small", markup=True),
                 self.evidence_note("public_app")]
+        if any(item["key"] == "public_app" for item in self.appendices):
+            sec.append(self.screenshot("public_app"))
 
         sec = self.section("02 / Containers e integração", "Rubrica: 2 pontos / configuração e execução são registros distintos")
         sec += [self.table([["Controle", "Implementação"],
@@ -368,23 +498,18 @@ class Report:
                          f"alvo {clean(smoke.get('base_url'), 90)}; "
                          f"horário {clean(smoke.get('finished_at'), 70)}. "
                          "Não comprova URL pública nem desempenho Azure.", "small"))
-        shot = local_file("evidencias/interface-chegada.jpg")
-        if shot:
-            sec.append(self.image(shot, "IA real local / dados demo. Captura de chegada simulada; "
-                                  "não é evidência de SPTrans ao vivo nem de nuvem.", 145))
+        if any(item["key"] == "container" for item in self.appendices):
+            sec.append(self.screenshot("container"))
         sec.append(p(self.repo_link("Compose produção", "compose.production.yaml") + " | " +
                      self.repo_link("Dockerfile app", "Dockerfile") + " | " +
                      self.repo_link("Dockerfile modelo", "Dockerfile.llm"), "small", markup=True))
 
         sec = self.section("03 / Terraform e acesso", "Rubrica: 3 pontos / fronteira administrativa restrita")
-        provisioning = self.data.get("provisioning", {})
-        provisioning = provisioning if isinstance(provisioning, dict) else {}
         sec += [p("Provisionamento: " + self.status(provisioning), "h2"),
                 p("Região registrada: " + clean(provisioning.get("region"), 80) +
                   ". SKU: " + clean(provisioning.get("vm_size"), 80) +
                   ". Conclusão do apply conforme o status acima.", "small"),
-                p("Seleção: Chile Central (chilecentral). SKU/quota passaram no preflight; plano "
-                  "de 12 criações revisado e apply iniciado. Só seu resultado comprova alocação. Terraform cria "
+                p(provision_text + "Terraform administra "
                   "RG FIAP, VNet/subnet, NIC, NSG, IP Standard/DNS, VM Ubuntu 24.04 e SSD de 32 GiB. "
                   "A imagem Ubuntu exige versão numérica; provider AzureRM 5.14.0 e checksums ficam no lockfile."),
                 self.table([["Superfície", "Controle preparado"],
@@ -396,13 +521,16 @@ class Report:
                 p("State fora do Git", "h2"),
                 p("O wrapper infra/tf.sh usa diretório externo ~/.local/share/ponto-certo/terraform, "
                   "permissão 700 e umask 077. State, planos, tfvars e chaves privadas nunca são artefatos "
-                  "de CI. State local é texto: FileVault e backup cifrado protegem o disco. O lock é local "
+                  "de CI. State local é texto. FileVault protege o disco; o backup verificado é uma cópia "
+                  "nesse mesmo disco cifrado, não offsite, e não protege contra perda do computador. O lock é local "
                   "e há um único operador; sensitive não cifra valores."),
                 p("O environment GitHub deve restringir branch main. Com environment, o subject OIDC "
                   "não inclui branch: essa regra não é garantida só pelo Terraform. Run Command "
                   "continua sendo administração do host, mesmo com RBAC restrito.", "small"),
                 self.evidence_note("terraform"),
                 p(self.repo_link("Operação, pré-requisitos e state", "infra/OPERACAO.md"), "small", markup=True)]
+        if any(item["key"] == "terraform" for item in self.appendices):
+            sec.append(self.screenshot("terraform"))
 
         sec = self.section("04 / Pipeline que bloqueia", "Rubrica: 4 pontos / CI executa em push e pull request")
         sec += [p("Gitleaks (histórico) + Semgrep (política) + testes + build/Trivy (app e LLM) + "
@@ -508,8 +636,7 @@ class Report:
                 p("Access logs de Uvicorn/Caddy desabilitados. Métricas têm rótulos controlados, sem "
                   "pergunta/IP/linha. Logs técnicos são rotacionados e precisam de inspeção. Evidências "
                   "não incluem tokens, perguntas pessoais, payloads protegidos ou state."),
-                p("Localização registrada no manifesto: " + clean(provisioning.get("region"), 80) +
-                  ". Seleção atual: Chile Central, fora do Brasil. Confirmar a alocação no apply; "
+                p(location_text +
                   "Brasil Sul foi descartado por restrições de SKU. Verificar fluxos de metadados, "
                   "controle e contratos; não prometer residência integral por inferência."),
                 p("Antes de uso ampliado com dados pessoais, definir finalidade, base legal, aviso, "
@@ -530,8 +657,8 @@ class Report:
                 return "PENDENTE"
             return f"US${number:.4f}"
         sec += [p("Azure for Students oferece US$100 por 12 meses a elegíveis, sem cartão. A conta "
-                  "acadêmica foi ativada segundo a verificação do operador; saldo/spending limit "
-                  "e capacidade devem ser confirmados antes do apply. Crédito expirado/esgotado "
+                  "acadêmica foi ativada segundo a verificação do operador; acompanhar saldo e "
+                  "spending limit durante toda a correção. Crédito expirado/esgotado "
                   "pode desabilitar o serviço. Não remover o limite nem converter para plano pago."),
                 self.table([["Cotação regional registrada", "Valor"],
                     ["Região / consulta", escape(clean(cost.get("region"), 70) + " / " + clean(cost.get("checked_at"), 70))],
@@ -576,6 +703,9 @@ class Report:
         if self.manifest_path.is_file():
             digest = sha256(self.manifest_path.read_bytes()).hexdigest()
             sec.append(p("Manifesto usado / SHA-256: " + digest, "small"))
+            if public_url(self.data.get("manifest_url")):
+                sec.append(p(self.link("Abrir o manifesto desta entrega", self.data["manifest_url"]),
+                             "small", markup=True))
         else:
             sec.append(p("Manifesto ausente: evidencias/cloud/manifest.json. Nenhuma validação foi inferida.", "small"))
 
@@ -605,21 +735,22 @@ class Report:
 
     def decorate(self, canv, doc):
         canv.saveState()
+        page_width, page_height = canv._pagesize
         canv.setStrokeColor(TEAL)
         canv.setLineWidth(2)
-        canv.line(44, A4[1] - 36, A4[0] - 44, A4[1] - 36)
+        canv.line(44, page_height - 36, page_width - 44, page_height - 36)
         canv.setFont(self.bold_font, 8)
         canv.setFillColor(INK)
-        canv.drawString(44, A4[1] - 27, "PONTO CERTO")
+        canv.drawString(44, page_height - 27, "PONTO CERTO")
         canv.setFont(self.body_font, 8)
         canv.setFillColor(MUTED)
-        canv.drawRightString(A4[0] - 44, A4[1] - 27, "FIAP / CLOUD / 2026.2")
+        canv.drawRightString(page_width - 44, page_height - 27, "FIAP / CLOUD / 2026.2")
         canv.setStrokeColor(LINE)
         canv.setLineWidth(0.5)
-        canv.line(44, 37, A4[0] - 44, 37)
+        canv.line(44, 37, page_width - 44, 37)
         canv.setFont(self.body_font, 7.5)
         canv.drawString(44, 24, f"v{VERSION} | revisão {self.revision[:12]} | evidência ≠ configuração".replace("≠", "não é"))
-        canv.drawRightString(A4[0] - 44, 24, f"{doc.page:02d}")
+        canv.drawRightString(page_width - 44, 24, f"{doc.page:02d}")
         canv.restoreState()
 
     def write(self, destination):
@@ -630,12 +761,25 @@ class Report:
             if index:
                 story.append(PageBreak())
             story.extend(section)
-        document = SimpleDocTemplate(str(destination), pagesize=A4, leftMargin=44,
+        if self.appendices:
+            story.extend([NextPageTemplate("landscape"), PageBreak()])
+            for index, item in enumerate(self.appendices):
+                if index:
+                    story.append(PageBreak())
+                story.append(EvidenceAppendix(self, item))
+        document = BaseDocTemplate(str(destination), pagesize=A4, leftMargin=44,
             rightMargin=44, topMargin=59, bottomMargin=49, title="Ponto Certo - Deploy Blindado",
             author="Equipe Ponto Certo / Pedro Henrique Salvitti Habiro",
             subject="Cloud Computing: configuração e evidências registradas", pageCompression=1)
-        document.build(story, onFirstPage=self.decorate, onLaterPages=self.decorate,
-                       canvasmaker=partial(canvas.Canvas, invariant=1))
+        portrait_frame = Frame(44, 49, WIDTH, A4[1] - 59 - 49,
+            id="portrait-content", leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
+        landscape_frame = Frame(44, 43, APPENDIX_WIDTH, APPENDIX_HEIGHT,
+            id="landscape-capture", leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
+        document.addPageTemplates([
+            PageTemplate(id="portrait", frames=[portrait_frame], pagesize=A4, onPage=self.decorate),
+            PageTemplate(id="landscape", frames=[landscape_frame], pagesize=LANDSCAPE, onPage=self.decorate),
+        ])
+        document.build(story, canvasmaker=partial(canvas.Canvas, invariant=1))
 
 
 def main():
@@ -649,6 +793,9 @@ def main():
         sections = report.build_sections()
         print(json.dumps({"manifest_present": args.manifest.is_file(),
                           "sections": len(sections), "team_members": len(report.team),
+                          "landscape_appendices": len(report.appendices),
+                          "captures": [{"key": item["key"], "pixels": item["pixels"],
+                                        "scope": item["scope"]} for item in report.appendices],
                           "statuses": {key: report.status(report.record(key)) for key, _ in CHECKS},
                           "pdf_created": False}, ensure_ascii=False, indent=2))
         return

@@ -1,0 +1,29 @@
+{
+  "initiated_at": "2026-11-19T12:27:24.726474+00:00",
+  "scope": "public",
+  "revision": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+  "public_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "run_command": "alert-test-20261119T122724Z",
+  "operation": "Stop only llm for120seconds then start the same container. EXIT trap restores; separate180second host timer is fallback.",
+  "script_sha256": "5c2be8ac20e2cc7d9106e9212cea2a07c3bb56dff194a57e53ff9204bb30cc70",
+  "status": "passed",
+  "command_result": {
+    "endTime": "2026-11-19T12:29:31+00:00",
+    "error": "Running timer as unit: ponto-certo-alert-restore-1795091250.timer\nWill run service as unit: ponto-certo-alert-restore-1795091250.service\n Container ponto-certo-llm-1 Stopping \n Container ponto-certo-llm-1 Stopped \n Container ponto-certo-llm-1 Starting \n Container ponto-certo-llm-1 Started \n",
+    "exitCode": 0,
+    "output": "LLM stopped; automatic start in 120 seconds.\nLLM start requested; verify public readiness and real inference.\n",
+    "startTime": "2026-11-19T12:27:30+00:00",
+    "state": "Succeeded"
+  },
+  "firing_observed_at": "2026-11-19T12:28:51.877642+00:00",
+  "firing_names": [
+    "PontoCertoModelNotReady",
+    "PontoCertoPublicReadyUnavailable"
+  ],
+  "recovery_verified_at": "2026-11-19T12:30:41.038766+00:00",
+  "recovery_evidence": [
+    "evidencias/cloud/observability-recovered.json",
+    "evidencias/cloud/smoke-public-recovered.json"
+  ],
+  "scope_note": "Only the LLM container was stopped and started; no host reboot is claimed."
+}

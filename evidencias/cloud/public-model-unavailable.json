@@ -1,0 +1,26 @@
+{
+  "checked_at": "2026-11-19T12:27:44.293003+00:00",
+  "scope": "public",
+  "base_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "revision": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+  "health_status": 200,
+  "readiness_status": 503,
+  "readiness": {
+    "status": "not_ready",
+    "model_ready": false,
+    "data_ready": true,
+    "data_mode": "demo",
+    "sptrans_live_verified": false,
+    "version": "0.1.0",
+    "revision": "48752d037ee6b7feaee1806ab00dc60e465ad745"
+  },
+  "answer_check": {
+    "http_status": 503,
+    "seconds": 5.215,
+    "status": "unavailable",
+    "data_mode": "documental",
+    "source_count": 0,
+    "has_update": false
+  },
+  "passed": true
+}

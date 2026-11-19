@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-11-19T12:32:38.635082+00:00",
+  "revision": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+  "repository_url": "https://github.com/Salvittis/ponto-certo",
+  "public_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "provisioning": {
+    "status": "passed",
+    "scope": "public",
+    "checked_at": "2026-11-19T11:43:32Z",
+    "region": "chilecentral",
+    "vm_size": "Standard_B2als_v2",
+    "summary": "12 infrastructure resources created; Docker bootstrap verified; OIDC corrected in place and the application subsequently deployed by the successful gated pipeline.",
+    "evidence": [
+      "evidencias/cloud/terraform-applied.json"
+    ]
+  },
+  "checks": {
+    "docker": {
+      "status": "passed",
+      "scope": "public",
+      "checked_at": "2026-11-19T12:26:34.955447+00:00",
+      "commit": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+      "summary": "App, LLM e proxy saudáveis na Azure: três usuários efetivos UID 10001, rootfs somente leitura, cap_drop ALL e no-new-privileges. Memória/CPU coletadas como snapshot. Pesos /models/qwen.gguf presentes: 1.117.320.736 bytes; SHA-256 6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e. Este baseline ainda não comprova persistência após reinício.",
+      "evidence": [
+        "evidencias/cloud/observability-baseline.json",
+        "evidencias/cloud/containers-local.json",
+        "evidencias/cloud/smoke-compose-hardened.json"
+      ]
+    },
+    "terraform": {
+      "status": "passed",
+      "scope": "public",
+      "checked_at": "2026-11-19T11:43:32Z",
+      "summary": "Terraform criou 12 recursos no Azure Chile Central; VM B2als_v2, NSG somente 80/443, estado/tfvars fora do Git e FileVault ativo.",
+      "evidence": [
+        "evidencias/cloud/terraform-applied.json",
+        "evidencias/cloud/azure-bootstrap.json"
+      ]
+    },
+    "ci_pass": {
+      "status": "passed",
+      "scope": "public",
+      "checked_at": "2026-11-19T12:21:37Z",
+      "commit": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44521584358",
+      "summary": "Run 44521584358 aprovado: 54/54 testes; Gitleaks e Semgrep sem achados; Trivy app/LLM/proxy sem HIGH/CRITICAL e segredos na política executada. As imagens examinadas foram publicadas sem rebuild; deploy automático confirmou HTTPS, revisão e smoke com LLM real.",
+      "evidence": [
+        "evidencias/cloud/pipeline-passed.json",
+        "evidencias/cloud/security-passed-summary.json"
+      ]
+    },
+    "ci_block": {
+      "status": "passed",
+      "scope": "public",
+      "checked_at": "2026-11-19T11:36:31Z",
+      "commit": "6cdcb491ff091d9fdf8b87592d7e847ed674877a",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44515603367",
+      "summary": "Semgrep bloqueou eval sintético isolado; Trivy bloqueou CVEs reais da API/proxy. Publicação e deploy ficaram skipped.",
+      "evidence": [
+        "evidencias/cloud/pipeline-blocked.json",
+        "evidencias/cloud/security-blocked-summary.json"
+      ]
+    },
+    "public_app": {
+      "status": "passed",
+      "scope": "public",
+      "checked_at": "2026-11-19T12:26:38.986874+00:00",
+      "commit": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+      "url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+      "summary": "HTTPS público validado com a revisão esperada e containers locais da aplicação parados. Smoke 5/5 com inferência real (documental 14,481 s; chegada demo 8,182 s); contratos de esclarecimento/ausência/entrada inválida 3/3; tráfego sequencial 12/12. Interface mostra resposta, fonte e atualização quando aplicável. Dados de chegada são sintéticos identificados; SPTrans live não foi validada.",
+      "evidence": [
+        "evidencias/cloud/public-first-ready.json",
+        "evidencias/cloud/smoke-public-first.json",
+        "evidencias/cloud/public-failure-contracts.json",
+        "evidencias/cloud/public-network.json",
+        "evidencias/cloud/public-observation-traffic.json",
+        "evidencias/cloud/screenshots/public-app.jpg"
+      ]
+    },
+    "restart": {
+      "status": "passed",
+      "scope": "public",
+      "checked_at": "2026-11-19T12:30:41.038766+00:00",
+      "commit": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+      "summary": "LLM parada e iniciada de verdade; mesmas imagens e SHA/tamanho dos pesos preservados; inferência pública passou após reinício. Não é reboot da VM.",
+      "evidence": [
+        "evidencias/cloud/restart-public.json",
+        "evidencias/cloud/observability-baseline.json",
+        "evidencias/cloud/observability-recovered.json",
+        "evidencias/cloud/smoke-public-recovered.json"
+      ]
+    },
+    "metrics": {
+      "status": "passed",
+      "scope": "public",
+      "checked_at": "2026-11-19T12:26:14.725055+00:00",
+      "commit": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+      "summary": "Quatro métricas finitas coletadas no Prometheus local contra a mesma URL pública, em janela móvel de 5 min. Targets e histórico ampliado confirmam apenas os alvos públicos. O snapshot durante inferência registra saturação de 100% do único slot; isso não representa CPU nem benchmark de capacidade. Tráfego real controlado: 12/12 respostas válidas.",
+      "evidence": [
+        "evidencias/cloud/observability-baseline.json",
+        "evidencias/cloud/public-observation-traffic.json",
+        "evidencias/cloud/screenshots/dashboard.jpg"
+      ]
+    },
+    "alert": {
+      "status": "passed",
+      "scope": "public",
+      "checked_at": "2026-11-19T12:28:51.877642+00:00",
+      "commit": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+      "summary": "Dois alertas reais em FIRING após interromper a LLM: prontidão pública e modelo indisponível. API permaneceu viva e consultas retornaram503.",
+      "evidence": [
+        "evidencias/cloud/alert-exercise.json",
+        "evidencias/cloud/observability-firing.json",
+        "evidencias/cloud/public-model-unavailable.json"
+      ]
+    },
+    "recovery": {
+      "status": "passed",
+      "scope": "public",
+      "checked_at": "2026-11-19T12:30:41.038766+00:00",
+      "commit": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+      "summary": "Restauração automática concluída; prontidão200, alertas ausentes, três serviços saudáveis e smoke real5/5 após recuperação.",
+      "evidence": [
+        "evidencias/cloud/alert-exercise.json",
+        "evidencias/cloud/observability-recovered.json",
+        "evidencias/cloud/smoke-public-recovered.json"
+      ]
+    }
+  },
+  "metrics": {
+    "scope": "public",
+    "target": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+    "window": "5m ending 2026-11-19T12:26:14.725055+00:00; saturation sampled at window end",
+    "latency_p95_seconds": 24.699403152795004,
+    "traffic_requests_per_second": 0.06666549709654217,
+    "error_rate_percent": 0.0,
+    "saturation_percent": 100.0
+  },
+  "screenshots": {
+    "pipeline_block": {
+      "path": "evidencias/cloud/screenshots/pipeline-blocked.jpg",
+      "scope": "public",
+      "caption": "Run 44515603367: scanners bloquearam a publicação e o deploy em 19/11/2026."
+    },
+    "pipeline_pass": {
+      "path": "evidencias/cloud/screenshots/pipeline-passed.jpg",
+      "scope": "public",
+      "caption": "Run 44521584358 aprovado na revisão 48752d037ee6b7feaee1806ab00dc60e465ad745: testes, Gitleaks, Semgrep, Trivy das três imagens, publicação e deploy concluídos.",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44521584358"
+    },
+    "dashboard": {
+      "path": "evidencias/cloud/screenshots/dashboard.jpg",
+      "scope": "public",
+      "caption": "Grafana local coletando o MVP público: p95, tráfego, erros e saturação em janela móvel de 5 min. Os valores tabulados vêm do snapshot de 19/11/2026 às 12:26:14,725055 UTC; o último ponto da captura móvel pode diferir."
+    },
+    "public_app": {
+      "path": "evidencias/cloud/screenshots/public-app.jpg",
+      "scope": "public",
+      "caption": "Interface pública após consulta de chegada: resposta da LLM, fonte e atualização exibidas. A previsão está identificada como demonstração sintética; não comprova operação SPTrans ao vivo.",
+      "url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com"
+    },
+    "alert": {
+      "path": "evidencias/cloud/screenshots/alert-firing.jpg",
+      "scope": "public",
+      "url": "http://127.0.0.1:9090/alerts",
+      "caption": "Prometheus local monitorando o Azure: ModelNotReady e PublicReadyUnavailable em FIRING durante a interrupção real da LLM em19/11/2026,09:28–09:29 São Paulo."
+    },
+    "recovery": {
+      "path": "evidencias/cloud/screenshots/alert-recovered.jpg",
+      "scope": "public",
+      "url": "http://127.0.0.1:9090/alerts",
+      "caption": "Mesmas regras após a restauração automática: três alertas INACTIVE; recuperação complementada por prontidão200 e smoke público com inferência real."
+    }
+  },
+  "costs": {
+    "region": "chilecentral",
+    "checked_at": "2026-11-19T11:39:46Z",
+    "hours": 216,
+    "vm_hourly_usd": 0.0526,
+    "ip_hourly_usd": 0.005,
+    "disk_monthly_usd": 3.36,
+    "total_estimate_usd": 13.4496
+  },
+  "history": [
+    {
+      "revision": "6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+      "updated_at": "2026-11-19T11:46:17.936566+00:00",
+      "checks": {
+        "docker": {
+          "status": "passed",
+          "scope": "local",
+          "checked_at": "2026-11-19T11:41:29Z",
+          "summary": "API e LLM saudáveis em Compose ARM64; UID efetivo 10001, rootfs somente leitura, capacidades removidas e inferência real. Publicação AMD64 é verificada separadamente.",
+          "evidence": [
+            "evidencias/cloud/containers-local.json",
+            "evidencias/cloud/smoke-compose-hardened.json"
+          ]
+        }
+      },
+      "note": "Validação local anterior preservada; a nova verificação pública é registrada separadamente nos checks atuais."
+    }
+  ],
+  "provider": "azure",
+  "delivery_role": "Persistent IA hosting; AWS Sandbox requested separately for the Cloud submission."
+}

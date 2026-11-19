@@ -1,0 +1,47 @@
+{
+  "checked_at": "2026-11-19T12:24:09.355795+00:00",
+  "url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "revision_expected": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+  "checks": {
+    "/healthz": {
+      "http_status": 200,
+      "body": {
+        "status": "ok",
+        "version": "0.1.0",
+        "revision": "48752d037ee6b7feaee1806ab00dc60e465ad745"
+      }
+    },
+    "/readyz": {
+      "http_status": 200,
+      "body": {
+        "status": "ready",
+        "model_ready": true,
+        "data_ready": true,
+        "data_mode": "demo",
+        "sptrans_live_verified": false,
+        "version": "0.1.0",
+        "revision": "48752d037ee6b7feaee1806ab00dc60e465ad745"
+      }
+    },
+    "/api/config": {
+      "http_status": 200,
+      "body": {
+        "mode": "demo",
+        "model": "qwen2.5-1.5b-instruct",
+        "version": "0.1.0",
+        "revision": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+        "scope": "Ônibus municipais de São Paulo. Demonstração sintética: 8000-10, sentidos 1/2, ponto 4200153. Cobertura ao vivo depende do retorno da SPTrans."
+      }
+    }
+  },
+  "local_ports_accepting_tcp": {
+    "8000": false,
+    "8002": false,
+    "8081": false
+  },
+  "notes": [
+    "GETs públicos anônimos com TLS verificado.",
+    "Portas locais verificadas apenas para distinguir os serviços locais da publicação; nenhuma mutação de serviço.",
+    "API SPTrans real não validada: modo demo."
+  ]
+}

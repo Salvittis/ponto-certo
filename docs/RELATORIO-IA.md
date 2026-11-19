@@ -9,7 +9,7 @@
 | Arquitetura | Interface web, API FastAPI, base documental com TF-IDF, agente de consultas SPTrans, validação temporal e LLM local |
 | Fontes | Documentação SPTrans, portal de desenvolvedores, políticas do produto e cenários sintéticos versionados; fonte ao vivo depende de acesso validado |
 | Modelo | Qwen2.5-1.5B-Instruct-GGUF Q4_K_M, revisão `91cad51170dc346986eccefdc2dd33a9da36ead9`; llama.cpp b12464 |
-| URLs | Repositório: [Salvittis/ponto-certo](https://github.com/Salvittis/ponto-certo), público, arquivos publicados em 19/11/2026. MVP público: **pendente de Cloud**. [Vídeo publicado](https://github.com/Salvittis/ponto-certo/blob/main/evidencias/ponto-certo-demonstracao.mp4). Demonstração local: `http://127.0.0.1:8000` |
+| URLs | Repositório: [Salvittis/ponto-certo](https://github.com/Salvittis/ponto-certo), público, arquivos publicados em 19/11/2026. MVP público: [Ponto Certo](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com), validado por smoke HTTP e navegador em modo demo. [Vídeo publicado](https://github.com/Salvittis/ponto-certo/blob/main/evidencias/ponto-certo-demonstracao.mp4). Demonstração local: `http://127.0.0.1:8000` |
 | Impacto e indicadores | Proposta de diminuir a incerteza mediante informações com fontes. Avaliam-se acerto, fundamentação, recusa, disponibilidade e atualidade; compreensão e incerteza do cidadão exigem estudo posterior |
 | ODS | **ODS 11**, especialmente acesso à mobilidade e ao transporte coletivo na [meta 11.2 da ONU](https://sdgs.un.org/goals/goal11). A proposta contribui pelo acesso à informação; não mede cumprimento da meta nem redução efetiva da espera |
 
@@ -23,7 +23,7 @@ Global Solution CitizenTech 2026.2 — Engenharia de Software, 4º ano — **Gen
 | Cássio Eid Kobaysahi Yonetsuka | RM99678 | Não detalhada nesta frente |
 | Pedro Henrique Salvitti Habiro | RM88166 | IA/ML e Cloud |
 
-A avaliação local foi executada e suas evidências estão preservadas. A entrega permanece parcial enquanto integração pública ou consulta ao vivo não tiverem evidência. O [status da frente IA](STATUS-IA.md) é o registro operacional. A submissão acadêmica cabe a um integrante, até 19/11/2026 às 23h55, conforme PDF. Não foi realizada pelo agente.
+A avaliação local foi executada e suas evidências estão preservadas. A aplicação pública passou pelo smoke HTTP e pela jornada no navegador com LLM real e dados de ônibus sintéticos; a consulta SPTrans ao vivo permanece sem validação. O [status da frente IA](STATUS-IA.md) é o registro operacional. A submissão acadêmica cabe a um integrante, até 19/11/2026 às 23h55, conforme PDF. Não foi realizada pelo agente.
 
 ## Problema e tarefa da IA
 
@@ -51,7 +51,7 @@ A reprodução do serviço usa Python 3.12 e as 19 dependências fixadas em `req
 
 O equipamento local observado é Apple M4, ARM64, 16 GB de RAM, macOS 27.2.1, com Metal habilitado pelo binário. O carregamento registrado levou **9,477 s** e o RSS observado foi **1.106.160 KiB** (cerca de 1,05 GiB). RSS é uma amostra do processo, não uma medição completa de memória da GPU nem garantia do pico. Duas chamadas exploratórias levaram 2,0355 s e 0,8234 s; não são benchmark repetido. [Evidência de recursos](../evidencias/modelo-local.json).
 
-Para Cloud, a previsão inicial de **2–4 GiB de RAM** e pelo menos 2 GiB de disco continua sendo **estimativa**, não medição da implantação pública em CPU. Cloud deve validar capacidade e latência no ambiente publicado.
+Para Cloud, a previsão inicial de **2–4 GiB de RAM** e pelo menos 2 GiB de disco continua sendo **estimativa**, não medição de memória/pico da implantação pública em CPU. Duas latências públicas de integração foram observadas e estão registradas abaixo; não constituem teste de capacidade ou benchmark.
 
 ## Pipeline e fluxo dos documentos/dados
 
@@ -230,12 +230,20 @@ Saúde do processo e prontidão das dependências são rotas distintas. Métrica
 
 ## Reprodução, evidências e conclusão técnica
 
-As instruções de instalação, download do modelo, inicialização e teste estão no [README principal](../README.md). As versões e configurações devem coincidir com o [contrato IA–Cloud](CONTRATO-IA-CLOUD.md). A execução local não comprova que a URL pública passou pelos mesmos testes.
+As instruções de instalação, download do modelo, inicialização e teste estão no [README principal](../README.md). As versões e configurações devem coincidir com o [contrato IA–Cloud](CONTRATO-IA-CLOUD.md). Evidências locais e públicas são preservadas separadamente; a comparação A/B/C continua sendo o experimento local original, sem substituição pelos testes de publicação.
 
 A aplicação foi integrada **localmente** da interface à API e à LLM real. O smoke verificou saúde, prontidão, modo demo, uma resposta documental com fonte e uma previsão simulada com fonte/atualização; os cinco checks passaram. [Smoke local](../evidencias/smoke-local.json). O [vídeo demonstrativo de 32 segundos](../evidencias/ponto-certo-demonstracao.mp4) reúne quadros de telas reais; os dados de ônibus exibidos são sintéticos. O arquivo está publicado no repositório público.
+
+A integração HTTP também foi verificada na [URL pública](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com) em **19/11/2026, 09:23:20–09:23:36 (America/Sao_Paulo)**. O smoke aprovou saúde, prontidão, configuração, pergunta documental e chegada sintética: **cinco de cinco checks**. A aplicação v0.1.0 respondeu com revisão `48752d037ee6b7feaee1806ab00dc60e465ad745`, Qwen autohospedado e modo demo; a prontidão declara `sptrans_live_verified=false`. [Evidência pública](../evidencias/smoke-publico-ia.json). A resposta documental levou 7,664 s e a chegada, 8,390 s; são amostras únicas de integração, sem conclusão populacional, SLA ou comparação de velocidade com o experimento local. Esse é o SHA implantado e validado, não uma promessa sobre o commit documental posterior.
+
+Às **09:25 (America/Sao_Paulo)**, o formulário da aplicação pública foi preenchido e enviado pelo navegador para chegada demo e pergunta documental. As duas respostas apresentaram `ok`, fonte e avisos pertinentes; a chegada exibiu atualização e o link da política documental foi acessível com HTTP 200. [Manifesto da jornada](../evidencias/jornada-publica-ia.json), [captura da chegada](../evidencias/interface-publica-chegada.jpg) e [captura documental](../evidencias/interface-publica-documental.jpg). A [identidade pública](../evidencias/identidade-publica-ia.json) confirmou a mesma revisão nas três rotas e constatou os serviços locais 8000/8002/8081 fechados: a publicação observada não dependia deles. Esses dois cenários verificam integração, sem substituir a avaliação original de 24 casos nem provar capacidade sob carga. O ensaio operacional posterior foi concluído pela frente Cloud e está registrado a seguir, separadamente do experimento de 24 casos.
+
+A recuperação operacional foi verificada na Azure em **19/11/2026**. O comando parou e iniciou somente a LLM de **12:27:30 a 12:29:31 UTC**; às **12:28:51 UTC**, dois alertas estavam em `firing`, com `/healthz` 200, `/readyz` 503 e consulta retornando indisponibilidade. [Ensaio](../evidencias/cloud/alert-exercise.json), [resposta durante falha](../evidencias/cloud/public-model-unavailable.json) e [interface indisponível](../evidencias/cloud/screenshots/public-unavailable.jpg). Após a restauração automática, o [smoke público](../evidencias/cloud/smoke-public-recovered.json) passou **5/5** até **12:30:41 UTC**, com prontidão 200, inferência real e alertas resolvidos. Hash e tamanho dos pesos permaneceram iguais em [restart-public.json](../evidencias/cloud/restart-public.json); não houve reboot do host nem teste de reinício do proxy. [Recuperação monitorada](../evidencias/cloud/observability-recovered.json) e [interface restaurada](../evidencias/cloud/screenshots/public-recovered.jpg).
+
+A **Azure permanece como hospedagem da IA**. Pedro relatou que o professor aceitou AWS Academy Sandbox para a entrega Cloud e orientou sua preparação após esta validação Azure. AWS e o PDF final Cloud ainda aguardam execução/evidências próprias neste checkpoint. Esses testes operacionais não alteram os gabaritos, resultados, protocolo ou conclusões da avaliação local original.
 
 O [notebook](../notebooks/avaliacao-ia.ipynb) foi executado com seis células de código, 17 saídas salvas e zero erros; a [exportação HTML](../notebooks/avaliacao-ia.html) e o [gráfico](../notebooks/placar.png) acompanham o arquivo. Ele recalcula os resultados dos JSON versionados, sem nova inferência. A execução que gerou as respostas continua rastreável pelo manifesto do runner.
 
 O sistema especializado melhorou acerto semântico e conteve afirmações finais sem suporte nesta amostra, mas chegou a apenas 62,5% de acerto e ainda recusou perguntas respondíveis. O RAG simples aumentou a presença de fontes, porém também fabricou dados; fonte presente e JSON válido não bastam. O agente fornece uma base verificável para o produto, com limitações de relevância e estado que devem orientar novo desenvolvimento e avaliação em perguntas inéditas. As ferramentas, regras e cópia extrativa explicam parte central do ganho; ele não pode ser atribuído a pesos treinados.
 
-Pendências para concluir a entrega: consulta real SPTrans e cobertura verificada, URL pública validada com Cloud e submissão acadêmica por um integrante. Essas etapas só devem ser marcadas como concluídas após evidência verificável.
+Pendências: consulta real SPTrans e cobertura verificada; consolidação documental e submissão acadêmica por um integrante. Smoke, jornada pública, falha honesta da dependência e recuperação Azure já foram aprovados. A entrega Cloud AWS e seu PDF final permanecem uma etapa separada, ainda sem execução comprovada neste checkpoint; a Azure continua ativa para IA.

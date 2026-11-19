@@ -1,0 +1,48 @@
+{
+  "started_at": "2026-11-19T12:30:21.026285+00:00",
+  "base_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "expected_mode": "demo",
+  "checks": [
+    {
+      "name": "healthz",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 0.218
+    },
+    {
+      "name": "readiness",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 0.296
+    },
+    {
+      "name": "config",
+      "passed": true,
+      "http_status": 200,
+      "mode": "demo"
+    },
+    {
+      "name": "documental",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 10.192,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false
+    },
+    {
+      "name": "arrival_demo",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 13.036,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true
+    }
+  ],
+  "passed": true,
+  "privacy": "Somente checks e metadados; perguntas e respostas livres não são salvas.",
+  "finished_at": "2026-11-19T12:30:44.966480+00:00"
+}

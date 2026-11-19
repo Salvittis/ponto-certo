@@ -1,0 +1,48 @@
+{
+  "checked_at": "2026-11-19T12:23:57.072614+00:00",
+  "scope": "public",
+  "origin": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "root_http_status": 200,
+  "http_redirect": {
+    "status": 308,
+    "location": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com/readyz"
+  },
+  "tls": {
+    "version": "TLSv1.3",
+    "certificate_not_after": "Feb 17 11:22:26 2027 GMT",
+    "hostname_verified": true,
+    "trusted_chain": true
+  },
+  "headers": {
+    "Content-Security-Policy": "default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
+    "Strict-Transport-Security": "max-age=86400",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "no-referrer"
+  },
+  "unauthenticated_metrics_status": 401,
+  "sampled_ports": [
+    {
+      "port": 22,
+      "result": "not_accessible_from_this_client"
+    },
+    {
+      "port": 8000,
+      "result": "not_accessible_from_this_client"
+    },
+    {
+      "port": 8081,
+      "result": "not_accessible_from_this_client"
+    },
+    {
+      "port": 3001,
+      "result": "not_accessible_from_this_client"
+    },
+    {
+      "port": 9090,
+      "result": "not_accessible_from_this_client"
+    }
+  ],
+  "local_app_state": "exited",
+  "local_dependency_test": "Public HTTPS served while the local Ponto Certo application and model containers were stopped; local Prometheus/Grafana remained active.",
+  "limits": "Port probes cover only the listed ports from this client; the Terraform/NSG evidence records the complete inbound policy."
+}

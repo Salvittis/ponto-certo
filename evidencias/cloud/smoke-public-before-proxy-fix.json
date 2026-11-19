@@ -1,0 +1,15 @@
+{
+  "started_at": "2026-11-19T12:06:40.048022+00:00",
+  "base_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "expected_mode": "demo",
+  "checks": [
+    {
+      "name": "healthz",
+      "passed": false,
+      "failure": "connection_failed"
+    }
+  ],
+  "passed": false,
+  "privacy": "Somente checks e metadados; perguntas e respostas livres não são salvas.",
+  "finished_at": "2026-11-19T12:06:40.120234+00:00"
+}

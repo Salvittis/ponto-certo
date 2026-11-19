@@ -1,0 +1,22 @@
+{
+  "checked_at": "2026-11-19T12:02:56.730898+00:00",
+  "repository": "Salvittis/ponto-certo",
+  "scope": "public",
+  "observed_error": "AADSTS700213 before application deployment",
+  "github_oidc_settings": {
+    "use_default": true,
+    "use_immutable_subject": true,
+    "sub_claim_prefix": "repo:Salvittis@82597471/ponto-certo@1464046587"
+  },
+  "federation_subject": "repo:Salvittis@82597471/ponto-certo@1464046587:environment:production",
+  "issuer": "https://token.actions.githubusercontent.com",
+  "audience": "api://AzureADTokenExchange",
+  "terraform_apply": {
+    "added": 0,
+    "changed": 1,
+    "destroyed": 0
+  },
+  "changed_resource": "azurerm_federated_identity_credential.github_production",
+  "verification": "Terraform completed the in-place update; deployment retry requested.",
+  "workflow_run": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349"
+}

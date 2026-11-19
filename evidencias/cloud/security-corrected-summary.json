@@ -1,0 +1,297 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-11-19T12:11:27.330639+00:00",
+  "repository": "https://github.com/Salvittis/ponto-certo",
+  "commit": "6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+  "commit_url": "https://github.com/Salvittis/ponto-certo/commit/6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+  "run_id": 44517488349,
+  "run_attempt": 2,
+  "run_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349",
+  "run_conclusion": "failure",
+  "run_started_at_utc": "2026-11-19T11:44:23Z",
+  "run_completed_at_utc": "2026-11-19T12:08:30Z",
+  "policy": {
+    "trivy_severities": [
+      "HIGH",
+      "CRITICAL"
+    ],
+    "include_unfixed": true,
+    "trivy_scanners": [
+      "vuln",
+      "secret"
+    ],
+    "semgrep_findings_block": true,
+    "gitleaks_full_history": true
+  },
+  "counting_note": "Vulnerability finding instances count each affected package/CVE pair. Unique CVE count deduplicates identifiers across packages. Zero findings applies only to the selected HIGH/CRITICAL severity policy and the scanned version/database.",
+  "jobs": [
+    {
+      "name": "Deploy to Azure / production",
+      "id": 135546711214,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135546711214"
+    },
+    {
+      "name": "API regression tests",
+      "id": 135546711504,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135546711504"
+    },
+    {
+      "name": "Gitleaks / full history",
+      "id": 135546712040,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135546712040"
+    },
+    {
+      "name": "Build + Trivy / proxy",
+      "id": 135546712558,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135546712558"
+    },
+    {
+      "name": "Publish the approved images",
+      "id": 135546712897,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135546712897"
+    },
+    {
+      "name": "Semgrep / security policy",
+      "id": 135546789593,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135546789593"
+    },
+    {
+      "name": "Build + Trivy / llm",
+      "id": 135546791229,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135546791229"
+    },
+    {
+      "name": "Build + Trivy / app",
+      "id": 135546795739,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135546795739"
+    }
+  ],
+  "reports": {
+    "trivy-app": {
+      "artifact_name": "trivy-app-6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+      "artifact_id": 14526167179,
+      "artifact_archive_sha256": "sha256:6937882c001d8fe40239c9e43858b54ddb7ecca9b56fd85bbfdeb64d3cb9a8f8",
+      "report_sha256": "1785dafba0784974aad8b825ac6e975569a4f5188b3345b12f039757bbc7b620",
+      "job_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135537171448",
+      "job_conclusion": "success",
+      "scanner": "Trivy",
+      "scanner_version": "0.76.2",
+      "scanned_at_utc": "2026-11-19T11:44:56.451811971Z",
+      "os": {
+        "Family": "alpine",
+        "Name": "3.24.4"
+      },
+      "architecture": "amd64",
+      "image_id": "sha256:4a5fb712cc41363e4fc006cd4e7ba0cb669472b4f0ff848f1be8fefb360dcc87",
+      "vulnerability_finding_count": 0,
+      "severity_counts": {},
+      "unique_cve_count": 0,
+      "unique_cve_ids": [],
+      "secret_finding_count": 0,
+      "targets": [
+        {
+          "target": "/image.tar (alpine 3.24.4)",
+          "type": "alpine",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        },
+        {
+          "target": "Python",
+          "type": "python-pkg",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        }
+      ],
+      "findings": []
+    },
+    "trivy-llm": {
+      "artifact_name": "trivy-llm-6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+      "artifact_id": 14527311287,
+      "artifact_archive_sha256": "sha256:cb7bc82b361dbf9107b9b1fa95cb157d3bb1fb9c2e6c14b7d8d360074f2bd92a",
+      "report_sha256": "5b53badc2428f33586c35bfe086b595e91fd7cec243e0340c31cd6d7ee968947",
+      "job_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135537171351",
+      "job_conclusion": "success",
+      "scanner": "Trivy",
+      "scanner_version": "0.76.2",
+      "scanned_at_utc": "2026-11-19T11:55:12.96506788Z",
+      "os": {
+        "Family": "ubuntu",
+        "Name": "26.04"
+      },
+      "architecture": "amd64",
+      "image_id": "sha256:8afbda466c3ddf23e3dbefe4a7d2257bc9b0ce9ea92c6ca9d7e51b91959db93a",
+      "vulnerability_finding_count": 0,
+      "severity_counts": {},
+      "unique_cve_count": 0,
+      "unique_cve_ids": [],
+      "secret_finding_count": 0,
+      "targets": [
+        {
+          "target": "/image.tar (ubuntu 26.04)",
+          "type": "ubuntu",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        },
+        {
+          "target": "usr/bin/pebble",
+          "type": "gobinary",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        }
+      ],
+      "findings": []
+    },
+    "trivy-proxy": {
+      "artifact_name": "trivy-proxy-6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+      "artifact_id": 14526985202,
+      "artifact_archive_sha256": "sha256:b64106808a89c9d444cb03a83ff08e30196f6eb0393c63e3cffdcab3d004e3ef",
+      "report_sha256": "e45285012a0ee8dfaa6cdae378522f4ac06374e0f25339cd5561f2d82906f353",
+      "job_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135537171388",
+      "job_conclusion": "success",
+      "scanner": "Trivy",
+      "scanner_version": "0.76.2",
+      "scanned_at_utc": "2026-11-19T11:46:33.88727636Z",
+      "os": {
+        "Family": "alpine",
+        "Name": "3.24.4"
+      },
+      "architecture": "amd64",
+      "image_id": "sha256:ff9c4c68b6fc613d0e7d6222c0a503d2da71c43c93cd490e5eb09897c785b5f5",
+      "vulnerability_finding_count": 0,
+      "severity_counts": {},
+      "unique_cve_count": 0,
+      "unique_cve_ids": [],
+      "secret_finding_count": 0,
+      "targets": [
+        {
+          "target": "/image.tar (alpine 3.24.4)",
+          "type": "alpine",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        },
+        {
+          "target": "usr/bin/caddy",
+          "type": "gobinary",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        }
+      ],
+      "findings": []
+    },
+    "semgrep": {
+      "artifact_name": "semgrep-6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+      "artifact_id": 14526093367,
+      "artifact_archive_sha256": "sha256:20a57f6f353735dad81d74b13aa60d6f755f8fb53e69d4812837534071aee52b",
+      "report_sha256": "f321576f9d8e98915245db3ba55ea101ef04ba0c7eb37bb12b0a54d0c192bec2",
+      "job_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135537171021",
+      "job_conclusion": "success",
+      "scanner": "Semgrep",
+      "scanner_version": "1.186.0",
+      "finding_count": 0,
+      "scanner_error_count": 0,
+      "findings": []
+    },
+    "gitleaks": {
+      "artifact_name": "gitleaks-6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+      "artifact_id": 14526003802,
+      "artifact_archive_sha256": "sha256:ebc9bfc6fa961fc4d4e976d8f8182223c99be2ab8402f07a386991d4c5d0ac9c",
+      "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "job_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135537171399",
+      "job_conclusion": "success",
+      "scanner": "Gitleaks",
+      "finding_count": 0,
+      "findings": []
+    }
+  },
+  "publication": {
+    "publish_job": "success",
+    "job_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135542978982",
+    "published_by_this_run": true,
+    "rebuilt_during_publish": false,
+    "source": "The publication job downloaded the same run and commit artifacts, verified archive digests, loaded the approved Docker archives and pushed them without rebuilding. Registry digests were extracted from successful docker push log lines.",
+    "images": {
+      "app": "ghcr.io/salvittis/ponto-certo@sha256:aa724e395348f03cde970093ae9f170e76b1c3df36bbea54f07f257a9c53af82",
+      "llm": "ghcr.io/salvittis/ponto-certo-llm@sha256:65ede764d7f554a282f5b5654eddc18c83c9cc7a142f0c829d03478c72257e7c",
+      "proxy": "ghcr.io/salvittis/ponto-certo-proxy@sha256:bfa15b2ec830f4a9596323c9d09a4898e2992dfd9b54752d7a718be88b3fad3a"
+    },
+    "publication_attempt": 1,
+    "retry_note": "Attempt 2 reran the failed deployment after the Azure federated credential was corrected. Previously successful security and publication jobs remained successful; scanner reports and published digests retain their original provenance."
+  },
+  "deployment": {
+    "attempt": 2,
+    "job_conclusion": "failure",
+    "job_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135546711214",
+    "oidc_authentication": "success",
+    "guest_deploy_command": "Succeeded",
+    "public_validation": "failed",
+    "reason": "The root-owned Caddyfile was created with mode 0600 under umask 077 and could not be read by the proxy UID 10001. The proxy restarted and the public HTTPS check failed.",
+    "automatic_recovery": "first_release_stopped",
+    "recovery_command_conclusion": "Succeeded",
+    "application_publicly_verified_by_this_attempt": false,
+    "failed_stack_stopped": true,
+    "artifact_id": 14526654267,
+    "artifact_name": "deployment-6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+    "artifact_archive_sha256": "sha256:d2946476cab3853876884f059699ad98dc9df1137aea991a1d135fa04796c09c",
+    "report_sha256": "ed493c890540a62152f24b382f1e519cd8f7e0e53b34fe8aecb8c8e264e55d31",
+    "checked_at_utc": "2026-11-19T12:08:02.225205+00:00",
+    "public_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com"
+  },
+  "privacy": "This public summary contains only allowed scanner/run metadata, target names, rule identifiers, package/CVE identifiers and immutable image digests. It excludes source excerpts, secret values, environment variables, model weights, container archives and identity credential values.",
+  "security_scan_attempt": 1,
+  "deployment_attempts": [
+    {
+      "job_conclusion": "failure",
+      "job_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135544210564",
+      "status_at_capture": "Failed during Azure OIDC login before executing the deployment script.",
+      "error_code": "AADSTS700213",
+      "reason": "Federated credential subject did not match the GitHub OIDC subject.",
+      "application_deployed_by_this_attempt": false,
+      "attempt": 1
+    },
+    {
+      "attempt": 2,
+      "job_conclusion": "failure",
+      "job_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44517488349/job/135546711214",
+      "oidc_authentication": "success",
+      "guest_deploy_command": "Succeeded",
+      "public_validation": "failed",
+      "reason": "The root-owned Caddyfile was created with mode 0600 under umask 077 and could not be read by the proxy UID 10001. The proxy restarted and the public HTTPS check failed.",
+      "automatic_recovery": "first_release_stopped",
+      "recovery_command_conclusion": "Succeeded",
+      "application_publicly_verified_by_this_attempt": false,
+      "failed_stack_stopped": true,
+      "artifact_id": 14526654267,
+      "artifact_name": "deployment-6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+      "artifact_archive_sha256": "sha256:d2946476cab3853876884f059699ad98dc9df1137aea991a1d135fa04796c09c",
+      "report_sha256": "ed493c890540a62152f24b382f1e519cd8f7e0e53b34fe8aecb8c8e264e55d31",
+      "checked_at_utc": "2026-11-19T12:08:02.225205+00:00",
+      "public_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com"
+    }
+  ],
+  "local_proxy_regression": {
+    "image": "ghcr.io/salvittis/ponto-certo-proxy@sha256:bfa15b2ec830f4a9596323c9d09a4898e2992dfd9b54752d7a718be88b3fad3a",
+    "fixture": "Linux Docker volume with root-owned Caddyfile, UID/GID 10001:10001, network disabled, read-only root filesystem and dropped capabilities",
+    "mode_0600_read_denied": true,
+    "mode_0644_config_validated": true,
+    "http_redirect_308_healthcheck_passed": true,
+    "closed_port_healthcheck_failed": true,
+    "affected_tests_passed": 35,
+    "source_change_status": "Permission and local HTTP healthcheck fixes validated locally; cloud success requires a later pipeline run."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "checked_at": "2026-11-19T11:45:47.004520+00:00",
+  "scope": "public",
+  "provider": "Azure",
+  "region": "chilecentral",
+  "vm": "ponto-certo-fiap-vm",
+  "run_command": "bootstrap-verification",
+  "execution_state": "Succeeded",
+  "exit_code": 0,
+  "cloud_init": "done",
+  "docker_version": "29.10.0",
+  "compose_version": "5.8.0",
+  "memory_total_mib": 3856,
+  "memory_available_mib": 3274,
+  "root_filesystem_total": "30G",
+  "root_filesystem_available": "28G",
+  "application_deployed": false,
+  "note": "Read-only guest check before the first application deployment; no secrets in output."
+}

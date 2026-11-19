@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-11-19T12:25:08.732444+00:00",
+  "url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "revision": "48752d037ee6b7feaee1806ab00dc60e465ad745",
+  "version": "0.1.0",
+  "method": "Interação real via navegador: preencher exemplos e enviar formulário público; observar respostas finais, fontes, modo e atualização.",
+  "scenarios": [
+    {
+      "name": "arrival_demo",
+      "result": "ok",
+      "mode": "demo",
+      "evidence": "Avisos de dados sintéticos, previsão às 10:08 no relógio simulado, atualização em 19/11/2026 10:00 e fonte visíveis."
+    },
+    {
+      "name": "documental",
+      "result": "ok",
+      "mode": "documental",
+      "evidence": "Explicação previsão/programação/posição e link para política pública visíveis."
+    }
+  ],
+  "document_source_http_status": 200,
+  "screenshots": {
+    "interface-publica-chegada.jpg": {
+      "sha256": "cfe301a8177cd490e9d7e9f7df56a7a91ed6242c31e1ad44dfd4ee6a0e8b3595",
+      "bytes": 73709
+    },
+    "interface-publica-documental.jpg": {
+      "sha256": "aed4b2a21e49145ba9d0af82e4cc2516bc757bb68a47081b680540d1884cafae",
+      "bytes": 58175
+    }
+  },
+  "limits": [
+    "Não é nova avaliação completa de 24 casos nem benchmark de carga.",
+    "Sem consulta real SPTrans: token ausente.",
+    "Ensaio de falha da LLM pertence à frente Cloud e ainda não consta desta evidência."
+  ]
+}

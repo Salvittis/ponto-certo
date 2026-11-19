@@ -9,7 +9,7 @@
 | Arquitetura | Interface web → API FastAPI → recuperação documental e agente de consultas controladas → LLM local; SPTrans como fonte dinâmica quando configurada |
 | Fontes | Documentação SPTrans Olho Vivo, portal de desenvolvedores, regras do produto e cenários sintéticos versionados; cobertura real da API pendente |
 | Modelo | Qwen2.5-1.5B-Instruct-GGUF, Q4_K_M, revisão `91cad51170dc346986eccefdc2dd33a9da36ead9`, executado localmente com llama.cpp b12464 |
-| URLs | Repositório: [Salvittis/ponto-certo](https://github.com/Salvittis/ponto-certo), público, arquivos publicados em 19/11/2026. MVP público: **pendente da frente Cloud**. [Vídeo publicado](https://github.com/Salvittis/ponto-certo/blob/main/evidencias/ponto-certo-demonstracao.mp4). Execução local: `http://127.0.0.1:8000` |
+| URLs | Repositório: [Salvittis/ponto-certo](https://github.com/Salvittis/ponto-certo), público, arquivos publicados em 19/11/2026. MVP público da IA na Azure: [Ponto Certo](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com), HTTPS e inferência validados em 19/11/2026, modo demo. [Vídeo publicado](https://github.com/Salvittis/ponto-certo/blob/main/evidencias/ponto-certo-demonstracao.mp4). Execução local: `http://127.0.0.1:8000` |
 | Indicadores de impacto | Acerto, respostas sem suporte, cobertura e atualidade da informação; posteriormente, compreensão e incerteza percebida pelos cidadãos. Redução da espera não foi medida |
 | ODS | **ODS 11**, mobilidade urbana acessível e informação para uso do transporte coletivo; contribuição proposta à [meta 11.2 da ONU](https://sdgs.un.org/goals/goal11), sem alegação de impacto já comprovado |
 
@@ -21,7 +21,7 @@ Projeto da Global Solution CitizenTech 2026.2, Engenharia de Software, 4º ano d
 | Cássio Eid Kobaysahi Yonetsuka | RM99678 |
 | Pedro Henrique Salvitti Habiro | RM88166 |
 
-Esta entrega implementa a frente de Generative AI for Engineering e fornece o contrato para Cloud publicar **esta mesma aplicação**. Visão Computacional para lotação, sensor PIR e RPA são componentes previstos pela equipe; não estão implementados nesta frente.
+Esta entrega usa **a mesma aplicação e o mesmo modelo** nas frentes de IA e Cloud. A Azure está operacionalmente validada e permanece como hospedagem pública da IA. Conforme relato de Pedro em 19/11/2026, o professor aceitou AWS Academy Sandbox para Cloud; essa será a entrega Cloud a preparar, com evidências próprias. A execução AWS e o PDF final Cloud ainda não estão validados neste checkpoint. Visão Computacional para lotação, sensor PIR e RPA são componentes previstos pela equipe; não estão implementados nesta frente.
 
 ## O que a aplicação faz
 
@@ -69,6 +69,50 @@ Em outro terminal:
 ```
 
 Abra `http://127.0.0.1:8000`. O modelo fica na rede privada; apenas a aplicação web deve ser publicada. Para Cloud, procedimentos e responsabilidades estão no [contrato IA–Cloud](docs/CONTRATO-IA-CLOUD.md).
+
+## Reproduzir com Docker Compose
+
+Esta opção executa a mesma API e a LLM real em containers não root, sem instalar Python ou llama.cpp no host. Requer Docker com Compose e conexão para o primeiro build; os pesos fixados ficam na imagem da LLM. O modo padrão é `demo`, com dados de transporte sintéticos. Não inicie ao mesmo tempo o servidor Python acima na mesma porta.
+
+Na raiz do repositório:
+
+```sh
+docker compose -f compose.yaml config --quiet
+docker compose -f compose.yaml up -d --build
+docker compose -f compose.yaml ps
+```
+
+Abra `http://127.0.0.1:8000`. A porta padrão é **8000**, publicada somente em loopback; a LLM permanece na rede privada do Compose. Se 8000 estiver ocupada, use `APP_HOST_PORT=8002 docker compose -f compose.yaml up -d --build` e abra `http://127.0.0.1:8002`. Para conferir a integração, com Python 3 disponível no host:
+
+```sh
+python3 scripts/smoke.py --base-url http://127.0.0.1:8000 \
+  --expect-mode demo --output reports/smoke-compose.json
+```
+
+No caso opcional de porta 8002, ajuste também `--base-url`. O smoke verifica saúde, prontidão e respostas reais da LLM; fontes e modo distinguem documento e simulação. Para coletar métricas, defina `METRICS_TOKEN` no `.env` local protegido e ignorado pelo Git, e recrie a app para aplicar a configuração. Use o mesmo token no monitoramento; nunca o publique. `SPTRANS_TOKEN` é necessário somente para `DATA_MODE=live`. Para parar a execução local, use `docker compose -f compose.yaml down`.
+
+## Cloud, pipeline e observabilidade
+
+O [MVP público](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com) está operacional na Azure acadêmica, no Chile. Em 19/11/2026, o commit `48752d037ee6b7feaee1806ab00dc60e465ad745` concluiu o [run 44521584358](https://github.com/Salvittis/ponto-certo/actions/runs/44521584358): oito jobs e 54 testes aprovados, com deploy e cinco checks HTTPS passando. O [smoke público](evidencias/cloud/smoke-public-first.json) verificou saúde, prontidão, modo demo, resposta documental e chegada demonstrativa com fontes; [saúde/revisão](evidencias/cloud/public-first-ready.json), [contratos de entrada e ausência de informação](evidencias/cloud/public-failure-contracts.json) e [captura da interface](evidencias/cloud/screenshots/public-app.jpg) complementam o checkpoint. A LLM é real e autohospedada; os dados de ônibus continuam sintéticos. O [estado Cloud](docs/STATUS-CLOUD.md) preserva as falhas anteriores de OIDC/proxy e a consolidação operacional. Os nove checks do [manifesto Azure](evidencias/cloud/manifest.json) estão aprovados; eles não são evidências de execução AWS.
+
+Para reproduzir a infraestrutura **Azure da IA**, siga [infra/OPERACAO.md](infra/OPERACAO.md): conta Azure Students autorizada, crédito/limite de gastos, Terraform, state e `.tfvars` externos, plano revisado, rede somente 80/443 e identidade OIDC. Comece por `bash infra/tf.sh init` e `bash infra/tf.sh validate`; `apply` cria recursos e consome crédito. O [workflow Deploy Blindado](.github/workflows/devsecops.yml) executa build, Gitleaks, Semgrep e Trivy a cada push. Apenas a `main`, por meio do environment `production`, publica os digests aprovados e executa o deploy. [Execuções no GitHub Actions](https://github.com/Salvittis/ponto-certo/actions/workflows/devsecops.yml).
+
+O [Compose de produção](compose.production.yaml) acrescenta Caddy/TLS e mantém app/modelo privados. Imagens GHCR podem exigir autenticação; o código público permite build local. Credenciais pertencem a GitHub Secrets e arquivos protegidos do servidor, nunca a Terraform, imagem ou JavaScript público. A estimativa base é **US$13,45 de crédito educacional por nove dias**, antes de tráfego/operações, com intenção de nenhum desembolso. Manutenção até pelo menos 27/11/2026 às 23h55 de São Paulo, sem desligamento automático.
+
+Prometheus/Grafana estão ativos no computador do operador, monitorando a **mesma URL pública**. Os containers locais de app/LLM foram parados para liberar memória; o serviço Azure opera independentemente deles. Para reproduzir a coleta, com `METRICS_TOKEN` configurado no servidor:
+
+```sh
+python3 observability/configure.py \
+  --url https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com
+docker compose -f compose.monitoring.yaml config --quiet
+docker compose -f compose.monitoring.yaml up -d
+```
+
+O configurador solicita o token sem exibi-lo. Grafana abre em `http://127.0.0.1:3001/d/ponto-certo-golden-signals` e Prometheus em `http://127.0.0.1:9090`; essas portas ficam locais. Instruções de acesso, consultas, alerta, retenção e coleta sanitizada estão em [OBSERVABILIDADE.md](docs/OBSERVABILIDADE.md). O computador precisa permanecer ativo para coletar. Um dashboard vazio ou uma regra apenas configurada não são evidência de operação.
+
+O ensaio Azure de 19/11/2026 parou e iniciou somente o container LLM, de **12:27:30 a 12:29:31 UTC**. Dois alertas entraram em `firing` às **12:28:51 UTC**; a API continuou viva e a consulta retornou indisponibilidade HTTP 503. A restauração foi confirmada até **12:30:41 UTC**, com prontidão 200, alertas resolvidos e smoke real 5/5. Hash e tamanho dos pesos permaneceram iguais; não houve reboot do host. [Ensaio](evidencias/cloud/alert-exercise.json), [reinício da LLM](evidencias/cloud/restart-public.json), [smoke recuperado](evidencias/cloud/smoke-public-recovered.json), [dashboard](evidencias/cloud/screenshots/dashboard.jpg) e [alerta/recuperação](evidencias/cloud/screenshots/alert-recovered.jpg).
+
+O [documento Cloud](docs/CLOUD.md) preserva a arquitetura e as evidências Azure e registra a transição da entrega Cloud para AWS Sandbox. A antiga decisão de evitar esse Sandbox por sua duração de sessão foi revista após a orientação relatada por Pedro; as restrições do laboratório continuam relevantes. A Azure permanece ativa para IA. **O PDF final Cloud aguarda infraestrutura, pipeline, aplicação, métricas e alerta comprovados na AWS**, com provedor, URL, revisão e janela de execução próprios; as provas Azure não serão renomeadas como AWS. Depois dessa fase, o [gerador](scripts/build-cloud-pdf.py) e o manifesto final deverão refletir a implantação AWS e passar por renderização e revisão visual.
 
 ## Configuração e API
 
@@ -126,7 +170,7 @@ O [notebook executado](notebooks/avaliacao-ia.ipynb) possui seis células de có
 .venv/bin/python notebooks/build_notebook.py --run avaliacao/runs/test-v1
 ```
 
-A integração **local** foi verificada com LLM real para pergunta documental e chegada simulada ([smoke](evidencias/smoke-local.json)); a interface também foi exercitada em desktop e largura de 390 px. [Vídeo demonstrativo local](evidencias/ponto-certo-demonstracao.mp4): quadros de telas reais, com dados de ônibus sintéticos. A URL pública e a SPTrans ao vivo ainda não foram validadas.
+A integração **local** foi verificada com LLM real para pergunta documental e chegada simulada ([smoke](evidencias/smoke-local.json)); a interface também foi exercitada em desktop e largura de 390 px. [Vídeo demonstrativo local](evidencias/ponto-certo-demonstracao.mp4): quadros de telas reais, com dados de ônibus sintéticos. A integração pública também passou os cinco checks HTTPS do [smoke Cloud](evidencias/cloud/smoke-public-first.json), com o mesmo modelo e dados demo. SPTrans ao vivo permanece sem validação.
 
 ## Artefatos e estado da entrega
 
@@ -141,7 +185,13 @@ A integração **local** foi verificada com LLM real para pergunta documental e 
 | [Requisitos](docs/REQUISITOS-IA.md) | Exigências do PDF, escolhas, interpretação e pendências |
 | [Contrato IA–Cloud](docs/CONTRATO-IA-CLOUD.md) | Execução, endpoints, segredos, modelo e operação |
 | [Status IA](docs/STATUS-IA.md) | Verificações efetivamente executadas e pendências |
+| [Compose local](compose.yaml) / [produção](compose.production.yaml) | Mesma API/LLM em containers; produção inclui proxy HTTPS |
+| [Infraestrutura Azure da IA](infra/OPERACAO.md) | Terraform, OIDC, state protegido, custos e manutenção; implantação AWS Cloud ainda pendente |
+| [Pipeline DevSecOps](.github/workflows/devsecops.yml) | Build, Gitleaks, Semgrep, Trivy, publicação e deploy com gates |
+| [Observabilidade](docs/OBSERVABILIDADE.md) | Quatro métricas, configuração local, alerta e recuperação |
+| [Documento Cloud](docs/CLOUD.md) / [Status Cloud](docs/STATUS-CLOUD.md) | Rubrica, arquitetura, resultados comprovados e pendências |
+| [Checkpoint Azure](evidencias/cloud/manifest.json) | Nove checks operacionais aprovados; evidências AWS serão identificadas separadamente |
 
 A interface não exige conta, CPF, nome, telefone ou geolocalização. Não informe dados pessoais na pergunta. O aplicativo não mantém histórico de conversas; a operação Cloud deve preservar essa minimização nos logs. Em falha, a interface informa indisponibilidade e permite tentar novamente; o [site da SPTrans](https://www.sptrans.com.br/) é uma alternativa externa.
 
-Pendências: integração e URL pública verificadas, consulta SPTrans real e envio acadêmico por um integrante. O prazo publicado é **19/11/2026 às 23h55**; a submissão no Teams fica com Pedro ou o integrante designado. A preparação técnica não equivale à submissão.
+A etapa Azure está operacionalmente concluída: publicação da IA, containers não root, pesos, pipeline, métricas, dashboard, disparo e recuperação foram verificados. A entrega Cloud passa a AWS Sandbox conforme o aceite do professor **relatado por Pedro**, sem execução AWS comprovada neste checkpoint; o PDF final aguarda essa fase. Consulta SPTrans ao vivo e envio acadêmico por um integrante permanecem pendentes. O prazo publicado é **19/11/2026 às 23h55**; Pedro/equipe realizam a submissão e conferem a divergência Teams/portal da disciplina Cloud. A preparação técnica não equivale à submissão.

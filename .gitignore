@@ -26,3 +26,5 @@ override.tf.json
 *.key
 evidencias/cloud/private/
 reports/
+# Generated delivery artifacts are attached to the release after the deployed SHA is known.
+output/

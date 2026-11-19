@@ -1,0 +1,31 @@
+{
+  "checked_at": "2026-11-19T12:16:06.979475+00:00",
+  "scope": "Only transient Docker image transfer archives from completed task runs; scanner/test/deployment reports and GHCR images retained.",
+  "removed": [
+    {
+      "run_id": 44515603367,
+      "artifact_id": 14525088001,
+      "name": "image-llm-6cdcb491ff091d9fdf8b87592d7e847ed674877a",
+      "size_bytes": 1397167744
+    },
+    {
+      "run_id": 44517488349,
+      "artifact_id": 14526891670,
+      "name": "image-llm-6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+      "size_bytes": 1397167744
+    },
+    {
+      "run_id": 44517488349,
+      "artifact_id": 14526506874,
+      "name": "image-app-6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+      "size_bytes": 28124800
+    },
+    {
+      "run_id": 44517488349,
+      "artifact_id": 14525559721,
+      "name": "image-proxy-6adee17da82de6e20dd2dd594b062ad8c823aa4c",
+      "size_bytes": 44783748
+    }
+  ],
+  "note": "Deleting transfer artifacts prevents rerunning their publication job without rebuilding them. Source, scanner reports and published registry digests remain available."
+}

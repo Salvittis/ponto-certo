@@ -1,11 +1,23 @@
 # Infraestrutura Azure Students - Ponto Certo
 
-**Provisionamento: CONCLUÍDO em 19/11/2026. Publicação da aplicação: PENDENTE.**
+**Etapa Azure operacionalmente CONCLUÍDA em 19/11/2026: publicação da IA, métricas, alerta real e recuperação verificados.**
+Esta operação mantém a hospedagem persistente da **IA**. Pedro relatou que o
+professor aceitou AWS Academy Sandbox e determinou que a entrega **Cloud** seja
+preparada na AWS após a validação Azure. A decisão inicial de evitar o Sandbox
+por sua duração de sessão foi revista; seus limites continuam relevantes.
+Este runbook e seus comandos são Azure, não evidência de execução AWS. O
+PDF final Cloud aguarda a implantação e as provas próprias da AWS.
 Terraform concluiu 12 criações, nenhuma alteração ou destruição, na assinatura
 acadêmica Azure for Students em `chilecentral`. Leitura posterior da API confirmou
 VM, NSG e IP com estado `Succeeded`; ver a [evidência sanitizada](../evidencias/cloud/terraform-applied.json).
-Infraestrutura criada não comprova deploy, TLS ou inferência pública. O estado e as evidências
-da operação ficam em [`docs/STATUS-CLOUD.md`](../docs/STATUS-CLOUD.md).
+O commit `48752d037ee6b7feaee1806ab00dc60e465ad745` concluiu o
+[run 44521584358](https://github.com/Salvittis/ponto-certo/actions/runs/44521584358)
+com oito jobs e 54 testes aprovados, incluindo deploy. O
+[smoke HTTPS](../evidencias/cloud/smoke-public-first.json) passou os cinco checks
+de saúde, prontidão, configuração e duas respostas com inferência real.
+A [síntese do pipeline](../evidencias/cloud/security-passed-summary.json) registra
+scanners, digests e revisão; o estado completo fica em
+[`docs/STATUS-CLOUD.md`](../docs/STATUS-CLOUD.md).
 
 Verificações locais de 19/11/2026: Terraform 1.17.2 com provider 5.14.0 passou em
 `validate`; YAML cloud-init e sintaxe Bash do bootstrap passaram. FileVault do
@@ -23,9 +35,19 @@ Gen2 x64 verificada. A consulta não reservava capacidade; a alocação foi depo
 confirmada pelo apply e leitura da API.
 
 VM: `ponto-certo-fiap-vm`; IP público: `68.211.151.183`.
-Hostname alocado: [ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com).
-O hostname não é ainda evidência de aplicação acessível. Pipeline/deploy e
-validação pública seguem pendentes.
+URL pública operacional: [ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com).
+[Saúde e revisão pública](../evidencias/cloud/public-first-ready.json) confirmaram
+`48752d037ee6b7feaee1806ab00dc60e465ad745` e modo demo. Os dados de ônibus
+são sintéticos; SPTrans ao vivo não foi validada. O
+[baseline público](../evidencias/cloud/observability-baseline.json) já confirma
+UIDs efetivos, SHA/tamanho dos pesos e quatro métricas. O
+[ensaio](../evidencias/cloud/alert-exercise.json), o
+[reinício da LLM](../evidencias/cloud/restart-public.json) e o
+[smoke recuperado](../evidencias/cloud/smoke-public-recovered.json) concluíram
+a validação operacional; os nove checks do manifesto Azure estão aprovados.
+App/LLM locais estão paradas; Prometheus/Grafana locais continuam monitorando
+o serviço independente na Azure. A execução AWS e o PDF final Cloud permanecem
+pendentes neste checkpoint; não desligar a Azure para iniciar o Sandbox.
 
 Não usar credenciais, conta ou faturamento da TBC. O `subscription_id` é obrigatório
 e deve identificar a assinatura acadêmica autorizada por Pedro. Nenhuma assinatura
@@ -88,6 +110,49 @@ rodar o deploy por Managed Run Command. Terraform administra host/rede/identidad
 CI administra a versão dos containers, sem editar a infraestrutura a cada release.
 O término do bootstrap não prova que o MVP está publicado.
 
+### Checkpoint de runtime e observação pública
+
+Em 19/11/2026, entre **12:26:30 e 12:26:34 UTC**, o
+[baseline sanitizado](../evidencias/cloud/observability-baseline.json) confirmou
+app/LLM/proxy `running/healthy`, UID efetivo **10001**, filesystem somente leitura,
+`cap_drop: ALL` e `no-new-privileges`. App e LLM não publicam portas no host.
+O arquivo `/models/qwen.gguf` tinha **1.117.320.736 bytes**, SHA-256
+`6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e`,
+correspondendo aos pesos fixados. O stop/start posterior da LLM confirmou o
+mesmo SHA-256 e tamanho, com as mesmas referências de imagem e inferência
+real após retorno; [registro](../evidencias/cloud/restart-public.json). Não
+houve reboot do host nem reinício do proxy.
+
+`/proc/meminfo` registrou **4.043.804.672 bytes totais** e
+**2.502.082.560 bytes disponíveis**. Sob inferência, a LLM registrou
+**968.255.078 bytes (~968,3 MB)** e **193,65% de CPU** no Docker, dentro do limite
+de 3 GiB. Docker no Linux desconta cache inativo, converte unidades arredondadas
+e pode reportar CPU acima de 100% ao usar vários núcleos. A coleta é sequencial
+e antecede o hash; esses números não constituem benchmark de capacidade.
+
+Na janela **12:21:14,725–12:26:14,725 UTC (5 min)**, as métricas públicas foram:
+p95 estimado por buckets 24,6994 s; tráfego 0,0666655 perguntas/s; erros HTTP 5xx
+0%; saturação do único slot 100% no instante final. O
+[tráfego de observação](../evidencias/cloud/public-observation-traffic.json)
+teve 12/12 respostas bem-sucedidas entre 12:24:35 e 12:26:38 UTC, sobrepondo
+parcialmente o recorte. O ensaio foi solicitado às **12:27:24 UTC** e o comando
+executou de **12:27:30 a 12:29:31 UTC**, com stop/start da LLM e restauração
+automática. Às **12:28:51,877 UTC**, ModelNotReady e PublicReadyUnavailable
+estavam em [firing](../evidencias/cloud/observability-firing.json); health
+continuou 200, prontidão e consulta retornaram 503. A
+[recuperação](../evidencias/cloud/observability-recovered.json) mostrou prontidão
+200, alertas resolvidos e três serviços saudáveis. O
+[smoke pós-retorno](../evidencias/cloud/smoke-public-recovered.json) passou 5/5
+até **12:30:41,038 UTC**. Hash/tamanho dos pesos iguais ao baseline.
+
+A taxa de erro de 11,1216% no snapshot recuperado ainda contém a falha anterior
+na janela móvel de cinco minutos; ela não foi zerada manualmente. Capturas:
+[dashboard](../evidencias/cloud/screenshots/dashboard.jpg),
+[disparo](../evidencias/cloud/screenshots/alert-firing.jpg),
+[resolução](../evidencias/cloud/screenshots/alert-recovered.jpg),
+[interface indisponível](../evidencias/cloud/screenshots/public-unavailable.jpg) e
+[interface restaurada](../evidencias/cloud/screenshots/public-recovered.jpg).
+
 ## Identidade GitHub e menor privilégio
 
 O módulo cria uma identidade gerenciada **não anexada à VM**. Assim, o container
@@ -120,13 +185,14 @@ em lugar e 0 destruições. A tentativa 2 do run 44517488349 autenticou no Azure
 com sucesso, mas a validação pública falhou às 12:08:25 UTC. O `Caddyfile` foi
 criado com modo 600 pelo administrador sob `umask 077`, impedindo leitura pelo
 UID 10001 do proxy. A recuperação interrompeu a primeira release, pois não havia
-antecessora saudável. A correção separa a permissão do arquivo público de
-configuração da proteção dos segredos e acrescenta regressão do acesso do proxy;
-novo pipeline/deploy ainda deve comprovar funcionamento. `runtime.env` permanece
+antecessora saudável. A correção separou a permissão do arquivo público de
+configuração da proteção dos segredos e acrescentou regressão do acesso do proxy.
+O novo run `44521584358`, commit `48752d037ee6b7feaee1806ab00dc60e465ad745`,
+concluiu pipeline/deploy e smoke público com sucesso. `runtime.env` permanece
 600 e não deve receber permissão pública como atalho.
 Ver [evidência OIDC](../evidencias/cloud/oidc-correction.json) e
 [estado Cloud](../docs/STATUS-CLOUD.md). Nenhuma VM foi recriada pela correção,
-e autenticação não comprova aplicação publicada.
+e a publicação foi comprovada separadamente pelo smoke HTTPS do novo run.
 
 Antes de habilitar o deploy, o GitHub environment `production` deve permitir apenas
 a branch `main`; o workflow também precisa restringir o job de publicação a `main`.
@@ -287,7 +353,24 @@ Se a conta não tiver benefício elegível, crédito/saldo, permissões ou capac
 publicação fica pendente e o trabalho local prossegue. Não migrar para recursos
 TBC nem para cobrança sem nova decisão de Pedro.
 
+CI segue a política oficial consultada em 19/11/2026: runners padrão de
+repositórios públicos são gratuitos ([Actions](https://docs.github.com/en/billing/concepts/product-billing/github-actions));
+armazenamento e tráfego do GHCR são gratuitos atualmente
+([Packages](https://docs.github.com/en/billing/concepts/product-billing/github-packages)).
+Artefatos do Actions têm franquia e contabilização por hora. O workflow retém
+relatórios por 14 dias e arquivos de transferência de imagens por 2 dias.
+Foram removidos quatro arquivos temporários (2.867.244.036 bytes) dos runs
+encerrados `44515603367` e `44517488349`, preservando relatórios e imagens GHCR;
+consulte o [registro da limpeza](../evidencias/cloud/temporary-artifact-cleanup.json).
+Reexecutar a publicação desses runs exige rebuild. A remoção não apaga uso já
+acumulado. Não foi apurada fatura nem afirmado custo GitHub realizado.
+
 ## Manutenção e término
+
+A Azure permanece ativa para a entrega IA durante a preparação da AWS Sandbox
+para Cloud. As estimativas deste runbook são exclusivamente Azure. A duração,
+custos/limites, comandos e evidências AWS serão documentados quando validados;
+não reutilizar state nem credenciais Azure como se pertencessem ao laboratório.
 
 Manter VM e repositório acessíveis até pelo menos **27/11/2026 às 23h55 de São
 Paulo**, confirmando fim da correção antes de encerrar. Não há desligamento
