@@ -1,0 +1,67 @@
+{
+  "provider": "azure",
+  "scope": "container preflight; public service still demo",
+  "command": "live-preflight-20261119T130817Z",
+  "execution_state": "Succeeded",
+  "exit_code": 0,
+  "script_sha256": "2df6a593b4217e62e2560930a882943618932c216d51c694c6f68bda893f20bc",
+  "result": {
+    "schema_version": 1,
+    "scope": "direct_engine_preflight_not_public_http",
+    "started_at": "2026-11-19T13:08:44.208150+00:00",
+    "line_code": 35274,
+    "stop_code": 614432,
+    "direction": 2,
+    "checks": [
+      {
+        "name": "documental",
+        "status": "ok",
+        "mode": "documental",
+        "source_ids": [
+          "P01"
+        ],
+        "updated_at": null,
+        "model_called": true,
+        "model_json_valid": true,
+        "tool": null,
+        "tool_mode": null,
+        "synthetic": null,
+        "extractive_fallback": true,
+        "seconds": 7.498,
+        "passed": true
+      },
+      {
+        "name": "arrival_live",
+        "status": "ok",
+        "mode": "live",
+        "source_ids": [
+          "SPTRANS_QUERY"
+        ],
+        "updated_at": "2026-11-19T10:08:00-03:00",
+        "model_called": true,
+        "model_json_valid": true,
+        "tool": "arrivals",
+        "tool_mode": "live",
+        "synthetic": false,
+        "extractive_fallback": true,
+        "seconds": 6.87,
+        "passed": true,
+        "returned_lines": 1,
+        "matching_lines": 1,
+        "matching_vehicles": 1,
+        "usable_forecasts": 1,
+        "source_clock_age_seconds": 51.708,
+        "source_clock_fresh": true,
+        "displayed_vehicle_timestamps_present": true,
+        "displayed_vehicle_timestamps_fresh": true,
+        "oldest_displayed_vehicle_age_seconds": 31.708
+      }
+    ],
+    "passed": true,
+    "forecast_available": true,
+    "live_tool_with_model_proven": true,
+    "status": "passed_with_forecast",
+    "app_revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+    "finished_at": "2026-11-19T13:08:58.577711+00:00"
+  }
+}

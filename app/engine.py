@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from .settings import Settings
 from .retrieval import Retriever
 from .llm import LocalModel, ModelUnavailable
-from .transit import Transit, TransitUnavailable, DOC, observed_time
+from .transit import Transit, TransitUnavailable, DOC, observed_time, live_arrival_lines, require_fresh_vehicle, require_fresh_observation, current_time
 
 def norm(s):
     return ''.join(c for c in unicodedata.normalize('NFD',s.lower()) if unicodedata.category(c)!='Mn')
@@ -19,16 +19,30 @@ def source(c):
     return {'id':c['id'],'title':c.get('source_title',c.get('title',c['id'])),'url':url}
 
 class Engine:
-    def __init__(self, settings=None, model=None, transit=None):
+    def __init__(self, settings=None, model=None, transit=None, clock=None):
         self.settings=settings or Settings()
+        self.clock=clock or current_time
         self.model=model or LocalModel(self.settings)
-        self.transit=transit or Transit(self.settings)
+        self.transit=transit or Transit(self.settings,clock=self.clock)
         self.retriever=Retriever(threshold=self.settings.threshold)
     async def answer(self, question, configuration='agent',line_code=None,stop_code=None,direction=None,scenario='normal',evaluation=False):
         if configuration not in ('baseline','rag','agent'):raise ValueError('Configuração inválida')
         result={'status':'not_found','answer':'Não consta informação suficiente na base para responder.','sources':[],'updated_at':None,'data_mode':'documental','model':self.settings.model,'request_id':str(uuid.uuid4()),'warnings':[],'options':[]}
         meta={'model_called':False,'model_raw':None,'model_json_valid':None,'configuration':configuration,'guardrail':None,'tool':None}
+        live_forecast=None
         def finish():
+            # Model inference can outlive a valid source snapshot. Never publish
+            # the forecast without checking again at the response boundary.
+            if live_forecast and result['status']=='ok':
+                try:
+                    checked_at=self.clock()
+                    require_fresh_observation(live_forecast['observed_at'],checked_at,self.settings.max_age)
+                    for vehicle in live_forecast['vehicles']:
+                        require_fresh_vehicle(vehicle,checked_at,self.settings.max_age)
+                    meta['freshness_checked_at']=checked_at.isoformat()
+                except TransitUnavailable as exc:
+                    result.update(status='unavailable',answer=str(exc),sources=[],options=[])
+                    meta['guardrail']='stale_live_forecast_before_response'
             if evaluation:result['metadata']=meta
             return result
         evidence=[]
@@ -83,21 +97,34 @@ class Engine:
                         result['options']=[{'stop_code':x['cp'],'label':x['np']} for x in data[:30]]
                         text='Paradas retornadas: '+'; '.join(f"{x['np']} (código {x['cp']})" for x in data[:30])+'. A categoria não cobre necessariamente todos os pontos da cidade.'
                     else:
-                        lines=(data.get('p') or {}).get('l') or []
+                        live=self.settings.mode=='live'
+                        checked_at=self.clock() if live else None
+                        if live:require_fresh_observation(tool['observed_at'],checked_at,self.settings.max_age)
+                        # Historical DEMO fixtures retain their frozen contract.
+                        lines=live_arrival_lines(data,stop_code) if live else (data.get('p') or {}).get('l') or []
                         lines=[x for x in lines if x.get('cl')==line_code and (not direction or x.get('sl')==direction)]
-                        arrivals=[]
+                        arrivals=[];selected_vehicles=[]
                         for line in lines:
-                            for vehicle in line.get('vs',[]):
+                            if live and len(arrivals)>=6:break
+                            vehicles=line.get('vs',[])
+                            if live and (not isinstance(vehicles,list) or not all(isinstance(v,dict) for v in vehicles)):
+                                raise TransitUnavailable('A fonte retornou previsões incompletas. Tente novamente ou consulte a SPTrans.')
+                            for vehicle in vehicles:
+                                if live and len(arrivals)>=6:break
                                 if not re.fullmatch(r'\d{2}:\d{2}',str(vehicle.get('t',''))):continue
                                 predicted=observed_time(vehicle['t'],datetime.fromisoformat(tool['queried_at']))
                                 delta=round((predicted-datetime.fromisoformat(tool['queried_at'])).total_seconds()/60)
                                 if delta<0:continue
+                                if live:
+                                    require_fresh_vehicle(vehicle,checked_at,self.settings.max_age)
+                                    selected_vehicles.append(vehicle)
                                 arrivals.append(f"{line['c']} sentido {line['sl']}: previsão {vehicle['t']} (aproximadamente {delta} minutos no relógio {'da simulação' if tool['synthetic'] else 'da consulta'})")
                         if not arrivals:
                             result['answer']='Não consta previsão de chegada nesse retorno. Isso não significa ausência de ônibus ou de serviço. Tente novamente ou consulte a SPTrans.'
                             result['sources']=[{'id':'SPTRANS_QUERY','title':'Retorno da consulta SPTrans (simulado)' if tool['synthetic'] else 'Consulta SPTrans Olho Vivo','url':DOC}]
                             return finish()
                         text='; '.join(arrivals[:6])+'. Previsão não é garantia de chegada; trânsito e operação podem mudar.'
+                        if live:live_forecast={'observed_at':tool['observed_at'],'vehicles':selected_vehicles}
                     if tool['synthetic']:text='DEMONSTRAÇÃO com dados sintéticos, não ao vivo. '+text
                     evidence=[{'id':'SPTRANS_QUERY','text':text,'title':'Consulta SPTrans (cenário sintético)' if tool['synthetic'] else 'Consulta SPTrans Olho Vivo','source_url':DOC}]
                 except (TransitUnavailable,KeyError,TypeError,ValueError) as exc:

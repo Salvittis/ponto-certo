@@ -1,0 +1,339 @@
+{
+  "schema_version": 1,
+  "provider": "aws-academy",
+  "updated_at": "2026-11-19T13:26:36.039415+00:00",
+  "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+  "repository_url": "https://github.com/Salvittis/ponto-certo",
+  "public_url": "https://54-210-161-95.sslip.io",
+  "ia_hosting": {
+    "provider": "azure",
+    "public_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+    "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+    "pipeline_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191",
+    "maintenance_planned_until": "2026-11-27T23:55:00-03:00",
+    "scope": "separate IA deployment; never evidence of AWS application availability",
+    "data_mode": "demo",
+    "public_model_verified_at": "2026-11-19T13:07:25.900192+00:00"
+  },
+  "session": {
+    "duration_hours": 3,
+    "started_at": "2026-11-19T12:35:56Z",
+    "expires_at": "2026-11-19T15:35:56Z",
+    "resources_deleted_when_session_ends": true,
+    "observation": "The Academy UI announced 180 minutes beginning at 12:35:56 UTC. This is an operational deadline, not a verified dollar budget.",
+    "professor_guidance": "Sandbox accepted for Cloud according to Pedro; no independent professor message is included."
+  },
+  "provisioning": {
+    "status": "passed",
+    "provider": "aws",
+    "scope": "public",
+    "checked_at": "2026-11-19T12:55:07.267542+00:00",
+    "region": "us-east-1",
+    "instance_type": "t2.medium",
+    "evidence": [
+      "evidencias/aws/terraform-applied.json",
+      "evidencias/aws/terraform-replacement.json",
+      "evidencias/aws/bootstrap-check-2.json",
+      "evidencias/aws/infrastructure-verified.json",
+      "evidencias/aws/terraform-no-changes.txt"
+    ],
+    "instance_id": "i-0cd7e82843509189b",
+    "summary": "Terraform criou 11 recursos; a EC2 inicial foi substituída após corrigir AWS CLI no bootstrap. Cloud-init terminou sem erros. A leitura da conta validou 17 controles: instância, perfil Lab existente, SSM Online, t2.medium Standard, gp2 cifrado de 32 GiB, IMDSv2 hop 1 e somente TCP 80/443. O plano posterior retornou No changes. State/plan/tfvars permanecem fora do Git."
+  },
+  "checks": {
+    "docker": {
+      "status": "passed",
+      "provider": "aws",
+      "scope": "public",
+      "checked_at": "2026-11-19T13:06:56.648766+00:00",
+      "commit": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "summary": "App, LLM e proxy saudáveis na EC2: UID efetivo 10001, rootfs somente leitura, cap_drop ALL e no-new-privileges. Só o proxy publica 80/443. Pesos /models/qwen.gguf com 1.117.320.736 bytes e SHA-256 6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e. Snapshot de recursos não é benchmark nem prova de reinício.",
+      "evidence": [
+        "evidencias/aws/containers-baseline.json",
+        "evidencias/aws/containers-baseline-command.json"
+      ]
+    },
+    "terraform": {
+      "status": "passed",
+      "provider": "aws",
+      "scope": "public",
+      "checked_at": "2026-11-19T12:55:07.267542+00:00",
+      "region": "us-east-1",
+      "instance_type": "t2.medium",
+      "evidence": [
+        "evidencias/aws/terraform-applied.json",
+        "evidencias/aws/terraform-replacement.json",
+        "evidencias/aws/bootstrap-check-2.json",
+        "evidencias/aws/infrastructure-verified.json",
+        "evidencias/aws/terraform-no-changes.txt"
+      ],
+      "instance_id": "i-0cd7e82843509189b",
+      "summary": "Terraform criou 11 recursos; a EC2 inicial foi substituída após corrigir AWS CLI no bootstrap. Cloud-init terminou sem erros. A leitura da conta validou 17 controles: instância, perfil Lab existente, SSM Online, t2.medium Standard, gp2 cifrado de 32 GiB, IMDSv2 hop 1 e somente TCP 80/443. O plano posterior retornou No changes. State/plan/tfvars permanecem fora do Git."
+    },
+    "ci_pass": {
+      "status": "passed",
+      "provider": "aws",
+      "scope": "public",
+      "checked_at": "2026-11-19T13:07:28Z",
+      "commit": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "summary": "Run 44528188191 aprovado: nove jobs, 78/78 testes, Gitleaks/Semgrep sem achados e Trivy das três imagens sem HIGH/CRITICAL ou segredos na política executada. As imagens examinadas foram publicadas sem rebuild e os mesmos digests chegaram à AWS e Azure. SSM, HTTPS, revisão e smoke 5/5 passaram na AWS; SecureString temporário excluído.",
+      "evidence": [
+        "evidencias/aws/pipeline-passed.json",
+        "evidencias/aws/security-passed-summary.json",
+        "evidencias/aws/securestring-canary.json"
+      ],
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191"
+    },
+    "ci_block": {
+      "status": "passed",
+      "provider": "shared",
+      "scope": "public",
+      "checked_at": "2026-11-19T11:36:31Z",
+      "commit": "6cdcb491ff091d9fdf8b87592d7e847ed674877a",
+      "summary": "Ensaio histórico da pipeline comum, anterior à inclusão do job AWS: Semgrep bloqueou fixture eval nunca executada; Trivy barrou vulnerabilidades reais. Publicação e deploy Azure ficaram skipped. Demonstra a barreira dos mesmos scanners, sem alegar execução do job AWS nesse run.",
+      "evidence": [
+        "evidencias/cloud/pipeline-blocked.json",
+        "evidencias/cloud/security-blocked-summary.json"
+      ],
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44515603367"
+    },
+    "public_app": {
+      "status": "passed",
+      "provider": "aws",
+      "scope": "public",
+      "checked_at": "2026-11-19T13:19:37.335633+00:00",
+      "commit": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "summary": "MVP público na revisão 60aeedd: TLS 1.3 válido, HTTP 308 para HTTPS, raiz 200 e /metrics anônimo 401. CI smoke 5/5 com LLM real; 12/12 consultas sequenciais posteriores e 3/3 contratos de esclarecimento/entrada inválida/tema sem suporte. Interface mostra resposta, fonte e atualização sintéticas identificadas. SPTrans live não foi validada nesta implantação.",
+      "evidence": [
+        "evidencias/aws/public-first-ready.json",
+        "evidencias/aws/security-passed-summary.json",
+        "evidencias/aws/public-network.json",
+        "evidencias/aws/public-observation-traffic.json",
+        "evidencias/aws/public-failure-contracts.json",
+        "evidencias/aws/browser-observations.json",
+        "evidencias/aws/screenshots/public-response.jpg"
+      ],
+      "url": "https://54-210-161-95.sslip.io"
+    },
+    "restart": {
+      "status": "passed",
+      "provider": "aws",
+      "scope": "public",
+      "checked_at": "2026-11-19T13:24:28.605472+00:00",
+      "commit": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "summary": "Parada e início reais apenas da LLM: stop às 13:21:35 UTC e início às 13:23:36 UTC. Os três digests e SHA/tamanho dos pesos foram preservados; três serviços voltaram saudáveis com UID 10001. Smoke público após reinício passou 5/5. Não é reboot da VM, failover regional ou teste de carga.",
+      "evidence": [
+        "evidencias/aws/alert-exercise.json",
+        "evidencias/aws/containers-baseline.json",
+        "evidencias/aws/containers-recovered.json",
+        "evidencias/aws/smoke-public-recovered.json"
+      ]
+    },
+    "metrics": {
+      "status": "passed",
+      "provider": "aws",
+      "scope": "public",
+      "checked_at": "2026-11-19T13:20:48.444016+00:00",
+      "commit": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "summary": "Quatro métricas finitas do alvo AWS, com guarda de histórico de 10 min sem alvos misturados. No snapshot, ambos os targets estão UP e não há alertas ativos; o histórico da janela ainda contém MetricsUnavailable do incidente de telemetria anterior. Saturação 0% é a amostra instantânea do slot, não CPU. Os 12 requests foram tráfego limitado, não teste de capacidade.",
+      "evidence": [
+        "evidencias/aws/observability-baseline.json",
+        "evidencias/aws/public-observation-traffic.json",
+        "evidencias/aws/connectivity-incident.json",
+        "evidencias/aws/screenshots/dashboard-baseline.jpg",
+        "evidencias/aws/screenshots/dashboard-baseline-bottom.jpg"
+      ]
+    },
+    "alert": {
+      "status": "passed",
+      "provider": "aws",
+      "scope": "public",
+      "checked_at": "2026-11-19T13:22:57.660170+00:00",
+      "commit": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "summary": "Ensaio controlado por SSM interrompeu somente a LLM por 120s, com lock, trap e timer independente. ModelNotReady e PublicReadyUnavailable ficaram FIRING. Durante a falha, /healthz 200, /readyz 503/model_ready=false e consulta 503/unavailable; telemetria permaneceu disponível. O incidente anterior do observador está separado.",
+      "evidence": [
+        "evidencias/aws/alert-exercise.json",
+        "evidencias/aws/alert-command.json",
+        "evidencias/aws/observability-firing.json",
+        "evidencias/aws/public-controlled-unavailable.json"
+      ]
+    },
+    "recovery": {
+      "status": "passed",
+      "provider": "aws",
+      "scope": "public",
+      "checked_at": "2026-11-19T13:24:28.605472+00:00",
+      "commit": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "summary": "Após início da LLM, /readyz 200/model_ready=true e nenhum alerta ativo no snapshot 13:24:28 UTC. Smoke pós-recuperação 5/5: consulta documental 13,265s e chegada demo 14,229s. As três imagens e os pesos permaneceram iguais, com três serviços saudáveis e UID 10001. O snapshot intermediário ainda em firing não foi usado como prova de recuperação.",
+      "evidence": [
+        "evidencias/aws/alert-exercise.json",
+        "evidencias/aws/observability-recovered.json",
+        "evidencias/aws/containers-recovered.json",
+        "evidencias/aws/smoke-public-recovered.json"
+      ]
+    }
+  },
+  "metrics": {
+    "scope": "public",
+    "target": "https://54-210-161-95.sslip.io",
+    "window": "5m ending 2026-11-19T13:20:48.444016+00:00; saturation sampled at window end",
+    "latency_p95_seconds": 9.689480339137152,
+    "traffic_requests_per_second": 0.04912228994080764,
+    "error_rate_percent": 0.0,
+    "saturation_percent": 0.0,
+    "provider": "aws"
+  },
+  "costs": {
+    "region": "us-east-1",
+    "checked_at": "2026-11-19T12:51:28.212122+00:00",
+    "hours": 3,
+    "vm_hourly_usd": 0.0464,
+    "ip_hourly_usd": 0.005,
+    "disk_monthly_usd": 3.2,
+    "total_estimate_usd": 0.1675333333333333,
+    "lab_budget_usd": null,
+    "month_hours_assumption": 720,
+    "evidence": [
+      "evidencias/aws/cost-estimate.json"
+    ],
+    "budget_scope": "Managed AWS Academy Sandbox session. Public price scenario does not authorize a personal paid account or claim an invoice amount.",
+    "exclusions": [
+      "Academy-provided Bastion Host and Lab Instance",
+      "initial failed EC2 and replacement overlap or extra time",
+      "data transfer and any other services",
+      "GitHub Actions storage or other CI charges",
+      "taxes or exchange conversion"
+    ],
+    "sources": [
+      "https://aws.amazon.com/ec2/instance-types/t2/",
+      "https://aws.amazon.com/ebs/volume-types/",
+      "https://aws.amazon.com/vpc/pricing/",
+      "https://aws.amazon.com/ebs/pricing/"
+    ]
+  },
+  "screenshots": {
+    "pipeline_block": {
+      "provider": "shared",
+      "path": "evidencias/cloud/screenshots/pipeline-blocked.jpg",
+      "scope": "public",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44515603367",
+      "caption": "Run 44515603367: scanners da pipeline comum bloquearam publicação e deploy Azure em 19/11/2026. Captura histórica anterior à inclusão do job AWS; não representa execução AWS."
+    },
+    "public_app": {
+      "provider": "aws",
+      "path": "evidencias/aws/screenshots/public-response.jpg",
+      "scope": "public",
+      "captured_at": "2026-11-19T13:08:40.910697+00:00",
+      "caption": "Resposta pública na AWS em 19/11/2026, 13:08:40 UTC. A LLM respondeu com fonte e horário; previsão claramente identificada como demonstração sintética, sem operação SPTrans ao vivo.",
+      "url": "https://54-210-161-95.sslip.io"
+    },
+    "pipeline_pass": {
+      "provider": "aws",
+      "path": "evidencias/aws/screenshots/pipeline-passed.jpg",
+      "scope": "public",
+      "captured_at": "2026-11-19T13:08:58.006953+00:00",
+      "caption": "GitHub Actions: run 44528188191 Success com nove jobs, incluindo deploy AWS e Azure. Checkpoint 60aeedd em modo DEMO; não comprova revisão posterior.",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191"
+    },
+    "dashboard": {
+      "provider": "aws",
+      "path": "evidencias/aws/screenshots/dashboard-baseline.jpg",
+      "scope": "public",
+      "captured_at": "2026-11-19T13:21:35.909153+00:00",
+      "caption": "Prontidão/modelo/coleta=1 e alertas atuais=0; p95 e tráfego. Captura 13:21:35 UTC complementa o snapshot numérico 13:20:48 UTC. Histórico ainda contém incidente anterior de telemetria; não representa toda a janela sem falhas.",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals"
+    },
+    "dashboard_detail": {
+      "provider": "aws",
+      "path": "evidencias/aws/screenshots/dashboard-baseline-bottom.jpg",
+      "scope": "public",
+      "captured_at": "2026-11-19T13:21:33.140492+00:00",
+      "caption": "Complemento legível dos painéis: erros HTTP 0% e saturação do slot retornando a 0% após tráfego de inferência. Captura 13:21:33 UTC; cada amostra usa janela móvel.",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals"
+    },
+    "alert": {
+      "provider": "aws",
+      "path": "evidencias/aws/screenshots/alerts-firing.jpg",
+      "scope": "public",
+      "captured_at": "2026-11-19T13:23:08.151655+00:00",
+      "caption": "Painel superior: PublicReadyUnavailable FIRING com alvo AWS e condição persistente por 1min. Captura 13:23:08 UTC durante a parada controlada da LLM. O apêndice seguinte detalha o segundo alerta.",
+      "url": "http://127.0.0.1:9091/alerts",
+      "crop": [
+        0,
+        0,
+        1280,
+        660
+      ]
+    },
+    "alert_model": {
+      "provider": "aws",
+      "path": "evidencias/aws/screenshots/alerts-firing.jpg",
+      "scope": "public",
+      "captured_at": "2026-11-19T13:23:08.151655+00:00",
+      "caption": "Painel inferior do mesmo original: ModelNotReady FIRING com alvo AWS; MetricsUnavailable continua INACTIVE. A coleta de métricas funcionou durante a falha.",
+      "url": "http://127.0.0.1:9091/alerts",
+      "crop": [
+        0,
+        650,
+        1280,
+        534
+      ]
+    },
+    "recovery": {
+      "provider": "aws",
+      "path": "evidencias/aws/screenshots/alerts-recovered.jpg",
+      "scope": "public",
+      "captured_at": "2026-11-19T13:24:14.475597+00:00",
+      "caption": "Três regras INACTIVE após iniciar a LLM, em 13:24:14 UTC. Confirmação adicional no snapshot 13:24:28 UTC, smoke público e inspeção dos containers.",
+      "url": "http://127.0.0.1:9091/alerts"
+    },
+    "recovery_dashboard": {
+      "provider": "aws",
+      "path": "evidencias/aws/screenshots/dashboard-recovered.jpg",
+      "scope": "public",
+      "captured_at": "2026-11-19T13:24:35.450720+00:00",
+      "caption": "Prontidão/modelo/coleta=1 e alertas atuais=0, em 13:24:35 UTC; curvas preservam queda e retorno. O histórico não é confundido com indisponibilidade atual.",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals"
+    }
+  },
+  "manifest_url": null,
+  "artifact_urls": {},
+  "delivery_role": "Cloud submission in the temporary AWS Academy Sandbox. Azure remains the separate persistent IA deployment.",
+  "application_deployment_status": "public_model_verified_and_recovery_tested_at_checkpoint",
+  "data_mode": "demo",
+  "sptrans_live_verified": false,
+  "history": [
+    {
+      "event": "initial_bootstrap_failed",
+      "instance_id": "i-057462c89acfbf45f",
+      "evidence": [
+        "evidencias/aws/bootstrap-failed-first.json"
+      ]
+    },
+    {
+      "event": "terraform_replacement_and_bootstrap_succeeded",
+      "instance_id": "i-0cd7e82843509189b",
+      "evidence": [
+        "evidencias/aws/terraform-replacement.json",
+        "evidencias/aws/bootstrap-check-2.json"
+      ]
+    },
+    {
+      "event": "unplanned_observer_connectivity_incident",
+      "controlled_test": false,
+      "summary": "Timeouts locais divergiram de SSM/Chrome e prova externa Azure; causa inicial não estabelecida. Problema separado no bind mount do token foi corrigido recriando somente Prometheus AWS. Nenhum ensaio de LLM atribuído a esse incidente.",
+      "evidence": [
+        "evidencias/aws/connectivity-incident.json",
+        "evidencias/aws/connectivity-incident-host.json",
+        "evidencias/aws/connectivity-incident-external-azure.json",
+        "evidencias/aws/observability-early-recovery.json"
+      ]
+    }
+  ],
+  "checkpoint_note": "Operational evidence below belongs to immutable revision 60aeeddc0509cf6c82c65485f67fae67ad494a62 in DEMO. Later source changes or live deployment require separate validation; no future revision is claimed.",
+  "images": {
+    "app": "ghcr.io/salvittis/ponto-certo@sha256:bb373fe11c3ec13ae794a63480f87d6e746893d1c1a6f91a42aac01e92353899",
+    "llm": "ghcr.io/salvittis/ponto-certo-llm@sha256:20242840ccf471df0640b7e3de6645b47aad33203ce22954dde18af95572addd",
+    "proxy": "ghcr.io/salvittis/ponto-certo-proxy@sha256:cf3f17734aa901848c048095a98bb500c9828863e046f5595d3b94753af78081"
+  }
+}

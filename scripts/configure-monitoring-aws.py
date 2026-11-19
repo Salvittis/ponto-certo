@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Prepare only the isolated AWS monitor; never start containers or contact a target."""
 import argparse
+import hashlib
 import importlib.util
 import json
 import os
@@ -47,6 +48,12 @@ def read_private_token(path):
 def write_mount_file(path, value):
     if path.is_symlink():
         raise ValueError('Refusing to replace a symlink in the private AWS runtime.')
+    # Docker bind mounts can retain the old inode after an atomic replacement.
+    # Preserve unchanged files so a dashboard-only update cannot detach the
+    # Prometheus token/target mounts on Docker Desktop.
+    if path.is_file() and path.read_bytes() == value.encode('utf-8'):
+        path.chmod(0o444)
+        return
     descriptor, temporary = tempfile.mkstemp(prefix='.prepare-', dir=path.parent)
     try:
         with os.fdopen(descriptor, 'w', encoding='utf-8') as stream:
@@ -58,6 +65,32 @@ def write_mount_file(path, value):
     finally:
         if os.path.exists(temporary):
             os.unlink(temporary)
+
+
+def write_aws_dashboard(runtime):
+    source = ROOT/'observability/grafana/dashboards/ponto-certo.json'
+    source_bytes = source.read_bytes()
+    dashboard = json.loads(source_bytes)
+    dashboard['title'] = dashboard['title']+' · AWS Academy'
+    for link in dashboard.get('links', []):
+        if link.get('url') == 'http://127.0.0.1:9090/alerts':
+            link['url'] = 'http://127.0.0.1:9091/alerts'
+    folder = runtime/'dashboards'
+    if folder.is_symlink():
+        raise ValueError('Refusing a symlink for the generated AWS dashboards.')
+    folder.mkdir(exist_ok=True, mode=0o755)
+    folder.chmod(0o755)
+    generated = json.dumps(dashboard, ensure_ascii=False, indent=2)+'\n'
+    write_mount_file(folder/'ponto-certo.json', generated)
+    write_mount_file(runtime/'dashboard-provenance.json', json.dumps({
+        'source': str(source.relative_to(ROOT)),
+        'source_sha256': hashlib.sha256(source_bytes).hexdigest(),
+        'generated': 'dashboards/ponto-certo.json',
+        'generated_sha256': hashlib.sha256(generated.encode()).hexdigest(),
+        'changes': ['title identifies AWS Academy', 'Prometheus alert link uses port9091'],
+        'panels_queries_and_uid_unchanged': True,
+        'note': 'Public display metadata only; no credentials or target answers.'
+    }, indent=2)+'\n')
 
 
 def configure(public_url, token_file, runtime_dir=DEFAULT_RUNTIME, replace_target=False):
@@ -72,6 +105,7 @@ def configure(public_url, token_file, runtime_dir=DEFAULT_RUNTIME, replace_targe
             raise ValueError('AWS target changed. Preserve evidence first and use --replace-target explicitly; mixed history is rejected for 10 minutes.')
     runtime.mkdir(parents=True, exist_ok=True, mode=0o700)
     runtime.chmod(0o700)
+    write_aws_dashboard(runtime)
     labels = {'application': 'ponto-certo', 'environment': 'public'}
     host = origin.removeprefix('https://')
     write_mount_file(runtime/'metrics-token', token+'\n')

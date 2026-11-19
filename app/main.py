@@ -59,7 +59,11 @@ async def telemetry(request:Request,call_next):
         response.headers['Cache-Control']='no-store' if request.url.path.startswith('/api/') else 'no-cache'
         return response
     finally:
-        route=getattr(request.scope.get('route'),'path','unmatched')
+        route=getattr(request.scope.get('route'),'path',None)
+        if route is None:
+            # Body/concurrency limits can reject a known query before routing.
+            # Keep that traffic in the bounded query series, never label raw paths.
+            route='/api/ask' if request.url.path=='/api/ask' and request.method=='POST' else 'unmatched'
         REQUESTS.labels(route,request.method,str(code)).inc();LATENCY.labels(route).observe(time.perf_counter()-started);ACTIVE.dec()
 @app.get('/healthz')
 async def health():return {'status':'ok','version':settings.version,'revision':settings.revision}

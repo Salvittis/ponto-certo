@@ -1,0 +1,48 @@
+{
+  "started_at": "2026-11-19T13:23:44.912317+00:00",
+  "base_url": "https://54-210-161-95.sslip.io",
+  "expected_mode": "demo",
+  "checks": [
+    {
+      "name": "healthz",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 0.418
+    },
+    {
+      "name": "readiness",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 0.411
+    },
+    {
+      "name": "config",
+      "passed": true,
+      "http_status": 200,
+      "mode": "demo"
+    },
+    {
+      "name": "documental",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 13.265,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false
+    },
+    {
+      "name": "arrival_demo",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 14.229,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true
+    }
+  ],
+  "passed": true,
+  "privacy": "Somente checks e metadados; perguntas e respostas livres não são salvas.",
+  "finished_at": "2026-11-19T13:24:13.626407+00:00"
+}

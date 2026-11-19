@@ -1,0 +1,14 @@
+{
+  "kind": "production_transit_adapter_live_check",
+  "captured_at": "2026-11-19T12:55:26.365364+00:00",
+  "line_code": 35274,
+  "stop_code": 614432,
+  "direction": 2,
+  "status": "passed",
+  "mode": "live",
+  "synthetic": false,
+  "source_observed_at": "2026-11-19T09:55:00-03:00",
+  "queried_at": "2026-11-19T09:55:26.365802-03:00",
+  "matching_lines": 1,
+  "forecasts": 1
+}

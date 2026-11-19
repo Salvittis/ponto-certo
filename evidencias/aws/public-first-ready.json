@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-11-19T13:06:06.430204+00:00",
+  "provider": "aws-academy",
+  "public_url": "https://54-210-161-95.sslip.io",
+  "expected_revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+  "readiness": {
+    "status": "ready",
+    "model_ready": true,
+    "data_ready": true,
+    "data_mode": "demo",
+    "sptrans_live_verified": false,
+    "version": "0.1.0",
+    "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62"
+  },
+  "result": "passed"
+}

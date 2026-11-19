@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "provider": "aws",
+  "scope": "public",
+  "url": "https://54-210-161-95.sslip.io",
+  "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+  "checked_at": "2026-11-19T13:25:15.320741+00:00",
+  "instance_id": "i-0cd7e82843509189b",
+  "ssm_command_id": "d1be6c52-e9ca-4a4b-9e9b-0213f572438c",
+  "fault": "Stop/start of the LLM container only; no VM reboot, application stop, network change or image replacement.",
+  "requested_pause_seconds": 120,
+  "stopped_at": "2026-11-19T13:21:35Z",
+  "start_requested_at": "2026-11-19T13:23:36Z",
+  "firing_observed_at": "2026-11-19T13:22:57.660170+00:00",
+  "recovered_observed_at": "2026-11-19T13:24:28.605472+00:00",
+  "safety": [
+    "Release revision checked before the fault",
+    "Exclusive deployment lock",
+    "EXIT trap requests LLM restart",
+    "Independent systemd timer fallback scheduled for180s and cancelled after successful restart request"
+  ],
+  "checks": {
+    "controlled_command_succeeded": true,
+    "both_expected_alerts_fired": true,
+    "public_contract_during_failure": true,
+    "no_active_alert_after_recovery": true,
+    "ready_after_recovery": true,
+    "smoke_after_recovery": true,
+    "all_three_running": true,
+    "all_three_healthy": true,
+    "non_root": true,
+    "same_three_images": true,
+    "same_model_sha256": true,
+    "same_model_size": true
+  },
+  "passed": true,
+  "model_sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+  "model_size_bytes": 1117320736,
+  "evidence": [
+    "evidencias/aws/alert-command.json",
+    "evidencias/aws/public-controlled-unavailable.json",
+    "evidencias/aws/observability-baseline.json",
+    "evidencias/aws/observability-firing.json",
+    "evidencias/aws/observability-after-start.json",
+    "evidencias/aws/observability-recovered.json",
+    "evidencias/aws/containers-baseline.json",
+    "evidencias/aws/containers-recovered-command.json",
+    "evidencias/aws/containers-recovered.json",
+    "evidencias/aws/smoke-public-recovered.json"
+  ],
+  "limitations": [
+    "This is a container restart exercise, not host/region failover or a sustained load benchmark.",
+    "Earlier observer connectivity and monitor bind-mount incidents are documented separately.",
+    "The intermediate post-start snapshot still showed firing; only the later recovered snapshot proves cleared alerts."
+  ]
+}

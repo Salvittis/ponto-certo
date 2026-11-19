@@ -1,0 +1,12 @@
+{
+  "source": "observability/grafana/dashboards/ponto-certo.json",
+  "source_sha256": "7721c534fd8dfcae965b60b842a593ea3c7c202b929e14b4c64bde3e09e39c2f",
+  "generated": "dashboards/ponto-certo.json",
+  "generated_sha256": "0bf1c0d70c3064e606196767d113ab08e718c0415ab287d156b6cc14ad398c42",
+  "changes": [
+    "title identifies AWS Academy",
+    "Prometheus alert link uses port9091"
+  ],
+  "panels_queries_and_uid_unchanged": true,
+  "note": "Public display metadata only; no credentials or target answers."
+}

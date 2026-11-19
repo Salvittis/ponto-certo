@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+  "data_mode": "demo",
+  "screenshots": [
+    {
+      "file": "evidencias/aws/screenshots/public-app.jpg",
+      "captured_at": "2026-11-19T13:07:35.060443+00:00",
+      "sha256": "4706445e97945f1e4d8dfe929f95fa764ca71fc5699a8f966964321920e757f8",
+      "url": "https://54-210-161-95.sslip.io/",
+      "observation": "Jornada completa de chegada com dados sintéticos, avisos, fonte e atualização."
+    },
+    {
+      "file": "evidencias/aws/screenshots/public-response.jpg",
+      "captured_at": "2026-11-19T13:08:40.910697+00:00",
+      "sha256": "0361163ac59c9d0c145c1c1b3bf8ebd565737e21410528cf570c837839f1fed1",
+      "url": "https://54-210-161-95.sslip.io/",
+      "observation": "Resposta simulada legível em viewport; fonte e horário são do cenário sintético."
+    },
+    {
+      "file": "evidencias/aws/screenshots/pipeline-passed.jpg",
+      "captured_at": "2026-11-19T13:08:58.006953+00:00",
+      "sha256": "f3c0d3f5d1bcec6396ba65e579fc7e354cf22616bf5403b8f521819b6fab2065",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191",
+      "observation": "GitHub Actions exibe Success e nove jobs concluídos."
+    },
+    {
+      "file": "evidencias/aws/screenshots/sandbox-session-incident.jpg",
+      "captured_at": "2026-11-19T13:13:00.448454+00:00",
+      "sha256": "4c9133fd9ea0e7508bb694fc3879789d77c21b1311e54cb26bd70cf739c71021",
+      "url": "https://awsacademy.instructure.com/courses/182549/modules/items/18007039",
+      "observation": "Sandbox exibe 2:24 restantes. Leitura apenas; Start/End não acionados.",
+      "controlled_test": false
+    },
+    {
+      "file": "evidencias/aws/screenshots/incident-alerts-firing.jpg",
+      "captured_at": "2026-11-19T13:13:35.177177+00:00",
+      "sha256": "11695b34d6372053ad5664e350e2063688f0e1d809930b1c8d5d078e8a1c5dc5",
+      "url": "http://127.0.0.1:9091/alerts",
+      "observation": "Incidente NÃO provocado: monitor local mostra PublicReadyUnavailable e MetricsUnavailable FIRING para AWS, ModelNotReady inativo.",
+      "controlled_test": false
+    },
+    {
+      "file": "evidencias/aws/screenshots/incident-chrome-readiness.jpg",
+      "captured_at": "2026-11-19T13:13:34.370697+00:00",
+      "sha256": "d2c4948d69b2cc017825bc5689f0be4cf0c87a9ee272baaf04c0fb580e3b3b4b",
+      "url": "https://54-210-161-95.sslip.io/readyz",
+      "observation": "Aba nova no Chrome respondeu JSON ready/model_ready=true/data_ready=true/demo na mesma revisão; divergência com monitor local, causa não estabelecida por esta observação.",
+      "controlled_test": false
+    },
+    {
+      "file": "evidencias/aws/screenshots/incident-dashboard.jpg",
+      "captured_at": "2026-11-19T13:14:28.983932+00:00",
+      "sha256": "2fccae035fd2bd67b8d324b537824f5afd23650e1792f3fccc0d1791aeced4e7",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals",
+      "observation": "Título AWS Academy e link9091 corrigidos. Indicadores visuais: prontidão1, modelo1, coletaAPI0, alertas1. Último valor do modelo não prova coleta atual. Não é baseline saudável nem ensaio provocado.",
+      "controlled_test": false
+    },
+    {
+      "file": "evidencias/aws/screenshots/incident-alerts-recovered.jpg",
+      "captured_at": "2026-11-19T13:17:23.456244+00:00",
+      "sha256": "0bb195e2787cf02a0085adb54e7c873efa74e47fde2d10caca915c88a30faaed",
+      "url": "http://127.0.0.1:9091/alerts",
+      "observation": "Recuperação do incidente anterior: três regras INACTIVE.",
+      "controlled_test": false
+    },
+    {
+      "file": "evidencias/aws/screenshots/dashboard-baseline.jpg",
+      "captured_at": "2026-11-19T13:21:35.909153+00:00",
+      "sha256": "1f11711cd77a142aa9e0ce2b0fc11a9668c49e8310b3e5867256259364b3c57f",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals",
+      "observation": "Estado recuperado antes do ensaio LLM: prontidão1, modelo1, coleta1, alertas0; histórico de ALERTS ainda inclui o incidente anterior.",
+      "controlled_test": false
+    },
+    {
+      "file": "evidencias/aws/screenshots/dashboard-baseline-bottom.jpg",
+      "captured_at": "2026-11-19T13:21:33.140492+00:00",
+      "sha256": "7f3151018e34da23a65238e2debb6a92bb4e7b0f61e967514276f845e09a3f51",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals",
+      "observation": "Gráficos complementares do estado recuperado: erros0% e saturação do slot retorna a0% após tráfego de inferência.",
+      "controlled_test": false
+    },
+    {
+      "file": "evidencias/aws/screenshots/alerts-baseline.jpg",
+      "captured_at": "2026-11-19T13:21:15.010727+00:00",
+      "sha256": "0bb195e2787cf02a0085adb54e7c873efa74e47fde2d10caca915c88a30faaed",
+      "url": "http://127.0.0.1:9091/alerts",
+      "observation": "Três regras INACTIVE antes do ensaio LLM.",
+      "controlled_test": false
+    },
+    {
+      "file": "evidencias/aws/screenshots/alerts-firing.jpg",
+      "captured_at": "2026-11-19T13:23:08.151655+00:00",
+      "sha256": "d44a9a14e23494f2ba8bcfbb5de2698278bdae950343fb97ab7662b6bd5e8faa",
+      "url": "http://127.0.0.1:9091/alerts",
+      "observation": "Ensaio LLM: PublicReadyUnavailable e ModelNotReady FIRING; MetricsUnavailable INACTIVE; alvos AWS visíveis.",
+      "controlled_test": true
+    },
+    {
+      "file": "evidencias/aws/screenshots/dashboard-firing.jpg",
+      "captured_at": "2026-11-19T13:23:08.176115+00:00",
+      "sha256": "25817097f291329635fdba06afb36eca8538d92aaee56e6320d2a3e422b319b7",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals",
+      "observation": "Ensaio LLM: prontidão0, modelo0, coleta1 e alertas2.",
+      "controlled_test": true
+    },
+    {
+      "file": "evidencias/aws/screenshots/alerts-recovered.jpg",
+      "captured_at": "2026-11-19T13:24:14.475597+00:00",
+      "sha256": "0bb195e2787cf02a0085adb54e7c873efa74e47fde2d10caca915c88a30faaed",
+      "url": "http://127.0.0.1:9091/alerts",
+      "observation": "Após restauração LLM: três regras INACTIVE.",
+      "controlled_test": true
+    },
+    {
+      "file": "evidencias/aws/screenshots/dashboard-recovered.jpg",
+      "captured_at": "2026-11-19T13:24:35.450720+00:00",
+      "sha256": "9f015dd41b4ed0387ce9d5b5bc30a9b14a854ec59d55da5e0bc7c6c184f264a2",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals",
+      "observation": "Após restauração LLM: prontidão1, modelo1, coleta1 e alertas0; curvas preservam queda e recuperação.",
+      "controlled_test": true
+    },
+    {
+      "file": "evidencias/aws/screenshots/dashboard-recovered-bottom.jpg",
+      "captured_at": "2026-11-19T13:24:38.713769+00:00",
+      "sha256": "3099d4cc17bead353f3779346861060a273af892a676a221f7c9c6857ca53e2f",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals",
+      "observation": "Gráficos complementares após restauração: erros e saturação, com inferência real após retorno.",
+      "controlled_test": true
+    }
+  ],
+  "note": "Capturas reais do navegador. Horários de chegada da aplicação são sintéticos; não são observações da SPTrans ao vivo.",
+  "incident_note": "Incidente anterior separado do ensaio: houve timeout no IAB, Chrome respondeu ready; depois a coleta de métricas recuperou. Baseline é o estado atual recuperado, sem alegação de toda a janela histórica saudável.",
+  "controlled_test": {
+    "command_id": "d1be6c52-e9ca-4a4b-9e9b-0213f572438c",
+    "cloud_reported_start_utc": "2026-11-19T13:21:34Z",
+    "planned_stop_seconds": 120,
+    "scope": "Apenas LLM da AWS; conduzido pelo agente Cloud com restauração automática.",
+    "cloud_reported_stopped_at": "2026-11-19T13:21:35Z",
+    "cloud_reported_restart_requested_at": "2026-11-19T13:23:36Z",
+    "browser_observed_recovered": true,
+    "note": "Prometheus ficou INACTIVE antes do stat Alertas ativos do Grafana retornar a0; capturas finais registradas após ambos recuperarem."
+  }
+}

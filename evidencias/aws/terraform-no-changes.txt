@@ -1,0 +1,20 @@
+data.aws_iam_instance_profile.lab: Reading...
+data.aws_ami.ubuntu: Reading...
+aws_vpc.app: Refreshing state... [id=vpc-01e4530ff8fabd443]
+data.aws_iam_instance_profile.lab: Read complete after 0s [id=AIPA357DJNPWUM2FEURJR]
+data.aws_ami.ubuntu: Read complete after 1s [id=ami-0109d2b556bd3d7e1]
+aws_internet_gateway.app: Refreshing state... [id=igw-0b8852341887c5338]
+aws_subnet.app: Refreshing state... [id=subnet-0688a8c6078c4d3d5]
+aws_route_table.app: Refreshing state... [id=rtb-0ce4bfbfd2a15be12]
+aws_security_group.app: Refreshing state... [id=sg-0fe8596e175468e22]
+aws_route.internet: Refreshing state... [id=r-rtb-0ce4bfbfd2a15be121080289494]
+aws_route_table_association.app: Refreshing state... [id=rtbassoc-0cc3a9c19816c8a4f]
+aws_vpc_security_group_egress_rule.outbound: Refreshing state... [id=sgr-0e9af1ad36874cb4f]
+aws_vpc_security_group_ingress_rule.web["80"]: Refreshing state... [id=sgr-028dceae7f38084aa]
+aws_vpc_security_group_ingress_rule.web["443"]: Refreshing state... [id=sgr-05df6c32402652ecc]
+aws_instance.app: Refreshing state... [id=i-0cd7e82843509189b]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.

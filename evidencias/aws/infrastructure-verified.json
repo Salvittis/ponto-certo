@@ -1,0 +1,200 @@
+{
+  "checked_at": "2026-11-19T12:55:07.267542+00:00",
+  "provider": "aws-academy",
+  "region": "us-east-1",
+  "scope": "Read-only AWS control-plane configuration and one local TCP22 probe; not application deployment proof",
+  "instance_id": "i-0cd7e82843509189b",
+  "public_url": "https://54-210-161-95.sslip.io",
+  "result": "passed",
+  "checks": {
+    "expected_account": true,
+    "exact_instance_running": true,
+    "instance_type_t2_medium": true,
+    "architecture_amd64": true,
+    "zone_us_east_1a": true,
+    "only_expected_security_group": true,
+    "only_public_tcp_80_443_ingress": true,
+    "ssh_has_no_ingress_rule": true,
+    "no_ssh_keypair": true,
+    "imds_v2_required_hop_one": true,
+    "existing_lab_instance_profile": true,
+    "cpu_credit_standard": true,
+    "root_volume_encrypted_32_gib_gp2": true,
+    "root_volume_attached_to_exact_instance": true,
+    "root_delete_on_termination": true,
+    "ssm_online": true,
+    "ssh_not_reachable_from_local_probe": true
+  },
+  "observed": {
+    "identity": {
+      "Account": "820278553581"
+    },
+    "instance": [
+      {
+        "InstanceId": "i-0cd7e82843509189b",
+        "State": "running",
+        "InstanceType": "t2.medium",
+        "ImageId": "ami-0109d2b556bd3d7e1",
+        "Architecture": "x86_64",
+        "AvailabilityZone": "us-east-1a",
+        "PublicIpAddress": "54.210.161.95",
+        "KeyName": null,
+        "IamInstanceProfile": "arn:aws:iam::820278553581:instance-profile/LabInstanceProfile",
+        "MetadataOptions": {
+          "State": "applied",
+          "HttpTokens": "required",
+          "HttpPutResponseHopLimit": 1,
+          "HttpEndpoint": "enabled",
+          "HttpProtocolIpv6": "disabled",
+          "InstanceMetadataTags": "disabled"
+        },
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/sda1",
+            "Ebs": {
+              "AttachTime": "2026-11-19T12:52:20+00:00",
+              "DeleteOnTermination": true,
+              "Status": "attached",
+              "VolumeId": "vol-0a85f8a9c433d674d",
+              "EbsCardIndex": 0
+            }
+          }
+        ],
+        "SecurityGroups": [
+          {
+            "GroupId": "sg-0fe8596e175468e22",
+            "GroupName": "ponto-certo-fiap-aws-1d733a0ec866bbd79107b22bd5"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "project",
+            "Value": "ponto-certo"
+          },
+          {
+            "Key": "Name",
+            "Value": "ponto-certo-fiap-aws-vm"
+          },
+          {
+            "Key": "environment",
+            "Value": "aws-academy"
+          },
+          {
+            "Key": "managed_by",
+            "Value": "terraform"
+          },
+          {
+            "Key": "purpose",
+            "Value": "fiap-cloud"
+          }
+        ]
+      }
+    ],
+    "security_group": [
+      {
+        "GroupId": "sg-0fe8596e175468e22",
+        "VpcId": "vpc-01e4530ff8fabd443",
+        "IpPermissions": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "UserIdGroupPairs": [],
+            "IpRanges": [
+              {
+                "Description": "Public web port 80",
+                "CidrIp": "0.0.0.0/0"
+              }
+            ],
+            "Ipv6Ranges": [],
+            "PrefixListIds": []
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 443,
+            "ToPort": 443,
+            "UserIdGroupPairs": [],
+            "IpRanges": [
+              {
+                "Description": "Public web port 443",
+                "CidrIp": "0.0.0.0/0"
+              }
+            ],
+            "Ipv6Ranges": [],
+            "PrefixListIds": []
+          }
+        ],
+        "IpPermissionsEgress": [
+          {
+            "IpProtocol": "-1",
+            "UserIdGroupPairs": [],
+            "IpRanges": [
+              {
+                "Description": "SSM, OS/image downloads, ACME and application sources; no restrictive egress policy in this MVP.",
+                "CidrIp": "0.0.0.0/0"
+              }
+            ],
+            "Ipv6Ranges": [],
+            "PrefixListIds": []
+          }
+        ]
+      }
+    ],
+    "cpu_credits": [
+      {
+        "InstanceId": "i-0cd7e82843509189b",
+        "CpuCredits": "standard"
+      }
+    ],
+    "ssm": [
+      {
+        "InstanceId": "i-0cd7e82843509189b",
+        "PingStatus": "Online",
+        "AgentVersion": "3.3.4793.0",
+        "PlatformName": "Ubuntu",
+        "PlatformVersion": "24.04",
+        "ResourceType": "EC2Instance"
+      }
+    ],
+    "volume": [
+      {
+        "VolumeId": "vol-0a85f8a9c433d674d",
+        "Size": 32,
+        "VolumeType": "gp2",
+        "Encrypted": true,
+        "State": "in-use",
+        "AvailabilityZone": "us-east-1a",
+        "Attachments": [
+          {
+            "DeleteOnTermination": true,
+            "EbsCardIndex": 0,
+            "VolumeId": "vol-0a85f8a9c433d674d",
+            "InstanceId": "i-0cd7e82843509189b",
+            "Device": "/dev/sda1",
+            "State": "attached",
+            "AttachTime": "2026-11-19T12:52:20+00:00"
+          }
+        ]
+      }
+    ]
+  },
+  "ssh_probe": {
+    "source": "local Mac TCP connect to the observed public IPv4",
+    "target": "54.210.161.95",
+    "port": 22,
+    "timeout_seconds": 3,
+    "result": "timeout"
+  },
+  "limitations": [
+    "Security group ingress is verified as onlyTCP80/443; actual application/TLS readiness is a separate check.",
+    "Egress allows allIPv4 as documented for SSM, package/image downloads, ACME and application sources.",
+    "Only selected configuration fields were queried; no user-data, environment variables, credentials or full IAM policies were captured."
+  ],
+  "terraform_verification": {
+    "operation": "terraform plan -detailed-exitcode with external Academy tfvars and isolated credentials/state",
+    "exit_code": 0,
+    "result": "No changes. Your infrastructure matches the configuration.",
+    "log": "evidencias/aws/terraform-no-changes.txt",
+    "apply_performed": false
+  }
+}

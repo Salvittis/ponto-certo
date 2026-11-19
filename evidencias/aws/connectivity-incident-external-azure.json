@@ -1,0 +1,10 @@
+{
+  "value": [
+    {
+      "code": "ProvisioningState/succeeded",
+      "displayStatus": "Provisioning succeeded",
+      "level": "Info",
+      "message": "Enable succeeded: \n[stdout]\n{\"status\":\"ready\",\"model_ready\":true,\"data_ready\":true,\"data_mode\":\"demo\",\"sptrans_live_verified\":false,\"version\":\"0.1.0\",\"revision\":\"60aeeddc0509cf6c82c65485f67fae67ad494a62\"}\nHTTP 200\nHTTP/1.1 400 Bad Request\r\n\n[stderr]\n"
+    }
+  ]
+}

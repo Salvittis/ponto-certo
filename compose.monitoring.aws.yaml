@@ -71,7 +71,10 @@ services:
       GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/ponto-certo.json
     volumes:
       - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
-      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - type: bind
+        source: ${PC_AWS_MONITORING_DIR:?Set the external private AWS monitoring directory}/dashboards
+        target: /var/lib/grafana/dashboards
+        read_only: true
       - grafana-data:/var/lib/grafana
     secrets: [grafana-admin-password]
     tmpfs: [/tmp]

@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-11-19T12:54:24.966691+00:00",
+  "mode": "live",
+  "notice": "Verificação real pontual. Evidência histórica, não previsão atual nem garantia de chegada.",
+  "source": {
+    "name": "SPTrans Olho Vivo",
+    "api_version": "v2.1",
+    "documentation_url": "https://www.sptrans.com.br/desenvolvedores/api-do-olho-vivo-guia-de-referencia/documentacao-api"
+  },
+  "selection_policy": "Primeira linha por número/serviço ordenados; até dois sentidos distintos e menor código de parada de cada retorno. Sem varredura ampla.",
+  "authentication": {
+    "verified": true,
+    "status": "authenticated",
+    "verified_at": "2026-11-19T12:54:25.105877+00:00"
+  },
+  "line_discovery": {
+    "query_succeeded": true,
+    "queried_at": "2026-11-19T12:54:25.141037+00:00",
+    "returned_line_count": 4,
+    "selected_route": "8000-1",
+    "selected_directions": 2
+  },
+  "checks": [
+    {
+      "line": {
+        "code": 2506,
+        "number": "8000",
+        "service": 1,
+        "direction": 1,
+        "primary_label": "PÇA. RAMOS DE AZEVEDO",
+        "secondary_label": "TERM. LAPA"
+      },
+      "stop_search": {
+        "query_succeeded": true,
+        "queried_at": "2026-11-19T12:54:25.168356+00:00",
+        "returned_stop_count": 14
+      },
+      "arrival": {
+        "query_succeeded": true,
+        "status": "empty_return",
+        "queried_at": "2026-11-19T09:54:25.206048-03:00",
+        "source_time_of_day": "09:54",
+        "inferred_source_age_seconds": 25,
+        "source_clock_within_limit": true,
+        "clock_note": "hr só informa hora/minuto; data inferida pelo dia mais próximo da consulta, não fornecida pela API.",
+        "returned_line_count": 0,
+        "matching_line_count": 0,
+        "forecast_count": 0,
+        "forecasts": []
+      },
+      "selected_stop": {
+        "code": 7014417,
+        "name": "ANGELICA B/C"
+      }
+    },
+    {
+      "line": {
+        "code": 35274,
+        "number": "8000",
+        "service": 1,
+        "direction": 2,
+        "primary_label": "PÇA. RAMOS DE AZEVEDO",
+        "secondary_label": "TERM. LAPA"
+      },
+      "stop_search": {
+        "query_succeeded": true,
+        "queried_at": "2026-11-19T12:54:25.233880+00:00",
+        "returned_stop_count": 13
+      },
+      "arrival": {
+        "query_succeeded": true,
+        "status": "forecasts_returned",
+        "queried_at": "2026-11-19T09:54:25.330730-03:00",
+        "source_time_of_day": "09:54",
+        "inferred_source_age_seconds": 25,
+        "source_clock_within_limit": true,
+        "clock_note": "hr só informa hora/minuto; data inferida pelo dia mais próximo da consulta, não fornecida pela API.",
+        "returned_line_count": 1,
+        "matching_line_count": 1,
+        "forecast_count": 1,
+        "forecasts": [
+          {
+            "arrival_time_of_day": "10:05",
+            "vehicle_observed_at": "2026-11-19T12:54:15+00:00",
+            "vehicle_observation_age_seconds": 10
+          }
+        ]
+      },
+      "selected_stop": {
+        "code": 614432,
+        "name": "BABY BARIONY C/B"
+      }
+    }
+  ],
+  "summary": {
+    "authenticated": true,
+    "real_query_succeeded": true,
+    "arrival_queries_succeeded": 2,
+    "nonempty_predictions": true,
+    "fresh_source_clock_with_predictions": true
+  },
+  "status": "live_verified_with_forecasts",
+  "http_request_count": 6,
+  "finished_at": "2026-11-19T12:54:25.331415+00:00",
+  "limits": [
+    "Autenticação e consulta bem-sucedidas não implicam previsão não vazia.",
+    "Ausência de paradas/previsão não comprova ausência de ônibus ou serviço.",
+    "A categoria de paradas tem cobertura limitada; uma parada por sentido não representa toda a linha.",
+    "Horários retornados e idade da telemetria são evidências da fonte, não garantia de chegada."
+  ]
+}

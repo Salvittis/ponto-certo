@@ -60,6 +60,12 @@ Painéis complementares: `ponto_certo_model_ready`, `up`, `probe_success`, `ALER
 
 A amostragem a cada 15 segundos pode perder picos curtos de saturação. Para a evidência, gere perguntas reais sequenciais pelo smoke/teste autorizado e preserve a janela histórica; não invente séries nem apresente um gráfico vazio como prova. Dados de transporte em modo `demo` continuam identificados como sintéticos; a latência e os erros medidos no serviço são operação real.
 
+### Limitação histórica da primeira falha e correção preparada
+
+No ensaio AWS da revisão `60aeedd`, em **19/11/2026**, a [pergunta pública retornou HTTP 503](../evidencias/aws/public-controlled-unavailable.json), mas os snapshots de [disparo](../evidencias/aws/observability-firing.json) e [recuperação](../evidencias/aws/observability-recovered.json) conservaram `error_rate_percent=0.0`. A consulta histórica ao contador confirmou a causa: a série rotulada de 503 surgiu já com valor **1**, sem amostra anterior em **0**. Como não havia incremento entre as amostras coletadas, `rate(...[5m])` resultou em zero. Nesse checkpoint, **0% no painel não comprova ausência de falhas HTTP**; o contrato HTTP e os alertas constituem evidências independentes. Os valores históricos permanecem intactos e o [ensaio de alerta/restauração mantém seus 12/12 checks aprovados](../evidencias/aws/alert-exercise.json).
+
+A correção no código local inicializa em zero as combinações conhecidas de status HTTP e resultados da LLM antes da primeira requisição. Também inclui recusas pelos limites anteriores ao roteamento na série fixa `route="/api/ask"`, sem usar caminhos arbitrários como labels. Testes em processo novo para a primeira resposta 503 e para uma rejeição 413 passaram. **Essa correção ainda aguarda publicação e validação do incremento real no Prometheus da nova imagem**; não se atribui esse comportamento corrigido à revisão histórica `60aeedd`. Inicializar séries conhecidas com zero segue a [recomendação oficial do Prometheus para métricas ausentes](https://prometheus.io/docs/practices/instrumentation/#avoid-missing-metrics). Para observar o primeiro incremento, a coleta precisa registrar o zero antes do evento.
+
 ## Alertas e limiar
 
 As regras estão em `observability/prometheus/alerts.yaml`:

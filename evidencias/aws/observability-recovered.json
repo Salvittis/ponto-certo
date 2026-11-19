@@ -1,0 +1,3503 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-19T13:24:28.605472+00:00",
+  "scope": "public",
+  "public_url": "https://54-210-161-95.sslip.io",
+  "prometheus_url": "http://127.0.0.1:9091",
+  "window": {
+    "start": "2026-11-19T13:19:28.605472+00:00",
+    "end": "2026-11-19T13:24:28.605472+00:00",
+    "seconds": 300,
+    "step_seconds": 15,
+    "meaning": "Instant evaluation at end; history samples over last 5 min. Each rate/p95 sample uses its trailing 5 min. Saturation is instantaneous."
+  },
+  "dashboard_sha256": "7721c534fd8dfcae965b60b842a593ea3c7c202b929e14b4c64bde3e09e39c2f",
+  "privacy": "No token is read or sent. No questions, answers, arbitrary labels, Env, logs or raw Azure output are stored.",
+  "public_checks": {
+    "/healthz": {
+      "http_status": 200,
+      "seconds": 0.402,
+      "checked_at": "2026-11-19T13:24:29.007907+00:00",
+      "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "version": "0.1.0",
+      "status": "ok"
+    },
+    "/readyz": {
+      "http_status": 200,
+      "seconds": 0.407,
+      "checked_at": "2026-11-19T13:24:29.415454+00:00",
+      "model_ready": true,
+      "data_ready": true,
+      "sptrans_live_verified": false,
+      "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "version": "0.1.0",
+      "status": "ready",
+      "data_mode": "demo"
+    },
+    "/api/config": {
+      "http_status": 200,
+      "seconds": 0.473,
+      "checked_at": "2026-11-19T13:24:29.888612+00:00",
+      "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "version": "0.1.0",
+      "model": "qwen2.5-1.5b-instruct",
+      "mode": "demo"
+    },
+    "/metrics": {
+      "http_status": 401,
+      "seconds": 0.398,
+      "checked_at": "2026-11-19T13:24:30.287024+00:00"
+    },
+    "metrics_without_token_denied": true
+  },
+  "targets": {
+    "http_status": 200,
+    "seconds": 0.017,
+    "targets": [
+      {
+        "job": "ponto-certo-api",
+        "target": "https://54-210-161-95.sslip.io/metrics",
+        "matches_public_url": true,
+        "health": "up",
+        "last_scrape": "2026-11-19T13:24:26.097881837Z",
+        "last_scrape_duration_seconds": 0.261819292,
+        "has_scrape_error": false
+      },
+      {
+        "job": "ponto-certo-ready",
+        "target": "https://54-210-161-95.sslip.io/readyz",
+        "matches_public_url": true,
+        "health": "up",
+        "last_scrape": "2026-11-19T13:24:21.240332251Z",
+        "last_scrape_duration_seconds": 0.428820876,
+        "has_scrape_error": false
+      }
+    ],
+    "single_public_target_per_job": true,
+    "collection_status": "collected"
+  },
+  "alerts": {
+    "http_status": 200,
+    "seconds": 0.009,
+    "collection_status": "collected",
+    "alerts": [],
+    "firing_names": []
+  },
+  "queries": [
+    {
+      "panel_id": 1,
+      "panel_title": "Prontidão pública",
+      "ref_id": "A",
+      "expression": "probe_success{job=\"ponto-certo-ready\"}",
+      "unit": "short",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.009,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "https://54-210-161-95.sslip.io/readyz",
+              "job": "ponto-certo-ready"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.008,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "https://54-210-161-95.sslip.io/readyz",
+              "job": "ponto-certo-ready"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 2,
+      "panel_title": "LLM local pronta",
+      "ref_id": "A",
+      "expression": "ponto_certo_model_ready{job=\"ponto-certo-api\"}",
+      "unit": "short",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.008,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "54-210-161-95.sslip.io",
+              "job": "ponto-certo-api"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.008,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "54-210-161-95.sslip.io",
+              "job": "ponto-certo-api"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 3,
+      "panel_title": "Coleta da API",
+      "ref_id": "A",
+      "expression": "up{job=\"ponto-certo-api\"}",
+      "unit": "short",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.011,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "54-210-161-95.sslip.io",
+              "job": "ponto-certo-api"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.012,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "54-210-161-95.sslip.io",
+              "job": "ponto-certo-api"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 4,
+      "panel_title": "Alertas ativos",
+      "ref_id": "A",
+      "expression": "sum(ALERTS{alertname=~\"PontoCerto.*\",alertstate=\"firing\"}) or vector(0)",
+      "unit": "short",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.011,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.01,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 2.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 2.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 2.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 2.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 2.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 5,
+      "panel_title": "1. Latência p95 do assistente e LLM",
+      "ref_id": "A",
+      "expression": "histogram_quantile(0.95, sum by (le) (rate(ponto_certo_http_request_duration_seconds_bucket{job=\"ponto-certo-api\",route=\"/api/ask\"}[5m])))",
+      "unit": "s",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 28.5,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.006,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 9.68997355235371,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 9.689826228844344,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 9.689695484538168,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 9.689578654973872,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 9.690719608871646,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 9.690719608871646,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 9.685390996070083,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 9.671229994345156,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 9.649118867299562,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 9.60975000585375,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 9.57574934786614,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 9.519992319877117,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 9.111047896739322,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 9.111071603182364,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 9.111047896739324,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 9.11110320980631,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 9.111047896739322,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 9.111047896739322,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 24.999999999999996,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 28.5,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 5,
+      "panel_title": "1. Latência p95 do assistente e LLM",
+      "ref_id": "B",
+      "expression": "histogram_quantile(0.95, sum by (le) (rate(ponto_certo_llm_duration_seconds_bucket{job=\"ponto-certo-api\"}[5m])))",
+      "unit": "s",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.007,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 28.5,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.006,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 9.75,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 28.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 28.5,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 6,
+      "panel_title": "2. Tráfego real",
+      "ref_id": "A",
+      "expression": "sum(rate(ponto_certo_http_requests_total{job=\"ponto-certo-api\",route=\"/api/ask\"}[5m]))",
+      "unit": "reqps",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.006,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0070175931059165315,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 0.041906285714285715,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 0.048741980565111025,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 0.04861266666666667,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 0.04849819607843137,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 0.04839644444444444,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 0.04912228994080764,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 0.04912280701754385,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 0.045614035087719294,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 0.03859608495349172,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 0.03157861496194777,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 0.024561403508771926,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 0.01754392120674108,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 0.014035235458618862,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 0.007017445369187801,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 0.007017617729309431,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 0.007017420747004439,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 0.007017642352875129,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 0.007017543859649122,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 0.007017543859649122,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 0.010526315789473682,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0070175931059165315,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 6,
+      "panel_title": "2. Tráfego real",
+      "ref_id": "B",
+      "expression": "sum(rate(ponto_certo_llm_requests_total{job=\"ponto-certo-api\"}[5m]))",
+      "unit": "reqps",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0070175931059165315,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.006,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 0.041906285714285715,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 0.04177884048438088,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 0.041668000000000004,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 0.04156988235294118,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 0.04148266666666667,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 0.04210481994926369,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 0.04210526315789473,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 0.03859649122807017,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 0.03157861496194777,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 0.02456114497040382,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 0.017543859649122806,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 0.010526352724044646,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 0.007017617729309431,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 0.003508771929824561,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0070175931059165315,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 7,
+      "panel_title": "3. Erros HTTP e de geração",
+      "ref_id": "A",
+      "expression": "100 * (sum(rate(ponto_certo_http_requests_total{job=\"ponto-certo-api\",route=\"/api/ask\",status=~\"5..\"}[5m])) or (0 * sum(rate(ponto_certo_http_requests_total{job=\"ponto-certo-api\",route=\"/api/ask\"}[5m])))) / sum(rate(ponto_certo_http_requests_total{job=\"ponto-certo-api\",route=\"/api/ask\"}[5m]))",
+      "unit": "percent",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 7,
+      "panel_title": "3. Erros HTTP e de geração",
+      "ref_id": "B",
+      "expression": "100 * (sum(rate(ponto_certo_llm_requests_total{job=\"ponto-certo-api\",outcome!=\"ok\"}[5m])) or (0 * sum(rate(ponto_certo_llm_requests_total{job=\"ponto-certo-api\"}[5m])))) / sum(rate(ponto_certo_llm_requests_total{job=\"ponto-certo-api\"}[5m]))",
+      "unit": "percent",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.006,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {},
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": null,
+                "value_state": "non_finite_or_missing"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": null,
+                "value_state": "non_finite_or_missing"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": null,
+                "value_state": "non_finite_or_missing"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": null,
+                "value_state": "non_finite_or_missing"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": null,
+                "value_state": "non_finite_or_missing"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": null,
+                "value_state": "non_finite_or_missing"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 15
+      }
+    },
+    {
+      "panel_id": 8,
+      "panel_title": "4. Saturação dos slots da LLM",
+      "ref_id": "A",
+      "expression": "100 * ponto_certo_llm_inflight{job=\"ponto-certo-api\"} / ponto_certo_llm_capacity{job=\"ponto-certo-api\"}",
+      "unit": "percent",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "54-210-161-95.sslip.io",
+              "job": "ponto-certo-api"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "54-210-161-95.sslip.io",
+              "job": "ponto-certo-api"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 100.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 100.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 9,
+      "panel_title": "Requisições e inferências em voo",
+      "ref_id": "A",
+      "expression": "ponto_certo_http_inflight{job=\"ponto-certo-api\"}",
+      "unit": "short",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "54-210-161-95.sslip.io",
+              "job": "ponto-certo-api"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.006,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "54-210-161-95.sslip.io",
+              "job": "ponto-certo-api"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 2.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 2.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 9,
+      "panel_title": "Requisições e inferências em voo",
+      "ref_id": "B",
+      "expression": "ponto_certo_llm_inflight{job=\"ponto-certo-api\"}",
+      "unit": "short",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "54-210-161-95.sslip.io",
+              "job": "ponto-certo-api"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "54-210-161-95.sslip.io",
+              "job": "ponto-certo-api"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 1.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 10,
+      "panel_title": "Memória residente do processo API",
+      "ref_id": "A",
+      "expression": "process_resident_memory_bytes{job=\"ponto-certo-api\"}",
+      "unit": "bytes",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.004,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "54-210-161-95.sslip.io",
+              "job": "ponto-certo-api"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 56205312.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.004,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "54-210-161-95.sslip.io",
+              "job": "ponto-certo-api"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 55164928.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 55971840.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 53903360.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 55345152.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 53964800.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 54620160.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 56061952.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 54018048.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 54542336.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 55328768.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 54104064.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 54108160.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 54632448.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 54140928.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 54120448.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 54599680.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 53919744.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 54050816.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 55308288.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 55549952.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 56205312.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    },
+    {
+      "panel_id": 11,
+      "panel_title": "Estados de resposta do assistente",
+      "ref_id": "A",
+      "expression": "sum by (status) (increase(ponto_certo_answers_total{job=\"ponto-certo-api\"}[5m]))",
+      "unit": "short",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "status": "ok"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 2.1052779317749595,
+                "value_state": "finite"
+              }
+            ]
+          },
+          {
+            "labels": {
+              "status": "clarification"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          },
+          {
+            "labels": {
+              "status": "not_found"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          },
+          {
+            "labels": {
+              "status": "unavailable"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 4,
+        "finite_sample_count": 4
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "status": "clarification"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          },
+          {
+            "labels": {
+              "status": "not_found"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          },
+          {
+            "labels": {
+              "status": "ok"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 12.571885714285713,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 12.533652145314264,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 12.5004,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 12.470964705882352,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 12.444799999999999,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 12.63144598477911,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 12.631578947368421,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 11.578947368421051,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 9.473584488584331,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 7.368343491121147,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 5.263157894736842,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 3.1579058172133943,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 2.1052853187928293,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 1.0526315789473684,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 2.1052779317749595,
+                "value_state": "finite"
+              }
+            ]
+          },
+          {
+            "labels": {
+              "status": "unavailable"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.0,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 4,
+        "finite_sample_count": 68
+      }
+    },
+    {
+      "panel_id": 12,
+      "panel_title": "Sondagem HTTPS /readyz",
+      "ref_id": "A",
+      "expression": "probe_duration_seconds{job=\"ponto-certo-ready\"}",
+      "unit": "s",
+      "instant": {
+        "http_status": 200,
+        "seconds": 0.004,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "https://54-210-161-95.sslip.io/readyz",
+              "job": "ponto-certo-ready"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.426711375,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "vector",
+        "series_count": 1,
+        "finite_sample_count": 1
+      },
+      "history": {
+        "http_status": 200,
+        "seconds": 0.005,
+        "collection_status": "collected",
+        "series": [
+          {
+            "labels": {
+              "application": "ponto-certo",
+              "environment": "public",
+              "instance": "https://54-210-161-95.sslip.io/readyz",
+              "job": "ponto-certo-ready"
+            },
+            "samples": [
+              {
+                "timestamp": 1795094368.605,
+                "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+                "value": 0.419856625,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094383.605,
+                "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+                "value": 0.450876959,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094398.605,
+                "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+                "value": 1.6305212930000001,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094413.605,
+                "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+                "value": 0.463175459,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094428.605,
+                "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+                "value": 0.460238208,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094443.605,
+                "timestamp_utc": "2026-11-19T13:20:43.605000+00:00",
+                "value": 0.480730376,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094458.605,
+                "timestamp_utc": "2026-11-19T13:20:58.605000+00:00",
+                "value": 0.437815291,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094473.605,
+                "timestamp_utc": "2026-11-19T13:21:13.605000+00:00",
+                "value": 0.48477575,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094488.605,
+                "timestamp_utc": "2026-11-19T13:21:28.605000+00:00",
+                "value": 0.448144292,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094503.605,
+                "timestamp_utc": "2026-11-19T13:21:43.605000+00:00",
+                "value": 3.514206252,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094518.605,
+                "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+                "value": 3.464543294,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094533.605,
+                "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+                "value": 3.415053751,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094548.605,
+                "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+                "value": 3.48233996,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094563.605,
+                "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+                "value": 3.411571627,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094578.605,
+                "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+                "value": 3.500534001,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094593.605,
+                "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+                "value": 3.418101835,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094608.605,
+                "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+                "value": 3.509252293,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094623.605,
+                "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+                "value": 0.433719834,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094638.605,
+                "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+                "value": 0.447400626,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094653.605,
+                "timestamp_utc": "2026-11-19T13:24:13.605000+00:00",
+                "value": 0.479326834,
+                "value_state": "finite"
+              },
+              {
+                "timestamp": 1795094668.605,
+                "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+                "value": 0.426711375,
+                "value_state": "finite"
+              }
+            ]
+          }
+        ],
+        "result_type": "matrix",
+        "series_count": 1,
+        "finite_sample_count": 21
+      }
+    }
+  ],
+  "limitations": [
+    "This collector does not generate traffic, inject faults, restart services or prove real inference.",
+    "Current healthy state does not alone prove recovery; compare the firing capture and run the public smoke.",
+    "Saturation samples every 15 s may miss short peaks; it measures LLM slots, not CPU."
+  ],
+  "alert_history": {
+    "http_status": 200,
+    "seconds": 0.017,
+    "collection_status": "collected",
+    "series": [
+      {
+        "labels": {
+          "alertname": "PontoCertoMetricsUnavailable",
+          "alertstate": "firing",
+          "application": "ponto-certo",
+          "component": "monitoring",
+          "environment": "public",
+          "instance": "54-210-161-95.sslip.io",
+          "job": "ponto-certo-api",
+          "severity": "warning"
+        },
+        "samples": [
+          {
+            "timestamp": 1795094368.605,
+            "timestamp_utc": "2026-11-19T13:19:28.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094383.605,
+            "timestamp_utc": "2026-11-19T13:19:43.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094398.605,
+            "timestamp_utc": "2026-11-19T13:19:58.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094413.605,
+            "timestamp_utc": "2026-11-19T13:20:13.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094428.605,
+            "timestamp_utc": "2026-11-19T13:20:28.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          }
+        ]
+      },
+      {
+        "labels": {
+          "alertname": "PontoCertoModelNotReady",
+          "alertstate": "firing",
+          "application": "ponto-certo",
+          "component": "local-llm",
+          "environment": "public",
+          "instance": "54-210-161-95.sslip.io",
+          "job": "ponto-certo-api",
+          "severity": "critical"
+        },
+        "samples": [
+          {
+            "timestamp": 1795094578.605,
+            "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094593.605,
+            "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094608.605,
+            "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094623.605,
+            "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094638.605,
+            "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          }
+        ]
+      },
+      {
+        "labels": {
+          "alertname": "PontoCertoModelNotReady",
+          "alertstate": "pending",
+          "application": "ponto-certo",
+          "component": "local-llm",
+          "environment": "public",
+          "instance": "54-210-161-95.sslip.io",
+          "job": "ponto-certo-api",
+          "severity": "critical"
+        },
+        "samples": [
+          {
+            "timestamp": 1795094518.605,
+            "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094533.605,
+            "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094548.605,
+            "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094563.605,
+            "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          }
+        ]
+      },
+      {
+        "labels": {
+          "alertname": "PontoCertoPublicReadyUnavailable",
+          "alertstate": "firing",
+          "application": "ponto-certo",
+          "component": "public-readiness",
+          "environment": "public",
+          "instance": "https://54-210-161-95.sslip.io/readyz",
+          "job": "ponto-certo-ready",
+          "severity": "critical"
+        },
+        "samples": [
+          {
+            "timestamp": 1795094578.605,
+            "timestamp_utc": "2026-11-19T13:22:58.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094593.605,
+            "timestamp_utc": "2026-11-19T13:23:13.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094608.605,
+            "timestamp_utc": "2026-11-19T13:23:28.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094623.605,
+            "timestamp_utc": "2026-11-19T13:23:43.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094638.605,
+            "timestamp_utc": "2026-11-19T13:23:58.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          }
+        ]
+      },
+      {
+        "labels": {
+          "alertname": "PontoCertoPublicReadyUnavailable",
+          "alertstate": "pending",
+          "application": "ponto-certo",
+          "component": "public-readiness",
+          "environment": "public",
+          "instance": "https://54-210-161-95.sslip.io/readyz",
+          "job": "ponto-certo-ready",
+          "severity": "critical"
+        },
+        "samples": [
+          {
+            "timestamp": 1795094518.605,
+            "timestamp_utc": "2026-11-19T13:21:58.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094533.605,
+            "timestamp_utc": "2026-11-19T13:22:13.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094548.605,
+            "timestamp_utc": "2026-11-19T13:22:28.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          },
+          {
+            "timestamp": 1795094563.605,
+            "timestamp_utc": "2026-11-19T13:22:43.605000+00:00",
+            "value": 1.0,
+            "value_state": "finite"
+          }
+        ]
+      }
+    ],
+    "result_type": "matrix",
+    "series_count": 5,
+    "finite_sample_count": 23,
+    "expression": "ALERTS{alertname=~\"PontoCerto.*\",job=\"ponto-certo-api\",instance=~\"54\\\\-210\\\\-161\\\\-95\\\\.sslip\\\\.io(:443)?\"} or ALERTS{alertname=~\"PontoCerto.*\",job=\"ponto-certo-ready\",instance=\"https://54-210-161-95.sslip.io/readyz\"}"
+  },
+  "historical_target_guard": {
+    "expression": "count by (job, instance) (count_over_time(up{job=~\"ponto-certo-api|ponto-certo-ready\"}[10m]))",
+    "lookback_seconds": 600,
+    "result": {
+      "http_status": 200,
+      "seconds": 0.005,
+      "collection_status": "collected",
+      "series": [
+        {
+          "labels": {
+            "instance": "54-210-161-95.sslip.io",
+            "job": "ponto-certo-api"
+          },
+          "samples": [
+            {
+              "timestamp": 1795094668.605,
+              "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+              "value": 1.0,
+              "value_state": "finite"
+            }
+          ]
+        },
+        {
+          "labels": {
+            "instance": "https://54-210-161-95.sslip.io/readyz",
+            "job": "ponto-certo-ready"
+          },
+          "samples": [
+            {
+              "timestamp": 1795094668.605,
+              "timestamp_utc": "2026-11-19T13:24:28.605000+00:00",
+              "value": 1.0,
+              "value_state": "finite"
+            }
+          ]
+        }
+      ],
+      "result_type": "vector",
+      "series_count": 2,
+      "finite_sample_count": 2
+    },
+    "only_requested_public_targets_observed": true
+  },
+  "metrics": {
+    "scope": "public",
+    "target": "https://54-210-161-95.sslip.io",
+    "window": "5m ending 2026-11-19T13:24:28.605472+00:00; saturation sampled at window end",
+    "latency_p95_seconds": 28.5,
+    "traffic_requests_per_second": 0.0070175931059165315,
+    "error_rate_percent": 0.0,
+    "saturation_percent": 0.0
+  },
+  "metrics_complete": true,
+  "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+  "revision_matches_expected": true,
+  "container_checks": {
+    "scope": "public",
+    "collection_status": "not_requested",
+    "services": []
+  },
+  "finished_at": "2026-11-19T13:24:30.538856+00:00"
+}

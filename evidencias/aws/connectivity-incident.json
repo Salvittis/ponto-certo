@@ -1,0 +1,36 @@
+{
+  "provider": "aws-academy",
+  "kind": "unplanned_observer_connectivity_incident",
+  "captured_at": "2026-11-19T13:15:16.031578+00:00",
+  "observed_alert_active_at": "2026-11-19T13:08:35.9298412Z",
+  "local_public_readiness_recovered_at": "2026-11-19T13:15:16.031578+00:00",
+  "readiness_after_recovery": {
+    "status": "ready",
+    "model_ready": true,
+    "data_ready": true,
+    "data_mode": "demo",
+    "sptrans_live_verified": false,
+    "version": "0.1.0",
+    "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62"
+  },
+  "facts": [
+    "Mac CLI and Docker probes experienced TCP connection timeouts to application and EC2 API; STS and SSM remained accessible.",
+    "SSM saw three healthy containers and verified local/public HTTPS readiness from the EC2.",
+    "An independent Azure VM verified AWS public readiness HTTP200. Chrome also obtained ready response.",
+    "Mac CLI subsequently recovered without network, security-group, instance or application modifications."
+  ],
+  "cause": "Not determined; evidence does not establish a general application outage.",
+  "planned_fault": false,
+  "evidence": [
+    "evidencias/aws/connectivity-incident-host.json",
+    "evidencias/aws/connectivity-incident-external-azure.json",
+    "evidencias/aws/screenshots/incident-alerts-firing.jpg",
+    "evidencias/aws/screenshots/incident-chrome-readiness.jpg"
+  ],
+  "monitor_configuration_followup": {
+    "checked_at": "2026-11-19T13:15:48.159186+00:00",
+    "cause": "Reconfiguring the AWS dashboard also atomically replaced the metrics-token mount file; only Grafana had initially been recreated, leaving the old Prometheus bind mount unavailable.",
+    "resolution": "Recreated only AWS Prometheus with its existing data volume and current token mount; no application or network change.",
+    "not_same_as_original_tcp_timeout": true
+  }
+}

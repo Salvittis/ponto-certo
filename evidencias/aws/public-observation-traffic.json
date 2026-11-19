@@ -1,0 +1,143 @@
+{
+  "provider": "aws-academy",
+  "url": "https://54-210-161-95.sslip.io",
+  "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+  "started_at": "2026-11-19T13:16:12.978261+00:00",
+  "finished_at": "2026-11-19T13:17:50.393080+00:00",
+  "scope": "bounded sequential public inference demonstration, not a capacity benchmark",
+  "checks": [
+    {
+      "index": 1,
+      "checked_at": "2026-11-19T13:16:20.158907+00:00",
+      "http_status": 200,
+      "seconds": 7.18,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false,
+      "passed": true
+    },
+    {
+      "index": 2,
+      "checked_at": "2026-11-19T13:16:29.002401+00:00",
+      "http_status": 200,
+      "seconds": 8.843,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true,
+      "passed": true
+    },
+    {
+      "index": 3,
+      "checked_at": "2026-11-19T13:16:36.626333+00:00",
+      "http_status": 200,
+      "seconds": 7.624,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false,
+      "passed": true
+    },
+    {
+      "index": 4,
+      "checked_at": "2026-11-19T13:16:45.500951+00:00",
+      "http_status": 200,
+      "seconds": 8.874,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true,
+      "passed": true
+    },
+    {
+      "index": 5,
+      "checked_at": "2026-11-19T13:16:52.985976+00:00",
+      "http_status": 200,
+      "seconds": 7.485,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false,
+      "passed": true
+    },
+    {
+      "index": 6,
+      "checked_at": "2026-11-19T13:17:01.897243+00:00",
+      "http_status": 200,
+      "seconds": 8.911,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true,
+      "passed": true
+    },
+    {
+      "index": 7,
+      "checked_at": "2026-11-19T13:17:09.250675+00:00",
+      "http_status": 200,
+      "seconds": 7.353,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false,
+      "passed": true
+    },
+    {
+      "index": 8,
+      "checked_at": "2026-11-19T13:17:17.923379+00:00",
+      "http_status": 200,
+      "seconds": 8.673,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true,
+      "passed": true
+    },
+    {
+      "index": 9,
+      "checked_at": "2026-11-19T13:17:25.162155+00:00",
+      "http_status": 200,
+      "seconds": 7.239,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false,
+      "passed": true
+    },
+    {
+      "index": 10,
+      "checked_at": "2026-11-19T13:17:33.876552+00:00",
+      "http_status": 200,
+      "seconds": 8.714,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true,
+      "passed": true
+    },
+    {
+      "index": 11,
+      "checked_at": "2026-11-19T13:17:41.396180+00:00",
+      "http_status": 200,
+      "seconds": 7.519,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false,
+      "passed": true
+    },
+    {
+      "index": 12,
+      "checked_at": "2026-11-19T13:17:50.392921+00:00",
+      "http_status": 200,
+      "seconds": 8.996,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

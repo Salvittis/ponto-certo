@@ -10,3 +10,10 @@ ASK_STATUS = Counter('ponto_certo_answers_total','Assistant responses',['status'
 MODEL_CAPACITY = Gauge('ponto_certo_llm_capacity','LLM concurrency slots')
 MODEL_CAPACITY.set(1)
 MODEL_READY = Gauge('ponto_certo_model_ready','LLM ready at last probe')
+
+# Export bounded known outcomes before the first request. Otherwise a new 503
+# series first appears at1 and rate() cannot observe its initial increment.
+for status in ('200','408','413','422','429','499','500','503'):
+    REQUESTS.labels('/api/ask','POST',status)
+for outcome in ('ok','invalid_json','unavailable'):
+    MODEL_CALLS.labels(outcome)

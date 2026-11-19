@@ -1,0 +1,41 @@
+{
+  "provider": "aws",
+  "scope": "public",
+  "url": "https://54-210-161-95.sslip.io",
+  "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+  "checks": [
+    {
+      "name": "arrival_needs_context",
+      "checked_at": "2026-11-19T13:19:36.552532+00:00",
+      "http_status": 200,
+      "seconds": 0.481,
+      "status": "clarification",
+      "data_mode": "demo",
+      "source_count": 0,
+      "has_update": false,
+      "passed": true
+    },
+    {
+      "name": "invalid_direction",
+      "checked_at": "2026-11-19T13:19:36.947661+00:00",
+      "http_status": 422,
+      "seconds": 0.395,
+      "source_count": 0,
+      "has_update": false,
+      "passed": true
+    },
+    {
+      "name": "unsupported_topic",
+      "checked_at": "2026-11-19T13:19:37.335633+00:00",
+      "http_status": 200,
+      "seconds": 0.388,
+      "status": "not_found",
+      "data_mode": "documental",
+      "source_count": 0,
+      "has_update": false,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "privacy": "Only bounded structural metadata; no questions or free-text answers saved."
+}

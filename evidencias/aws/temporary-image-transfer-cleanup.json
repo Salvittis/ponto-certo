@@ -1,0 +1,43 @@
+{
+  "checked_at": "2026-11-19T12:55:26.151646+00:00",
+  "purpose": "Remove temporary image transfer archives after successful publication; preserve all security/deployment reports and GHCR digests. Rebuilding is required to rerun publication for these old runs.",
+  "removed": [
+    {
+      "run": 44521584358,
+      "name": "image-app-48752d037ee6b7feaee1806ab00dc60e465ad745",
+      "id": 14528465685,
+      "bytes": 28124800
+    },
+    {
+      "run": 44521584358,
+      "name": "image-proxy-48752d037ee6b7feaee1806ab00dc60e465ad745",
+      "id": 14527803873,
+      "bytes": 44783748
+    },
+    {
+      "run": 44521584358,
+      "name": "image-llm-48752d037ee6b7feaee1806ab00dc60e465ad745",
+      "id": 14527239880,
+      "bytes": 1388106368
+    },
+    {
+      "run": 44525695720,
+      "name": "image-llm-540cffe0f31bacde6f0564adc0ff2adf390e6052",
+      "id": 14532140025,
+      "bytes": 1397167744
+    },
+    {
+      "run": 44525695720,
+      "name": "image-app-540cffe0f31bacde6f0564adc0ff2adf390e6052",
+      "id": 14530415204,
+      "bytes": 28124800
+    },
+    {
+      "run": 44525695720,
+      "name": "image-proxy-540cffe0f31bacde6f0564adc0ff2adf390e6052",
+      "id": 14529728682,
+      "bytes": 44783748
+    }
+  ],
+  "bytes_removed": 2931091208
+}

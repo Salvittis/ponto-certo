@@ -1,0 +1,10 @@
+{
+  "CommandId": "053dda58-cd29-4f59-bb33-ff950ebbf0ec",
+  "InstanceId": "i-0cd7e82843509189b",
+  "Status": "Success",
+  "ResponseCode": 0,
+  "ExecutionStartDateTime": "2026-11-19T13:11:44.429Z",
+  "ExecutionEndDateTime": "2026-11-19T13:11:44.429Z",
+  "StandardOutputContent": "CONTAINERS\nponto-certo-proxy-1 Up 5 minutes (healthy)\nponto-certo-app-1 Up 5 minutes (healthy)\nponto-certo-llm-1 Up 6 minutes (healthy)\nLOOPBACK_HTTPS\n{\"status\":\"ready\",\"model_ready\":true,\"data_ready\":true,\"data_mode\":\"demo\",\"sptrans_live_verified\":false,\"version\":\"0.1.0\",\"revision\":\"60aeeddc0509cf6c82c65485f67fae67ad494a62\"}\nPUBLIC_HTTPS_FROM_HOST\n{\"status\":\"ready\",\"model_ready\":true,\"data_ready\":true,\"data_mode\":\"demo\",\"sptrans_live_verified\":false,\"version\":\"0.1.0\",\"revision\":\"60aeeddc0509cf6c82c65485f67fae67ad494a62\"}\nEC2_API_FROM_HOST\nHTTP/1.1 400 Bad Request\r\n",
+  "StandardErrorContent": ""
+}

@@ -1,0 +1,479 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-11-19T13:08:13.269780+00:00",
+  "repository": "https://github.com/Salvittis/ponto-certo",
+  "commit": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+  "commit_url": "https://github.com/Salvittis/ponto-certo/commit/60aeeddc0509cf6c82c65485f67fae67ad494a62",
+  "run_id": 44528188191,
+  "run_attempt": 1,
+  "run_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191",
+  "run_conclusion": "success",
+  "run_started_at_utc": "2026-11-19T12:54:03Z",
+  "run_completed_at_utc": "2026-11-19T13:07:28Z",
+  "policy": {
+    "trivy_severities": [
+      "HIGH",
+      "CRITICAL"
+    ],
+    "include_unfixed": true,
+    "trivy_scanners": [
+      "vuln",
+      "secret"
+    ],
+    "semgrep_findings_block": true,
+    "gitleaks_full_history": true
+  },
+  "counting_note": "Vulnerability instances count affected package/CVE pairs; unique CVEs deduplicate identifiers. Zero findings applies to selected HIGH/CRITICAL policy and recognized scanner targets/database at scan time, not every possible software defect.",
+  "jobs": [
+    {
+      "name": "Semgrep / security policy",
+      "databaseId": 135574227849,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191/job/135574227849",
+      "startedAt": "2026-11-19T12:54:06Z",
+      "completedAt": "2026-11-19T12:54:34Z"
+    },
+    {
+      "name": "Build + Trivy / proxy",
+      "databaseId": 135574228363,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191/job/135574228363",
+      "startedAt": "2026-11-19T12:54:06Z",
+      "completedAt": "2026-11-19T12:54:55Z"
+    },
+    {
+      "name": "Gitleaks / full history",
+      "databaseId": 135574228378,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191/job/135574228378",
+      "startedAt": "2026-11-19T12:54:06Z",
+      "completedAt": "2026-11-19T12:54:26Z"
+    },
+    {
+      "name": "Build + Trivy / llm",
+      "databaseId": 135574228467,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191/job/135574228467",
+      "startedAt": "2026-11-19T12:54:06Z",
+      "completedAt": "2026-11-19T13:00:20Z"
+    },
+    {
+      "name": "Build + Trivy / app",
+      "databaseId": 135574228506,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191/job/135574228506",
+      "startedAt": "2026-11-19T12:54:06Z",
+      "completedAt": "2026-11-19T12:54:42Z"
+    },
+    {
+      "name": "API regression tests",
+      "databaseId": 135574228550,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191/job/135574228550",
+      "startedAt": "2026-11-19T12:54:06Z",
+      "completedAt": "2026-11-19T12:54:24Z"
+    },
+    {
+      "name": "Publish the approved images",
+      "databaseId": 135577610215,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191/job/135577610215",
+      "startedAt": "2026-11-19T13:00:23Z",
+      "completedAt": "2026-11-19T13:04:41Z"
+    },
+    {
+      "name": "Deploy to AWS Academy / session",
+      "databaseId": 135580079510,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191/job/135580079510",
+      "startedAt": "2026-11-19T13:04:45Z",
+      "completedAt": "2026-11-19T13:06:33Z"
+    },
+    {
+      "name": "Deploy to Azure / production",
+      "databaseId": 135580079680,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44528188191/job/135580079680",
+      "startedAt": "2026-11-19T13:04:45Z",
+      "completedAt": "2026-11-19T13:07:28Z"
+    }
+  ],
+  "reports": {
+    "trivy-app": {
+      "artifact_name": "trivy-app-60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "artifact_id": 14532272303,
+      "artifact_archive_sha256": "sha256:05b88e7e55927e223c7e8169d1e1e04af8db6b1f363aad1e19cfbb8533f69ebc",
+      "report_sha256": "31e373e98727d37e235279976a0258fa75fb870e959c6026e07ebefdddbaa900",
+      "scanner": "Trivy",
+      "scanner_version": "0.76.2",
+      "scanned_at_utc": "2026-11-19T12:54:33.053361586Z",
+      "os": {
+        "Family": "alpine",
+        "Name": "3.24.4"
+      },
+      "architecture": "amd64",
+      "image_id": "sha256:70e2421b5b85759b0d4c1936b579121f5ab92daa06bff331053e13ef94e0d778",
+      "image_revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "vulnerability_finding_count": 0,
+      "severity_counts": {},
+      "unique_cve_count": 0,
+      "secret_finding_count": 0,
+      "targets": [
+        {
+          "target": "/image.tar (alpine 3.24.4)",
+          "type": "alpine",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        },
+        {
+          "target": "Python",
+          "type": "python-pkg",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        }
+      ]
+    },
+    "trivy-llm": {
+      "artifact_name": "trivy-llm-60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "artifact_id": 14532057550,
+      "artifact_archive_sha256": "sha256:1475c48faa869795b11ee241fb8c6e96f7bfaf3fe8d66aca56616e04764793e1",
+      "report_sha256": "a76754e81db69c5aff64d7e874ceae1492ee4e958932cdbd24da3203fa4dd43b",
+      "scanner": "Trivy",
+      "scanner_version": "0.76.2",
+      "scanned_at_utc": "2026-11-19T12:59:53.06611596Z",
+      "os": {
+        "Family": "ubuntu",
+        "Name": "26.04"
+      },
+      "architecture": "amd64",
+      "image_id": "sha256:398742754fd410e1fea89dc1841488942e012bf797d820e754fc7c8cd68465b9",
+      "image_revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "vulnerability_finding_count": 0,
+      "severity_counts": {},
+      "unique_cve_count": 0,
+      "secret_finding_count": 0,
+      "targets": [
+        {
+          "target": "/image.tar (ubuntu 26.04)",
+          "type": "ubuntu",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        },
+        {
+          "target": "usr/bin/pebble",
+          "type": "gobinary",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        }
+      ]
+    },
+    "trivy-proxy": {
+      "artifact_name": "trivy-proxy-60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "artifact_id": 14533041821,
+      "artifact_archive_sha256": "sha256:50313000949181142df0654ed8960d5fb11f44446d10e793cd193b6cbc68a034",
+      "report_sha256": "bf229bd0098fb294ebaa1da38de05361bcf5e390f5c7c883adc1d71c29e394f2",
+      "scanner": "Trivy",
+      "scanner_version": "0.76.2",
+      "scanned_at_utc": "2026-11-19T12:54:40.389283095Z",
+      "os": {
+        "Family": "alpine",
+        "Name": "3.24.4"
+      },
+      "architecture": "amd64",
+      "image_id": "sha256:4cb2895a9a09f6677cf09e6ed5b1939832bbe4323dd254c6eac79972e5df8f28",
+      "image_revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "vulnerability_finding_count": 0,
+      "severity_counts": {},
+      "unique_cve_count": 0,
+      "secret_finding_count": 0,
+      "targets": [
+        {
+          "target": "/image.tar (alpine 3.24.4)",
+          "type": "alpine",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        },
+        {
+          "target": "usr/bin/caddy",
+          "type": "gobinary",
+          "vulnerability_finding_count": 0,
+          "secret_finding_count": 0
+        }
+      ]
+    },
+    "gitleaks": {
+      "artifact_name": "gitleaks-60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "artifact_id": 14532736796,
+      "artifact_archive_sha256": "sha256:0616bb788d2b3e9b88c23e10b12f60e5f2d6eb7f5ae97c0f029a705db4c23230",
+      "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "scanner": "gitleaks",
+      "finding_count": 0
+    },
+    "semgrep": {
+      "artifact_name": "semgrep-60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "artifact_id": 14531248427,
+      "artifact_archive_sha256": "sha256:2c4d0816df36aec9b643e77b867bce8b8798bb3d2019c8f37a13279af5eafb69",
+      "report_sha256": "e907c9d51e810e77bcfcf59a902786a59019a699222f39977c5e42f1ece19a49",
+      "scanner": "semgrep",
+      "finding_count": 0,
+      "scanner_version": "1.186.0",
+      "errors": 0
+    }
+  },
+  "tests": {
+    "artifact_name": "tests-60aeeddc0509cf6c82c65485f67fae67ad494a62",
+    "artifact_id": 14532456920,
+    "artifact_archive_sha256": "sha256:25f584456fe346b7a18c38c6ef98f0a1b97b200fdaf46a7f5b4741e88065c4d9",
+    "report_sha256": "1c30583c83490dc897ebd0cc705f3defef630f340f502b1152de77dab1ab78a4",
+    "total": 78,
+    "passed": 78,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "duration_seconds": 2.378
+  },
+  "deployments": {
+    "aws-academy": {
+      "artifact_name": "deployment-aws-60aeeddc0509cf6c82c65485f67fae67ad494a62-attempt-1",
+      "artifact_id": 14532379164,
+      "artifact_archive_sha256": "sha256:4db032b82edcbfcf4197204e5226ba952cec4c5ce4e30b4349b9417413c34fe6",
+      "report_sha256": "9ee3d399d014c985748ed07aff7c60b556bdfb13912ec852f5da21ad3a96cb42",
+      "provider": "aws-academy",
+      "result": "public_model_verified",
+      "commit": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "public_url": "https://54-210-161-95.sslip.io",
+      "data_mode": "demo",
+      "images": {
+        "app": "ghcr.io/salvittis/ponto-certo@sha256:bb373fe11c3ec13ae794a63480f87d6e746893d1c1a6f91a42aac01e92353899",
+        "llm": "ghcr.io/salvittis/ponto-certo-llm@sha256:20242840ccf471df0640b7e3de6645b47aad33203ce22954dde18af95572addd",
+        "proxy": "ghcr.io/salvittis/ponto-certo-proxy@sha256:cf3f17734aa901848c048095a98bb500c9828863e046f5595d3b94753af78081"
+      },
+      "health": {
+        "status": "ok",
+        "version": "0.1.0",
+        "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62"
+      },
+      "smoke_report_sha256": "5a5a8482fc831379ce11d2e1fdf92b72d88cf468ce3b1be239a4349fead75de2",
+      "smoke": {
+        "passed": true,
+        "checks_passed": 5,
+        "checks_total": 5,
+        "started_at_utc": "2026-11-19T13:06:07.214966+00:00",
+        "finished_at_utc": "2026-11-19T13:06:28.558199+00:00",
+        "checks": [
+          {
+            "name": "healthz",
+            "passed": true,
+            "http_status": 200,
+            "seconds": 0.186
+          },
+          {
+            "name": "readiness",
+            "passed": true,
+            "http_status": 200,
+            "seconds": 0.19
+          },
+          {
+            "name": "config",
+            "passed": true,
+            "http_status": 200,
+            "mode": "demo"
+          },
+          {
+            "name": "documental",
+            "passed": true,
+            "http_status": 200,
+            "seconds": 11.725,
+            "status": "ok",
+            "data_mode": "documental",
+            "source_count": 1,
+            "has_update": false
+          },
+          {
+            "name": "arrival_demo",
+            "passed": true,
+            "http_status": 200,
+            "seconds": 9.066,
+            "status": "ok",
+            "data_mode": "demo",
+            "source_count": 1,
+            "has_update": true
+          }
+        ]
+      },
+      "run_command": "826a5c4b-bd3d-495d-891d-9ad377557601",
+      "parameter_cleanup": "deleted",
+      "pipeline_success": true,
+      "session_valid_until": "2026-11-19T15:35:56Z",
+      "checked_at": "2026-11-19T13:04:57.359098+00:00",
+      "finished_at": "2026-11-19T13:06:29.452654+00:00"
+    },
+    "azure": {
+      "artifact_name": "deployment-60aeeddc0509cf6c82c65485f67fae67ad494a62-attempt-1",
+      "artifact_id": 14533293935,
+      "artifact_archive_sha256": "sha256:cd3c7b7405712570b66a0d999441f20098dabf1e4337220750e13ec488f996e3",
+      "report_sha256": "08aaa2d0d9515dbd19d4379b4e9343d29898d0d6ed944e614b961f50a5ac4f33",
+      "provider": "azure",
+      "result": "public_model_verified",
+      "commit": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+      "public_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+      "data_mode": "demo",
+      "images": {
+        "app": "ghcr.io/salvittis/ponto-certo@sha256:bb373fe11c3ec13ae794a63480f87d6e746893d1c1a6f91a42aac01e92353899",
+        "llm": "ghcr.io/salvittis/ponto-certo-llm@sha256:20242840ccf471df0640b7e3de6645b47aad33203ce22954dde18af95572addd",
+        "proxy": "ghcr.io/salvittis/ponto-certo-proxy@sha256:cf3f17734aa901848c048095a98bb500c9828863e046f5595d3b94753af78081"
+      },
+      "health": {
+        "status": "ok",
+        "version": "0.1.0",
+        "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62"
+      },
+      "smoke_report_sha256": "97e33cb4b7debf884077a55bdf7bae24c3f47480c597d3e192ded6c92fd22a60",
+      "smoke": {
+        "passed": true,
+        "checks_passed": 5,
+        "checks_total": 5,
+        "started_at_utc": "2026-11-19T13:07:02.179756+00:00",
+        "finished_at_utc": "2026-11-19T13:07:25.883287+00:00",
+        "checks": [
+          {
+            "name": "healthz",
+            "passed": true,
+            "http_status": 200,
+            "seconds": 0.369
+          },
+          {
+            "name": "readiness",
+            "passed": true,
+            "http_status": 200,
+            "seconds": 0.37
+          },
+          {
+            "name": "config",
+            "passed": true,
+            "http_status": 200,
+            "mode": "demo"
+          },
+          {
+            "name": "documental",
+            "passed": true,
+            "http_status": 200,
+            "seconds": 14.26,
+            "status": "ok",
+            "data_mode": "documental",
+            "source_count": 1,
+            "has_update": false
+          },
+          {
+            "name": "arrival_demo",
+            "passed": true,
+            "http_status": 200,
+            "seconds": 8.325,
+            "status": "ok",
+            "data_mode": "demo",
+            "source_count": 1,
+            "has_update": true
+          }
+        ]
+      },
+      "run_command": "deploy-60aeeddc0509-40aa1b58",
+      "checked_at": "2026-11-19T13:07:25.900192+00:00"
+    }
+  },
+  "deployment": {
+    "artifact_name": "deployment-aws-60aeeddc0509cf6c82c65485f67fae67ad494a62-attempt-1",
+    "artifact_id": 14532379164,
+    "artifact_archive_sha256": "sha256:4db032b82edcbfcf4197204e5226ba952cec4c5ce4e30b4349b9417413c34fe6",
+    "report_sha256": "9ee3d399d014c985748ed07aff7c60b556bdfb13912ec852f5da21ad3a96cb42",
+    "provider": "aws-academy",
+    "result": "public_model_verified",
+    "commit": "60aeeddc0509cf6c82c65485f67fae67ad494a62",
+    "public_url": "https://54-210-161-95.sslip.io",
+    "data_mode": "demo",
+    "images": {
+      "app": "ghcr.io/salvittis/ponto-certo@sha256:bb373fe11c3ec13ae794a63480f87d6e746893d1c1a6f91a42aac01e92353899",
+      "llm": "ghcr.io/salvittis/ponto-certo-llm@sha256:20242840ccf471df0640b7e3de6645b47aad33203ce22954dde18af95572addd",
+      "proxy": "ghcr.io/salvittis/ponto-certo-proxy@sha256:cf3f17734aa901848c048095a98bb500c9828863e046f5595d3b94753af78081"
+    },
+    "health": {
+      "status": "ok",
+      "version": "0.1.0",
+      "revision": "60aeeddc0509cf6c82c65485f67fae67ad494a62"
+    },
+    "smoke_report_sha256": "5a5a8482fc831379ce11d2e1fdf92b72d88cf468ce3b1be239a4349fead75de2",
+    "smoke": {
+      "passed": true,
+      "checks_passed": 5,
+      "checks_total": 5,
+      "started_at_utc": "2026-11-19T13:06:07.214966+00:00",
+      "finished_at_utc": "2026-11-19T13:06:28.558199+00:00",
+      "checks": [
+        {
+          "name": "healthz",
+          "passed": true,
+          "http_status": 200,
+          "seconds": 0.186
+        },
+        {
+          "name": "readiness",
+          "passed": true,
+          "http_status": 200,
+          "seconds": 0.19
+        },
+        {
+          "name": "config",
+          "passed": true,
+          "http_status": 200,
+          "mode": "demo"
+        },
+        {
+          "name": "documental",
+          "passed": true,
+          "http_status": 200,
+          "seconds": 11.725,
+          "status": "ok",
+          "data_mode": "documental",
+          "source_count": 1,
+          "has_update": false
+        },
+        {
+          "name": "arrival_demo",
+          "passed": true,
+          "http_status": 200,
+          "seconds": 9.066,
+          "status": "ok",
+          "data_mode": "demo",
+          "source_count": 1,
+          "has_update": true
+        }
+      ]
+    },
+    "run_command": "826a5c4b-bd3d-495d-891d-9ad377557601",
+    "parameter_cleanup": "deleted",
+    "pipeline_success": true,
+    "session_valid_until": "2026-11-19T15:35:56Z",
+    "checked_at": "2026-11-19T13:04:57.359098+00:00",
+    "finished_at": "2026-11-19T13:06:29.452654+00:00"
+  },
+  "publication": {
+    "published_by_this_run": true,
+    "same_digests_used_in_azure_and_aws": true,
+    "rebuilt_during_publish": false,
+    "source": "Approved publish job loads the exact scanned artifacts without rebuilding; these digests are recorded in successful AWS and Azure deployment artifacts.",
+    "images": {
+      "app": "ghcr.io/salvittis/ponto-certo@sha256:bb373fe11c3ec13ae794a63480f87d6e746893d1c1a6f91a42aac01e92353899",
+      "llm": "ghcr.io/salvittis/ponto-certo-llm@sha256:20242840ccf471df0640b7e3de6645b47aad33203ce22954dde18af95572addd",
+      "proxy": "ghcr.io/salvittis/ponto-certo-proxy@sha256:cf3f17734aa901848c048095a98bb500c9828863e046f5595d3b94753af78081"
+    }
+  },
+  "privacy": "Only allowlisted run/scanner metadata, target names, immutable image digests and bounded smoke results are included. No secret values, source excerpts, freeform questions/answers, runtime variables, model weights or container archives."
+}

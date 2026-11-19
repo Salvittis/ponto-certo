@@ -11,8 +11,8 @@
 | Modelo de IA | Qwen2.5-1.5B-Instruct GGUF Q4_K_M, revisão `91cad51170dc346986eccefdc2dd33a9da36ead9`; execução própria com llama.cpp b12464 |
 | Repositório | [Salvittis/ponto-certo](https://github.com/Salvittis/ponto-certo) |
 | MVP público da IA | **AZURE OPERACIONAL**, incluindo alerta e recuperação em 19/11/2026, modo demo. [Abrir Ponto Certo](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com) |
-| Entrega Cloud | AWS Academy Sandbox solicitada após aceite do professor relatado por Pedro; execução e PDF final ainda pendentes neste checkpoint |
-| Dados | Demonstração sintética; integração real SPTrans depende de token e validação |
+| Entrega Cloud | AWS Academy Sandbox após aceite do professor relatado por Pedro; infraestrutura, CI, HTTPS, containers e inferência pública comprovados; quatro métricas, alerta e recuperação também aprovados; PDF final pendente |
+| Dados | Publicações demo; preflight SPTrans/LLM restrito na Azure aprovado, com hardening e validação pública live ainda pendentes |
 | Indicadores de impacto | Acerto, respostas sem suporte, cobertura e atualidade da informação; posteriormente, compreensão e incerteza percebida. Redução da espera não foi medida |
 | Contribuição proposta | ODS 11, informação para mobilidade urbana; redução de espera não foi medida |
 
@@ -22,17 +22,67 @@
 | Cássio Eid Kobaysahi Yonetsuka | RM99678 |
 | Pedro Henrique Salvitti Habiro | RM88166 |
 
-**Revisão documental:** 1.2.0, 19/11/2026. Nomes e RMs conferidos com a Ficha Técnica do [README](../README.md). Este documento explica a configuração; o [estado operacional](STATUS-CLOUD.md) e o manifesto de evidências registram o que foi realmente executado. A geração do PDF não realiza deploy nem transforma uma preparação em resultado validado.
+**Revisão documental:** 1.4.0, 19/11/2026. Nomes e RMs conferidos com a Ficha Técnica do [README](../README.md). Este documento apresenta a separação **AWS Cloud / Azure IA**, preservando o histórico de validações Azure. O [estado operacional](STATUS-CLOUD.md), a [operação AWS](CLOUD-AWS.md) e os manifestos identificam o que foi realmente executado. A geração do PDF não realiza deploy nem transforma uma preparação em resultado validado.
 
 ## Escopo e leitura das evidências
 
 Cloud publica a **mesma aplicação e o mesmo modelo** da frente IA. A API usa FastAPI. O modelo é Qwen2.5-1.5B-Instruct Q4_K_M, executado por llama.cpp b12464. A base documental, o protocolo de avaliação e os dados de demonstração permanecem os do repositório. Não há API comercial de LLM. Maker, RPA e visão computacional previstos pela equipe não são declarados como implementados nesta frente.
 
-A infraestrutura usa Azure for Students, separada de qualquer conta corporativa. A ativação acadêmica foi confirmada pelo operador em 19/11/2026: US$100 de crédito, validade até 19/11/2027 e spending limit ativo. **Provisionamento CONCLUÍDO**: 12 recursos criados, nenhuma alteração/destruição, em `chilecentral` (Chile), com VM B2als_v2. Leitura posterior da API confirmou VM, NSG e IP em `Succeeded`; a [evidência sanitizada](../evidencias/cloud/terraform-applied.json) preserva configuração e limites. Hostname: [ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com). **Publicação VALIDADA** no commit `48752d037ee6b7feaee1806ab00dc60e465ad745`: [run 44521584358](https://github.com/Salvittis/ponto-certo/actions/runs/44521584358) com oito jobs e 54 testes aprovados; [smoke público](../evidencias/cloud/smoke-public-first.json) com cinco checks HTTPS passando e inferência real. A [leitura de saúde/prontidão](../evidencias/cloud/public-first-ready.json) confirma a revisão publicada e o modo demo; os [contratos públicos](../evidencias/cloud/public-failure-contracts.json) confirmam esclarecimento, ausência de linha e entrada inválida. A [captura da interface](../evidencias/cloud/screenshots/public-app.jpg) mostra a aplicação publicada. O [baseline público](../evidencias/cloud/observability-baseline.json) também comprova UIDs efetivos, SHA/tamanho dos pesos e as quatro métricas. O [dashboard](../evidencias/cloud/screenshots/dashboard.jpg), [ensaio de alerta](../evidencias/cloud/alert-exercise.json), [stop/start da LLM](../evidencias/cloud/restart-public.json) e [smoke após recuperação](../evidencias/cloud/smoke-public-recovered.json) também foram verificados. Os nove checks Azure estão aprovados; a etapa Azure está operacionalmente concluída. O PDF final Cloud aguarda a nova fase AWS.
+A infraestrutura da IA usa Azure for Students, separada de qualquer conta corporativa. A ativação acadêmica foi confirmada pelo operador em 19/11/2026: US$100 de crédito, validade até 19/11/2027 e spending limit ativo. **Provisionamento CONCLUÍDO**: 12 recursos criados, nenhuma alteração/destruição, em `chilecentral` (Chile), com VM B2als_v2. Leitura posterior da API confirmou VM, NSG e IP em `Succeeded`; a [evidência sanitizada](../evidencias/cloud/terraform-applied.json) preserva configuração e limites. Hostname: [ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com). **Publicação VALIDADA** no commit `48752d037ee6b7feaee1806ab00dc60e465ad745`: [run 44521584358](https://github.com/Salvittis/ponto-certo/actions/runs/44521584358) com oito jobs e 54 testes aprovados; [smoke público](../evidencias/cloud/smoke-public-first.json) com cinco checks HTTPS passando e inferência real. A [leitura de saúde/prontidão](../evidencias/cloud/public-first-ready.json) confirma a revisão publicada e o modo demo; os [contratos públicos](../evidencias/cloud/public-failure-contracts.json) confirmam esclarecimento, ausência de linha e entrada inválida. A [captura da interface](../evidencias/cloud/screenshots/public-app.jpg) mostra a aplicação publicada. O [baseline público](../evidencias/cloud/observability-baseline.json) também comprova UIDs efetivos, SHA/tamanho dos pesos e as quatro métricas. O [dashboard](../evidencias/cloud/screenshots/dashboard.jpg), [ensaio de alerta](../evidencias/cloud/alert-exercise.json), [stop/start da LLM](../evidencias/cloud/restart-public.json) e [smoke após recuperação](../evidencias/cloud/smoke-public-recovered.json) também foram verificados. Os nove checks Azure estão aprovados; a etapa Azure está operacionalmente concluída. A AWS também possui provas próprias concluídas, descritas abaixo; a geração e revisão final do PDF ainda estão pendentes.
 
-**Nova orientação de entrega:** Pedro relatou em 19/11/2026 que o professor aceitou AWS Academy Sandbox e pediu a entrega Cloud nessa plataforma. A decisão inicial de evitar o Sandbox por remover recursos ao fim da sessão foi revista; essa limitação continua registrada. **Azure permanece ativa para a IA; AWS será o ambiente demonstrado na entrega final Cloud.** Neste checkpoint, AWS ainda não tem execução validada. O aceite é relato de Pedro, não uma regra inventada a partir do PDF. Provas Azure e AWS serão identificadas separadamente, sem atribuir uma implantação à outra. Histórico e fonte do laboratório: [STATUS-CLOUD.md](STATUS-CLOUD.md).
+**Orientação de entrega:** Pedro relatou em 19/11/2026 que o professor aceitou AWS Academy Sandbox e pediu a entrega Cloud nessa plataforma. A decisão inicial de evitar o Sandbox por remover recursos ao fim da sessão foi revista; essa limitação continua registrada. **Azure permanece ativa para a IA; AWS é o ambiente da entrega final Cloud.** Provisionamento, deploy, HTTPS, inferência e containers AWS foram comprovados; os quatro sinais, o disparo controlado e a recuperação também foram comprovados na mesma revisão. O aceite é relato de Pedro, não uma regra inventada a partir do PDF. Provas Azure e AWS são identificadas separadamente, sem atribuir uma implantação à outra. Histórico e fonte do laboratório: [STATUS-CLOUD.md](STATUS-CLOUD.md).
 
-Este documento consolida a **fase Azure validada** e a nova direção da entrega Cloud. O manifesto atual `evidencias/cloud/manifest.json` identifica `provider: azure` e hospedagem persistente da IA. A geração do PDF final fica pendente até incorporar configuração, custos, URLs, manifesto e evidências efetivas da AWS. Campos ausentes permanecem PENDENTE. Evidência local ou Azure não será renomeada como AWS; os nove checks Azure não comprovam a implantação no Sandbox.
+O checkpoint público mais recente das **duas plataformas** é `60aeeddc0509cf6c82c65485f67fae67ad494a62`, aprovado no [run 44528188191](https://github.com/Salvittis/ponto-certo/actions/runs/44528188191), com nove jobs, 78 testes e os dois deploys aprovados em modo demo. O manifesto `evidencias/cloud/manifest.json` preserva as provas detalhadas anteriores de `48752d0`, identifica `provider: azure` e hospedagem persistente da IA. A entrega Cloud usa evidências próprias em `evidencias/aws/`. O gerador seleciona arquitetura, operação e custos pelo provedor; o PDF final aguarda consolidação do manifesto AWS, geração e revisão visual. Campos ausentes permanecem PENDENTE.
+
+## AWS Cloud — publicação, observabilidade e recuperação comprovadas
+
+| Item | Configuração e estado comprovado |
+|---|---|
+| Sessão | 19/11/2026, 09:35:56–12:35:56 de São Paulo; duração informada de 180 minutos. Exclusão dos recursos ao encerrar/vencer. |
+| Infraestrutura | 11 recursos iniciais, depois substituição de uma EC2; 17 checks de infraestrutura aprovados e plano posterior sem mudanças. Rede preservada, sem alterar recursos de apoio do Academy. |
+| EC2 | `i-0cd7e82843509189b`, t2.medium Standard, 2 vCPU/4 GiB, Ubuntu 24.04 AMD64 Canonical, EBS gp2 cifrado de 32 GiB em `us-east-1a`. |
+| Administração | `LabInstanceProfile` existente, SSM Online por conexão de saída; IMDSv2 obrigatório com hop limit 1; sem IAM/keypair novo. |
+| Rede e HTTPS | Entrada somente 80/443, sem SSH; TLS 1.3 e cadeia/hostname validados, HTTP 308 para HTTPS, `/metrics` anônimo 401. Egress amplo, sem filtragem restritiva declarada. |
+| Bootstrap | Após falha APT `awscli`, correção com AWS CLI oficial 2.41.1 e assinatura GPG. `cloud-init done`, sem erros; Docker 29.10.0 e Compose 5.8.0. |
+| Publicação | [Ponto Certo AWS](https://54-210-161-95.sslip.io), revisão `60aeeddc0509cf6c82c65485f67fae67ad494a62`, modo demo e inferência real. |
+| Containers | Proxy, API e LLM saudáveis; UID efetivo 10001, readonly, capabilities removidas e `no-new-privileges`; app/LLM sem portas publicadas. |
+| Separação | State/cache/tfvars `terraform-aws`; credenciais, environment GitHub, runtime e monitoramento exclusivos da AWS. |
+
+Fontes: [apply inicial](../evidencias/aws/terraform-applied.json), [falha do bootstrap](../evidencias/aws/bootstrap-failed-first.json), [substituição](../evidencias/aws/terraform-replacement.json), [bootstrap concluído](../evidencias/aws/bootstrap-check-2.json), [17 checks e plano sem mudanças](../evidencias/aws/infrastructure-verified.json), [rede/TLS](../evidencias/aws/public-network.json) e [runtime](../evidencias/aws/containers-baseline.json). A substituição realizou **1 adição, 0 alterações e 1 destruição**; os IDs/IP anteriores ficam no histórico.
+
+```mermaid
+flowchart TB
+    G[GitHub Actions: gates e publicação] --> R[GHCR: três digests aprovados]
+    G -->|OIDC / Managed Run Command| Z[Azure: IA pública validada]
+    G -->|sessão Academy / SSM| W[AWS EC2: Cloud publicada]
+    R --> Z
+    R --> W
+    W --- C[Caddy → FastAPI → Qwen privado / mesma aplicação]
+    M[Monitor AWS local 9091/3002] --> W
+    N[Monitor Azure local 9090/3001] --> Z
+```
+
+O [pipeline AWS/Azure aprovado](../evidencias/aws/pipeline-passed.json) terminou às **13:07:28 UTC**. O [relatório sanitizado](../evidencias/aws/security-passed-summary.json) registra 78/78 testes, Gitleaks/Semgrep sem achados, Trivy das três imagens sem HIGH/CRITICAL/segredos na política executada e publicação dos mesmos digests examinados. O SSM executou o deploy e o SecureString temporário foi excluído. A afirmação de zero achados é limitada às versões, bases e política registradas.
+
+O smoke AWS passou **5/5**, entre 13:06:07 e 13:06:28 UTC, incluindo perguntas documental e chegada demo. A [prontidão](../evidencias/aws/public-first-ready.json) conferiu revisão e modo. A [série complementar](../evidencias/aws/public-observation-traffic.json) passou **12/12 inferências** entre 13:16:12 e 13:17:50 UTC, em **7,180–8,996 s** por chamada. Trata-se de tráfego sequencial limitado, não benchmark. Os [contratos públicos](../evidencias/aws/public-failure-contracts.json) validaram `clarification`/200, entrada inválida/422 e tema sem suporte/200. A [interface](../evidencias/aws/screenshots/public-app.jpg) e o [pipeline](../evidencias/aws/screenshots/pipeline-passed.jpg) têm capturas reais.
+
+O [runtime AWS](../evidencias/aws/containers-baseline.json), coletado às 13:06:46–56 UTC, confirmou três containers saudáveis e o modelo com **1.117.320.736 bytes**, SHA-256 `6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e`. O host tinha 4.097.323.008 bytes de RAM total e 2.532.794.368 disponíveis; a LLM reportava aproximadamente 1.007 MB pelo Docker. Snapshot pontual e sequencial, sem afirmar capacidade máxima ou desempenho sob carga. O [ensaio posterior](../evidencias/aws/alert-exercise.json) e a [inspeção após reinício](../evidencias/aws/containers-recovered.json) confirmaram os mesmos digests, hash e tamanho dos pesos, com os três serviços saudáveis.
+
+Entre aproximadamente **13:08 e 13:15 UTC**, houve [incidente de conectividade do observador Mac](../evidencias/aws/connectivity-incident.json): probes locais falharam enquanto SSM via containers saudáveis e probes da EC2/Azure alcançavam a prontidão AWS. A causa permaneceu indeterminada; a evidência não estabelece queda geral da aplicação. Após a conexão voltar, um problema diferente no mount local do token foi corrigido recriando somente Prometheus AWS, com seu volume preservado. Não houve mudança na aplicação ou rede. Esses fatos não substituem nem são apresentados como o ensaio planejado de falha da LLM.
+
+O [monitor AWS](OBSERVABILIDADE-AWS.md) mantém alvos, token, banco e projeto separados da Azure. Os quatro sinais, o alerta provocado e a recuperação foram registrados contra a EC2 nessa revisão. O [guia AWS](CLOUD-AWS.md) e o [deploy por SSM](../security/AWS-DEPLOY.md) descrevem reprodução e nova sessão. O hostname `sslip.io` é temporário e depende do IPv4/DNS externo; sua disponibilidade observada não se estende automaticamente além da sessão.
+
+O [baseline AWS](../evidencias/aws/observability-baseline.json), avaliado às **13:20:48,444 UTC** na janela anterior de cinco minutos, registrou **p95 9,6895 s**, **0,0491223 perguntas/s**, **0% de HTTP 5xx** e **0% de ocupação instantânea do slot LLM**. P95 é aproximação por buckets e saturação representa o instante final, não a média de CPU. Os dois alvos estavam UP no final; o histórico móvel preserva amostras do incidente anterior do monitor. Não se afirma que toda a janela esteve sem incidente de coleta.
+
+O [ensaio AWS](../evidencias/aws/alert-exercise.json) passou **12/12 checks**. Em **19/11/2026, horário de São Paulo**, a LLM foi parada às **10:21:35**, dois alertas entraram em firing observável às **10:22:57**, o reinício foi solicitado às **10:23:36** e a recuperação sem alertas ativos foi comprovada às **10:24:28** (UTC: 13:21:35, 13:22:57, 13:23:36 e 13:24:28). Durante a falha, [saúde ficou 200 e prontidão/pergunta retornaram 503](../evidencias/aws/public-controlled-unavailable.json). [ModelNotReady e PublicReadyUnavailable](../evidencias/aws/observability-firing.json) dispararam; a coleta permaneceu disponível.
+
+O [smoke recuperado](../evidencias/aws/smoke-public-recovered.json) passou **5/5** até **10:24:13 de São Paulo**, com inferência documental em 13,265 s e chegada demo em 14,229 s. Os [três containers](../evidencias/aws/containers-recovered.json) mantiveram UID 10001 e os mesmos digests; hash/tamanho do GGUF coincidiram. O snapshot intermediário às 10:23:53 já indicava prontidão 200, mas ainda tinha firing; somente o [snapshot final às 10:24:28](../evidencias/aws/observability-recovered.json) confirmou alertas vazios. Houve stop/start da LLM; não houve reboot da EC2, mudança de rede nem substituição de imagens. [Captura do disparo](../evidencias/aws/screenshots/alerts-firing.jpg), [dashboard durante a falha](../evidencias/aws/screenshots/dashboard-firing.jpg) e [recuperação](../evidencias/aws/screenshots/dashboard-recovered.jpg).
+
+**Limitação da métrica histórica:** os snapshots AWS de disparo e recuperação da revisão `60aeedd` registraram taxa HTTP 5xx de **0%**, apesar da pergunta 503 comprovada. O contador dessa combinação de labels apareceu inicialmente em 1, sem amostra anterior em zero; a consulta histórica confirmou que `rate(...[5m])` não observou o primeiro incremento. Os números foram preservados e o ensaio de alerta/restauração continua aprovado. O código local agora inicializa séries conhecidas em zero e registra recusas anteriores ao roteamento na série fixa `/api/ask`; testes da primeira falha 503 e da rejeição 413 passaram, mas publicação e validação no Prometheus ainda estão pendentes. [Causa, correção e referência técnica](OBSERVABILIDADE.md#limitação-histórica-da-primeira-falha-e-correção-preparada).
+
+A [estimativa pública ilustrativa](../evidencias/aws/cost-estimate.json) soma **US$0,16753 por três horas** para uma t2.medium Linux Standard (US$0,0464/h), gp2 de 32 GiB (US$0,10/GB-mês, mês de 720 h) e um IPv4 (US$0,005/h). Não é fatura nem consumo medido do Sandbox. Exclui tráfego, recursos próprios do Academy, primeira EC2 defeituosa, tempo extra e custos CI. Conta acadêmica gerenciada, prazo de sessão e créditos CPU são conceitos distintos; não há autorização para conta paga pessoal.
+
+O [preflight SPTrans/LLM na Azure](../evidencias/cloud/azure-live-preflight.json), às **13:08:44–58 UTC**, encontrou uma previsão utilizável real para uma combinação de linha/parada/sentido, com modelo chamado e timestamps frescos na amostra. Seu escopo é execução direta do motor no container, não HTTP público. Antes da publicação live, serão concluídos controles adicionais de frescor e coerência do código da parada no motor, repetido o preflight e executado o smoke público na revisão corrigida. As publicações deste checkpoint continuam demo; o experimento congelado e os dados AWS não foram promovidos a live.
 
 ## Arquitetura Azure validada e limites de rede
 
@@ -62,13 +112,13 @@ Os [Dockerfiles](../Dockerfile) e [modelo](../Dockerfile.llm) fixam bases por di
 
 O [Compose local](../compose.yaml) publica apenas `127.0.0.1:8000`; o [Compose de produção](../compose.production.yaml) acrescenta Caddy/TLS. Os containers usam filesystem somente leitura, tmpfs limitado, `cap_drop: ALL`, `no-new-privileges`, limites de CPU/RAM e reinício `unless-stopped`. Produção: LLM até 3 GiB, app 512 MiB e proxy 128 MiB; a margem restante inclui sistema operacional e Docker; o snapshot de memória está registrado abaixo. Certificados Caddy persistem em diretórios de propriedade do UID do proxy.
 
-A leitura pública de 19/11/2026 entre **12:26:30 e 12:26:34 UTC**, preservada no [baseline](../evidencias/cloud/observability-baseline.json), observou app, LLM e proxy `running/healthy`, UID efetivo **10001**, filesystem somente leitura, `cap_drop: ALL` e `no-new-privileges`. App e LLM não tinham portas publicadas no host. `/models/qwen.gguf` apresentou **1.117.320.736 bytes** e SHA-256 `6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e`, iguais ao artefato fixado. O [stop/start real da LLM](../evidencias/cloud/restart-public.json), concluído depois, confirmou o mesmo hash/tamanho e imagens, seguido de inferência válida. O teste não incluiu reboot da VM nem reinício do proxy.
+A leitura pública **Azure** de 19/11/2026 entre **12:26:30 e 12:26:34 UTC**, preservada no [baseline](../evidencias/cloud/observability-baseline.json), observou app, LLM e proxy `running/healthy`, UID efetivo **10001**, filesystem somente leitura, `cap_drop: ALL` e `no-new-privileges`. App e LLM não tinham portas publicadas no host. `/models/qwen.gguf` apresentou **1.117.320.736 bytes** e SHA-256 `6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e`, iguais ao artefato fixado. O [stop/start real da LLM](../evidencias/cloud/restart-public.json), concluído depois, confirmou o mesmo hash/tamanho e imagens, seguido de inferência válida. O teste não incluiu reboot da VM nem reinício do proxy.
 
 O host registrou **4.043.804.672 bytes** de memória total e **2.502.082.560 bytes disponíveis** segundo `/proc/meminfo`. Sob inferência, `docker stats --no-stream` reportou para a LLM **968.255.078 bytes (~968,3 MB)** e **193,65% de CPU**, com limite de 3 GiB. CPU pode ultrapassar 100% ao usar mais de um núcleo; a memória informada pelo Docker no Linux desconta cache inativo e parte de unidades arredondadas. Host, containers e hash foram coletados sequencialmente, com recursos medidos antes do hash: é um snapshot, não um benchmark de capacidade nem garantia de disponibilidade futura.
 
 `/healthz` verifica processo e revisão; `/readyz` verifica prontidão essencial; `/metrics` exige Bearer. O healthcheck do processo não substitui teste real de inferência. O contrato completo está em [CONTRATO-IA-CLOUD.md](CONTRATO-IA-CLOUD.md). Perguntas de demonstração usam cenários sintéticos claramente identificados. Em falha real, a interface deve informar indisponibilidade, sem simular sucesso.
 
-## Terraform, identidade e state
+## Terraform, identidade e state da Azure
 
 [infra/OPERACAO.md](../infra/OPERACAO.md) é a referência operacional detalhada. Terraform provisiona RG dedicado, VNet/subnet, NSG, NIC, IP Standard/DNS, VM Ubuntu 24.04 com imagem de versão numérica fixa, SSD 32 GiB e identidade de deploy. Provider AzureRM 5.14.0 e checksums estão fixados no lockfile. Cloud-init instala Docker/Compose pelo repositório oficial, prepara diretórios e rotação de logs; não contém segredos.
 
@@ -86,11 +136,13 @@ A correção OIDC já foi aplicada pelo Terraform com 0 criações, 1 atualizaç
 
 Publicação depende de todos os gates. Em push na `main`, o job publica **os mesmos arquivos de imagem já examinados**, sem rebuild, resolve os digests de app, LLM e proxy e libera deploy. Não se presume que pacotes GHCR sejam públicos; o código-fonte público permite reprodução por build. O environment `production` autentica por OIDC; [deploy-azure.py](../scripts/deploy-azure.py) só aceita refs GHCR por digest e uma VM marcada como Ponto Certo. [release.sh](../deploy/release.sh) espera cloud-init, serializa releases, aplica Compose e tenta restaurar a configuração anterior se a operação ou validação pública falhar. Primeira instalação não possui versão anterior: a recuperação interrompe a release defeituosa. O job verifica HTTPS, revisão, prontidão e smoke com modelo real; o manifesto registra o resultado efetivo.
 
-Para demonstrar o bloqueio, [security-demo.py](../scripts/security-demo.py) cria uma função sintética com `eval`, nunca importada ou executada. A sequência de evidência requer commit com achado, execução barrada e deploy ausente, correção e nova execução da **mesma política** aprovada. Gitleaks não deve receber segredo real para esse ensaio. Remover scanner, baixar severidade ou usar `continue-on-error` não é correção. O bloqueio foi observado no [run 44515603367](https://github.com/Salvittis/ponto-certo/actions/runs/44515603367); a execução final aprovada está em [pipeline-passed.json](../evidencias/cloud/pipeline-passed.json) e [security-passed-summary.json](../evidencias/cloud/security-passed-summary.json), com scanners, testes, digests publicados e deploy do mesmo commit. Zero achados vale para a política, versões e bases registradas, sem afirmar ausência de toda vulnerabilidade.
+Na AWS, o mesmo push pode executar `deploy_aws` quando `AWS_ENABLED=true`, com environment `aws-academy`, conta/instância verificadas e SSM Online. [deploy-aws.py](../scripts/deploy-aws.py) reaproveita a ativação por digests e a guarda de rollback, mas mantém evidências e segredos separados. Sucesso do job Azure não implica sucesso do job AWS. Antes de encerrar a sessão, preservar os relatórios e desabilitar a flag AWS; isso não interfere na Azure da IA.
 
-## Métricas, alerta e recuperação
+Para demonstrar o bloqueio, [security-demo.py](../scripts/security-demo.py) cria uma função sintética com `eval`, nunca importada ou executada. A sequência de evidência requer commit com achado, execução barrada e deploy ausente, correção e nova execução da **mesma política** aprovada. Gitleaks não deve receber segredo real para esse ensaio. Remover scanner, baixar severidade ou usar `continue-on-error` não é correção. O bloqueio foi observado no [run 44515603367](https://github.com/Salvittis/ponto-certo/actions/runs/44515603367); a execução Azure histórica aprovada está em [pipeline-passed.json](../evidencias/cloud/pipeline-passed.json) e [security-passed-summary.json](../evidencias/cloud/security-passed-summary.json), com scanners, testes, digests publicados e deploy do mesmo commit. Zero achados vale para a política, versões e bases registradas, sem afirmar ausência de toda vulnerabilidade.
 
-[OBSERVABILIDADE.md](OBSERVABILIDADE.md) define a stack local Prometheus/Grafana, permitida pela rubrica p.53, ativa e apontada à mesma URL pública. App e LLM locais estão paradas; a inferência pública executa na VM Azure. A coleta dos quatro valores, a [captura do dashboard](../evidencias/cloud/screenshots/dashboard.jpg), o alerta e a recuperação foram comprovados contra a Azure. Isso não representa monitoramento AWS, ainda pendente. Grafana e Prometheus escutam só em loopback; o modelo permanece privado. O computador do operador precisa estar ativo para a coleta continuar.
+## Histórico de métricas, alerta e recuperação Azure
+
+[OBSERVABILIDADE.md](OBSERVABILIDADE.md) define a stack local Prometheus/Grafana, permitida pela rubrica p.53 e validada contra a URL pública da Azure. Durante a coleta, app e LLM locais estavam paradas; a inferência pública executou na VM Azure. Após interrupções do computador, a coleta local precisa ser conferida novamente. A coleta dos quatro valores, a [captura do dashboard](../evidencias/cloud/screenshots/dashboard.jpg), o alerta e a recuperação foram comprovados contra a Azure. Essas provas são Azure; a coleta e o ensaio AWS são separados e estão comprovados na seção própria acima. Grafana e Prometheus escutam só em loopback; o modelo permanece privado. O computador do operador precisa estar ativo para a coleta continuar.
 
 | Sinal | Definição e unidade | Limite de interpretação |
 |---|---|---|
@@ -124,7 +176,7 @@ A janela móvel ainda contém as falhas anteriores: erro HTTP de **9,0136%** no 
 4. Configure environment `production` limitado à `main`, IDs Azure e tokens em Secrets, RG/VM/URL em Variables. O pipeline aprova e publica os digests de app/LLM/proxy; pacotes privados exigem acesso de leitura do job e token efêmero no pull. Para reproduzir sem acesso aos pacotes, faça build dos Dockerfiles a partir do código público. O deploy via Managed Run Command precisa ser concluído de verdade; existência do workflow não o habilita automaticamente.
 5. Verifique TLS, `/healthz`, `/readyz`, pergunta documental e chegada demo, fontes, modo, revisão e reinício. Guarde o smoke público. Para live, provisionar token SPTrans e validar retornos reais antes de afirmar cobertura.
 6. Configure `python3 observability/configure.py --url https://URL-REAL` e suba `docker compose -f compose.monitoring.yaml up -d`. Gere perguntas reais, registre os quatro valores na janela, realize alerta controlado com recuperação, capture dashboard e pipeline sem segredos.
-7. Preserve o manifesto e as evidências Azure como checkpoint da IA. A entrega Cloud deverá executar e documentar a mesma aplicação na AWS Sandbox, com seus próprios comandos, infraestrutura e provas; só depois será consolidado, gerado e revisado o PDF final Cloud. URL, provedor e revisão devem corresponder ao serviço medido. O envio acadêmico é feito por Pedro/equipe.
+7. Preserve o manifesto e as evidências Azure como checkpoint da IA. A mesma aplicação já foi publicada e validada na AWS Sandbox, incluindo métricas, alerta/reinício e recuperação. Consolidar essas provas próprias para gerar e revisar o PDF final Cloud. URL, provedor e revisão devem corresponder ao serviço medido. O envio acadêmico é feito por Pedro/equipe.
 
 ## Responsabilidades, dados e LGPD na Azure
 
@@ -160,12 +212,12 @@ Depois da liberação do responsável, preservar evidências e backup cifrado, r
 
 ## Rubrica e critérios de aceitação
 
-Os nove checks do manifesto atual comprovam a fase **Azure**. Os critérios abaixo permanecem aplicáveis à nova entrega Cloud em **AWS Sandbox**, que ainda exige validação própria. A aceitação do laboratório foi relatada por Pedro; não transforma provas Azure em provas AWS.
+Os nove checks do manifesto atual comprovam a fase **Azure**. Os critérios abaixo permanecem aplicáveis à nova entrega Cloud em **AWS Sandbox**, com provas próprias concluídas de infraestrutura, publicação, runtime, quatro sinais, alerta e recuperação na revisão `60aeedd`. A aceitação do laboratório foi relatada por Pedro; não transforma provas Azure em provas AWS.
 
 | Rubrica Cloud | Peso | Configuração verificável | Evidência de execução necessária |
 |---|---:|---|---|
 | Containers | 2 | Dockerfiles, Compose, não root, pesos fixados | Build, usuários efetivos, healthchecks, inferência real e restart |
-| Terraform | 3 | HCL, lockfile, NSG, state protegido | Apply real, recursos, rede e state protegido sem conteúdo sensível |
+| Terraform | 3 | HCL, lockfile, SG AWS/NSG Azure, state protegido | Apply real, recursos, rede e state protegido sem conteúdo sensível |
 | CI/CD seguro | 4 | Gitleaks, Semgrep, Trivy, build, gates | Run aprovado e run barrado, commits, deploy ausente no bloqueio, atualização real |
 | Observabilidade | 3 | Quatro métricas, dashboard e regras | Valores reais, alvo público, janela, alerta firing e recuperação |
 | Documentação | 2 | Ficha, arquitetura, reprodução, responsabilidades | PDF legível, links e evidências correspondentes à versão publicada |
@@ -174,7 +226,7 @@ O material oficial traz 10 pontos/Teams na regra geral p.24 e 14 pontos/portal n
 
 ## Manifesto e geração do PDF
 
-**PDF final aguardando AWS.** O gerador e manifesto existentes refletem a fase Azure. Antes da geração final, adequar a narrativa, custos, links e seleção de evidências ao ambiente AWS efetivamente validado, preservando o histórico Azure para IA. Nenhum resultado AWS é declarado neste checkpoint.
+**PDF final aguardando consolidação, geração e revisão visual.** O [gerador](../scripts/build-cloud-pdf.py) já aceita `provider: aws` ou `aws-academy`, com arquitetura, reprodução, responsabilidades e custos desse destino. O manifesto padrão continua Azure para preservar o histórico da IA. Para a entrega Cloud, usar explicitamente `--manifest evidencias/aws/manifest.json`, após consolidar as provas reais. Infraestrutura, bootstrap, CI, HTTPS, inferência e containers AWS estão comprovados; quatro sinais, disparo provocado e recuperação também possuem registros finais aprovados.
 
 O script [build-cloud-pdf.py](../scripts/build-cloud-pdf.py) lê a ficha do README e campos permitidos do manifesto. Não faz chamadas de rede, Git, cloud ou coleta de segredos. Aceita uma evidência apenas se o caminho local existir dentro do repositório ou houver link HTTP(S) sem credenciais/query. A presença de arquivo não verifica seu conteúdo: revisão humana/visual permanece necessária. Para apresentar um check como validado, exige `status: passed`, `scope`, `checked_at` e ao menos referência existente ou URL. Sem esses elementos, registra PENDENTE.
 
@@ -183,13 +235,20 @@ Esquema mínimo extensível (valores abaixo são marcadores de estrutura, não e
 ```json
 {
   "schema_version": 1,
+  "provider": "aws-academy",
   "updated_at": "DATA-ISO-DA-COLETA",
   "revision": "SHA-COMPLETO-DO-COMMIT",
   "repository_url": "https://github.com/Salvittis/ponto-certo",
   "public_url": "",
+  "ia_hosting": {
+    "public_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com"
+  },
+  "session": {
+    "duration_hours": 3, "started_at": "", "expires_at": ""
+  },
   "provisioning": {
     "status": "pending", "scope": "public", "checked_at": "",
-    "region": "", "vm_size": "", "summary": "Conclusão do apply pendente",
+    "region": "", "instance_type": "", "summary": "Conclusão do apply pendente",
     "evidence": []
   },
   "checks": {
@@ -199,14 +258,14 @@ Esquema mínimo extensível (valores abaixo são marcadores de estrutura, não e
     }
   },
   "metrics": {
-    "scope": "", "target": "", "window": "",
+    "provider": "aws-academy", "scope": "", "target": "", "window": "",
     "latency_p95_seconds": null,
     "traffic_requests_per_second": null,
     "error_rate_percent": null,
     "saturation_percent": null
   },
   "screenshots": {
-    "dashboard": {"path": "evidencias/cloud/dashboard.png", "scope": "", "caption": ""}
+    "dashboard": {"path": "evidencias/aws/screenshots/dashboard.png", "scope": "", "caption": ""}
   }
 }
 ```
@@ -214,14 +273,15 @@ Esquema mínimo extensível (valores abaixo são marcadores de estrutura, não e
 Checks suportados: `docker`, `terraform`, `ci_pass`, `ci_block`, `public_app`, `restart`, `metrics`, `alert`, `recovery`. Estados: `passed`, `failed`, `partial`, `pending`, `in_progress`. Escopos: `local`, `public`, `configuration`. Screenshots opcionais: `pipeline_pass`, `pipeline_block`, `dashboard`, `alert`, `recovery`, `public_app`, `container`, `terraform`; cada um contém path, scope, caption e URL de origem opcional. Somente imagens existentes e declaradas no manifesto entram nos apêndices em paisagem, uma por página, com referência clicável na seção pertinente; ausência não reserva espaço vazio. Capturas locais de interface não são incluídas automaticamente; quando declaradas, devem ter escopo `local` e legenda **IA real local / dados demo**, sem serem promovidas a prova de nuvem. As evidências locais permanecem referenciadas pelo check `docker` de escopo local. O objeto opcional `costs` atualiza a estimativa com `region`, `checked_at`, `hours`, `vm_hourly_usd`, `ip_hourly_usd`, `disk_monthly_usd` e `total_estimate_usd`; valores ausentes continuam PENDENTE e não herdam preços de outra região.
 
 ```sh
-python3 scripts/build-cloud-pdf.py --check
-python3 scripts/build-cloud-pdf.py
+python3 scripts/build-cloud-pdf.py --manifest evidencias/aws/manifest.json --check
+python3 scripts/build-cloud-pdf.py --manifest evidencias/aws/manifest.json
 ```
 
-Requer ReportLab e Pillow. No ambiente Codex, usar `/Users/salvitti/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3`. Saída única: `output/pdf/Ponto-Certo-Deploy-Blindado.pdf`. Reexecutar substitui esse PDF usando as evidências atuais. O processo gera 12 seções principais, apêndices de capturas em paisagem e links clicáveis; revisar quantidade de páginas, renderização e legibilidade após cada geração. Antes de enviar, conferir que documento/manifesto/URL e commit correspondem à mesma entrega.
+O exemplo JSON acima é estrutural: seus campos vazios não substituem evidências. Sem `--manifest`, o comando utiliza o checkpoint Azure e não gera a entrega AWS pretendida. Requer ReportLab e Pillow. No ambiente Codex, usar `/Users/salvitti/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3`. Saída única: `output/pdf/Ponto-Certo-Deploy-Blindado.pdf`. Reexecutar substitui esse PDF usando as evidências selecionadas. O processo gera 12 seções principais, apêndices de capturas em paisagem e links clicáveis; revisar quantidade de páginas, renderização e legibilidade após cada geração. Antes de enviar, conferir que documento/manifesto/URL e commit correspondem à mesma entrega.
 
 ## Fontes oficiais e documentos de referência
 
+- Operação AWS: [CLOUD-AWS.md](CLOUD-AWS.md), [deploy e credenciais](../security/AWS-DEPLOY.md), [monitoramento separado](OBSERVABILIDADE-AWS.md) e [fontes da estimativa](../evidencias/aws/cost-estimate.json).
 - [Azure for Students](https://learn.microsoft.com/azure/education-hub/about-azure-for-students), [limite de gastos](https://learn.microsoft.com/azure/cost-management-billing/manage/spending-limit) e [crédito expirado/esgotado](https://learn.microsoft.com/azure/cost-management-billing/manage/azurestudents-subscription-disabled).
 - [B2als_v2 e CPU credits](https://learn.microsoft.com/azure/virtual-machines/sizes/general-purpose/basv2-series), [Retail Prices API](https://learn.microsoft.com/rest/api/cost-management/retail-prices/azure-retail-prices) e [IP público/DNS](https://learn.microsoft.com/azure/virtual-network/ip-services/public-ip-addresses).
 - [Managed Run Command](https://learn.microsoft.com/azure/virtual-machines/linux/run-command-managed), [OIDC Azure/GitHub](https://learn.microsoft.com/azure/developer/github/connect-from-azure-openid-connect) e [permissões Compute](https://learn.microsoft.com/azure/role-based-access-control/permissions/compute).

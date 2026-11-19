@@ -15,10 +15,16 @@ da sessão apaga os recursos do Sandbox e interrompe o alvo; o tempo de sessão 
 | Configuração privada | `.runtime/monitoring` | `$HOME/.local/share/ponto-certo/monitoring-aws` |
 | Dados Docker | Volumes do projeto Azure | Volumes prefixados `ponto-certo-monitoring-aws_` |
 
-As duas stacks compartilham somente os arquivos versionados de
-[consultas/dashboard](../observability/grafana/dashboards/ponto-certo.json),
+As duas stacks usam as mesmas consultas do
+[dashboard versionado](../observability/grafana/dashboards/ponto-certo.json),
 [regras](../observability/prometheus/alerts.yaml), blackbox e provisionamento
-Grafana, montados somente para leitura. Alvos, tokens, bancos, redes e portas são
+Grafana. O configurador gera uma cópia pública do dashboard em
+`$PC_AWS_MONITORING_DIR/dashboards/ponto-certo.json`: mantém UID, painéis e consultas,
+identifica **AWS Academy** no título e aponta o link de alertas para `9091`.
+Grafana AWS monta somente essa pasta gerada, como leitura; o fonte Azure permanece
+intacto. A pasta é 0755 e o JSON 0444, dentro do runtime privado 0700.
+`dashboard-provenance.json` registra SHA-256 do fonte e da cópia gerada para auditoria.
+Os demais arquivos compartilhados também são montados somente para leitura. Alvos, tokens, bancos, redes e portas são
 separados. Não combinar os dois arquivos Compose com múltiplos `-f`, nem mudar o
 nome do projeto AWS para o projeto Azure.
 
@@ -48,9 +54,14 @@ do host atravessem o diretório. A senha Grafana é gerada separadamente, preser
 nas reexecuções e nunca impressa. Consulte-a apenas pelo mecanismo privado do
 operador, sem salvá-la em evidências.
 
-As gravações são atômicas; por isso, recriar somente os containers AWS após
-reconfigurar garante que os bind mounts usem os arquivos novos. A opção
-`--force-recreate` preserva os volumes e o histórico do Prometheus/Grafana.
+Arquivos com conteúdo idêntico preservam seu inode e são mantidos em 0444. Assim,
+uma mudança apenas no dashboard não substitui os arquivos já montados pelo
+Prometheus. Conteúdo alterado é gravado atomicamente; nesse caso, recrie somente
+os serviços AWS que montam o arquivo alterado para que usem o novo inode:
+`prometheus` para token/alvos e `grafana` para dashboard/configuração Grafana.
+A opção `--force-recreate` preserva os volumes e o histórico. Para uma alteração
+apenas no dashboard, use `docker compose -f compose.monitoring.aws.yaml up -d
+--no-deps --force-recreate grafana`; não é necessário reiniciar o Prometheus.
 
 Abra `http://127.0.0.1:3002/d/ponto-certo-golden-signals` e use usuário `admin`.
 Prometheus fica em `http://127.0.0.1:9091`; blackbox não publica porta no host.
@@ -67,7 +78,7 @@ python3 scripts/collect-cloud-evidence.py \
   --public-url https://HOST-AWS-REAL \
   --prometheus-url http://127.0.0.1:9091 \
   --expect-revision SHA-COMPLETO-DO-DEPLOY \
-  --output evidencias/cloud/aws/observability-baseline.json
+  --output evidencias/aws/observability-baseline.json
 ```
 
 O comando acima só consulta; não gera tráfego nem interrompe/reinicia serviços.

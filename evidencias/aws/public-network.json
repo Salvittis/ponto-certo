@@ -1,0 +1,73 @@
+{
+  "checked_at": "2026-11-19T13:07:13.859183+00:00",
+  "provider": "aws-academy",
+  "url": "https://54-210-161-95.sslip.io",
+  "tls": {
+    "verified_chain_and_hostname": true,
+    "protocol": "TLSv1.3",
+    "not_before": "Nov 19 12:07:26 2026 GMT",
+    "not_after": "Feb 17 12:07:25 2027 GMT",
+    "subject_alt_names": [
+      [
+        "DNS",
+        "54-210-161-95.sslip.io"
+      ]
+    ]
+  },
+  "http": {
+    "status": 308,
+    "headers": {
+      "Location": "https://54-210-161-95.sslip.io/"
+    }
+  },
+  "root": {
+    "status": 200,
+    "headers": {
+      "Cache-Control": "no-cache",
+      "Content-Security-Policy": "default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
+      "Content-Type": "text/html; charset=utf-8",
+      "Referrer-Policy": "no-referrer",
+      "Strict-Transport-Security": "max-age=86400",
+      "X-Content-Type-Options": "nosniff"
+    }
+  },
+  "anonymous_metrics": {
+    "status": 401,
+    "headers": {
+      "Cache-Control": "no-cache",
+      "Content-Security-Policy": "default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
+      "Content-Type": "application/json",
+      "Referrer-Policy": "no-referrer",
+      "Strict-Transport-Security": "max-age=86400",
+      "X-Content-Type-Options": "nosniff"
+    }
+  },
+  "ports": [
+    {
+      "port": 22,
+      "reachable": false,
+      "scope": "not reachable from this Mac at capture time"
+    },
+    {
+      "port": 8000,
+      "reachable": false,
+      "scope": "not reachable from this Mac at capture time"
+    },
+    {
+      "port": 8081,
+      "reachable": false,
+      "scope": "not reachable from this Mac at capture time"
+    },
+    {
+      "port": 3001,
+      "reachable": false,
+      "scope": "not reachable from this Mac at capture time"
+    },
+    {
+      "port": 9090,
+      "reachable": false,
+      "scope": "not reachable from this Mac at capture time"
+    }
+  ],
+  "passed": true
+}

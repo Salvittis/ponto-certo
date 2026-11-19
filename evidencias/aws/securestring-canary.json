@@ -1,0 +1,7 @@
+{
+  "checked_at": "2026-11-19T12:56:28.117378+00:00",
+  "scope": "nonsecret canary; no runtime token",
+  "instance_id": "i-0cd7e82843509189b",
+  "result": "passed",
+  "cleanup": "deleted"
+}

@@ -57,8 +57,11 @@ SCREENSHOTS = (
     ("pipeline_block", "Pipeline barrado", "ci_block"),
     ("pipeline_pass", "Pipeline aprovado", "ci_pass"),
     ("dashboard", "Dashboard e métricas", "metrics"),
+    ("dashboard_detail", "Dashboard / erros e saturação", "metrics"),
     ("alert", "Alerta disparado", "alert"),
+    ("alert_model", "Alerta / modelo indisponível", "alert"),
     ("recovery", "Recuperação", "recovery"),
+    ("recovery_dashboard", "Dashboard após recuperação", "recovery"),
 )
 CHECKS = (
     ("docker", "Containers e IA"), ("terraform", "Terraform aplicado"),
@@ -162,7 +165,7 @@ def register_fonts():
 
 
 class EvidenceAppendix(Flowable):
-    """One complete, uncropped capture per landscape page, with readable context."""
+    """One capture or explicitly identified region per page, linked to the original."""
 
     def __init__(self, report, item):
         super().__init__()
@@ -198,9 +201,22 @@ class EvidenceAppendix(Flowable):
         source_width, source_height = item["pixels"]
         scale = min(self.width / source_width, image_height / source_height)
         width, height = source_width * scale, source_height * scale
-        self.canv.drawImage(str(item["path"]), (self.width - width) / 2,
-                           image_bottom + (image_height - height) / 2,
-                           width=width, height=height, mask="auto")
+        draw_x = (self.width - width) / 2
+        draw_y = image_bottom + (image_height - height) / 2
+        if item.get("crop"):
+            crop_x, crop_y, _, _ = item["crop"]
+            original_width, original_height = item["source_pixels"]
+            self.canv.saveState()
+            clip = self.canv.beginPath()
+            clip.rect(draw_x, draw_y, width, height)
+            self.canv.clipPath(clip, stroke=0)
+            self.canv.drawImage(str(item["path"]), draw_x - crop_x * scale,
+                               draw_y - (original_height - crop_y - source_height) * scale,
+                               width=original_width * scale, height=original_height * scale, mask="auto")
+            self.canv.restoreState()
+        else:
+            self.canv.drawImage(str(item["path"]), draw_x, draw_y,
+                               width=width, height=height, mask="auto")
 
 
 class Report:
@@ -391,13 +407,24 @@ class Report:
                 continue
             with PILImage.open(path) as source:
                 pixels = source.size
+            source_pixels = pixels
+            crop = item.get("crop")
+            if crop is not None:
+                if (not isinstance(crop, list) or len(crop) != 4 or
+                        any(isinstance(n, bool) or not isinstance(n, int) for n in crop)):
+                    raise ValueError("Recorte deve conter quatro coordenadas inteiras: " + key)
+                x, y, width, height = crop
+                if x < 0 or y < 0 or width <= 0 or height <= 0 or x + width > pixels[0] or y + height > pixels[1]:
+                    raise ValueError("Recorte fora da captura original: " + key)
+                pixels = (width, height)
             relative_path = path.relative_to(ROOT).as_posix()
             original_url = self.artifact_url(relative_path)
             results.append({"key": key, "path": path, "pixels": pixels,
+                "source_pixels": source_pixels, "crop": crop,
                 "relative_path": relative_path, "anchor": "appendix-" + key,
                 "heading": f"Apêndice {chr(65 + len(results))} / {title}",
                 "scope": SCOPE.get(item.get("scope"), "ESCOPO NÃO INFORMADO"),
-                "caption": clean(item.get("caption", title), 700),
+                "caption": ("Recorte identificado da captura original. " if crop else "") + clean(item.get("caption", title), 700),
                 "url": public_url(item.get("url")) or public_url(self.record(check).get("url")) or original_url})
         return results
 
@@ -407,7 +434,7 @@ class Report:
         if item is None:
             return self.p("Captura PENDENTE: " + key + ".", "small")
         return self.p(f'<link href="#{item["anchor"]}" color="#007F83">'
-                      f'{escape(item["heading"])}</link> - captura integral em paisagem. '
+                      f'{escape(item["heading"])}</link> - evidência em paisagem; original vinculado. '
                       f'Escopo: {escape(item["scope"])}.', "small", markup=True)
 
     def architecture(self):
@@ -745,6 +772,8 @@ class Report:
                   "de infraestrutura. Perguntas e IPs não viram rótulos."),
                 self.evidence_note("metrics"), self.screenshot("dashboard", 210),
                 p(self.repo_link("PromQL, configuração e limites", "docs/OBSERVABILIDADE-AWS.md" if self.is_aws else "docs/OBSERVABILIDADE.md"), "small", markup=True)]
+        if any(item["key"] == "dashboard_detail" for item in self.appendices):
+            sec.append(self.screenshot("dashboard_detail"))
 
         sec = self.section("06 / Alerta e recuperação", "Evidência operacional, sem substituir serviço real por série sintética")
         sec += [self.table([["Regra", "Condição persistente"],
@@ -762,6 +791,9 @@ class Report:
                 self.evidence_note("recovery"), self.screenshot("recovery", 100),
                 p("Testes promtool usam séries sintéticas identificadas e verificam a regra. "
                   "Não substituem um disparo observado contra o serviço real.", "small")]
+        for detail in ("alert_model", "recovery_dashboard"):
+            if any(item["key"] == detail for item in self.appendices):
+                sec.append(self.screenshot(detail))
 
         sec = self.section("07 / Reproduzir e atualizar", "Execução local primeiro; publicação depende da assinatura e do pipeline")
         if self.is_aws:
