@@ -79,3 +79,15 @@ variable "github_environment" {
     error_message = "Use an environment name without OIDC subject separators or wildcards."
   }
 }
+
+variable "github_oidc_subject_prefix" {
+  description = "Exact immutable OIDC sub_claim_prefix returned by GitHub for this repository; includes owner/repository numeric IDs."
+  type        = string
+  validation {
+    condition = (
+      can(regex("^repo:[A-Za-z0-9_.-]+@[1-9][0-9]*/[A-Za-z0-9_.-]+@[1-9][0-9]*$", var.github_oidc_subject_prefix)) &&
+      replace(var.github_oidc_subject_prefix, "/@[0-9]+/", "") == "repo:${var.github_repository}"
+    )
+    error_message = "Use the exact GitHub sub_claim_prefix repo:OWNER@OWNER_ID/REPO@REPO_ID matching github_repository; no wildcards or environment suffix."
+  }
+}

@@ -91,9 +91,42 @@ O término do bootstrap não prova que o MVP está publicado.
 ## Identidade GitHub e menor privilégio
 
 O módulo cria uma identidade gerenciada **não anexada à VM**. Assim, o container
-não pode obtê-la via metadata do host. A credencial federada confia somente em
-`repo:<owner/repo>:environment:production`, emitida por
-`https://token.actions.githubusercontent.com` para `api://AzureADTokenExchange`.
+não pode obtê-la via metadata do host. A credencial federada confia somente no
+subject exato `${github_oidc_subject_prefix}:environment:${github_environment}`,
+emitido por `https://token.actions.githubusercontent.com` para
+`api://AzureADTokenExchange`. Neste repositório o prefixo confirmado pela API
+GitHub é `repo:Salvittis@82597471/ponto-certo@1464046587`, com
+`use_immutable_subject: true`. Portanto o subject esperado é
+`repo:Salvittis@82597471/ponto-certo@1464046587:environment:production`.
+
+Antes de reproduzir em outro repositório, obtenha o prefixo real, respeitando
+maiúsculas/minúsculas, sem copiar os IDs deste projeto:
+
+```bash
+gh api repos/Salvittis/ponto-certo/actions/oidc/customization/sub \
+  --jq '{use_immutable_subject,sub_claim_prefix}'
+gh api repos/Salvittis/ponto-certo \
+  --jq '{owner:.owner.login,owner_id:.owner.id,repository:.name,repository_id:.id}'
+```
+
+`github_oidc_subject_prefix` é entrada obrigatória e validada com IDs numéricos e
+nomes correspondentes a `github_repository`. Não se presume o formato legado
+`repo:owner/repo`: ele causou rejeição `AADSTS700213` porque não correspondia ao
+claim emitido neste projeto. Corrigir somente a credencial federada mantém VM,
+rede, identidade e regra de branch; registrar o plan/apply e repetir o deploy.
+
+Correção executada em 19/11/2026: Terraform concluiu 0 criações, 1 atualização
+em lugar e 0 destruições. A tentativa 2 do run 44517488349 autenticou no Azure
+com sucesso, mas a validação pública falhou às 12:08:25 UTC. O `Caddyfile` foi
+criado com modo 600 pelo administrador sob `umask 077`, impedindo leitura pelo
+UID 10001 do proxy. A recuperação interrompeu a primeira release, pois não havia
+antecessora saudável. A correção separa a permissão do arquivo público de
+configuração da proteção dos segredos e acrescenta regressão do acesso do proxy;
+novo pipeline/deploy ainda deve comprovar funcionamento. `runtime.env` permanece
+600 e não deve receber permissão pública como atalho.
+Ver [evidência OIDC](../evidencias/cloud/oidc-correction.json) e
+[estado Cloud](../docs/STATUS-CLOUD.md). Nenhuma VM foi recriada pela correção,
+e autenticação não comprova aplicação publicada.
 
 Antes de habilitar o deploy, o GitHub environment `production` deve permitir apenas
 a branch `main`; o workflow também precisa restringir o job de publicação a `main`.
@@ -210,6 +243,7 @@ admin_public_key = "ssh-ed25519 CHAVE_PUBLICA"
 os_image_version = "24.04.202611170"
 github_repository = "Salvittis/ponto-certo"
 github_environment = "production"
+github_oidc_subject_prefix = "repo:Salvittis@82597471/ponto-certo@1464046587"
 ```
 
 Os marcadores são exemplos documentais e devem ser substituídos por valores reais.

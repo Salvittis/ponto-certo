@@ -32,6 +32,8 @@ recover_previous() {
         for file in release.env runtime.env compose.production.yaml Caddyfile; do
             cp "previous/$file" "$file"
         done
+        # Caddy runs as UID 10001 and must read this non-secret bind mount.
+        chmod 0644 Caddyfile
         docker compose --env-file release.env -f compose.production.yaml up -d --force-recreate --wait --wait-timeout 300
         docker compose --env-file release.env -f compose.production.yaml exec -T app \
             python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readyz',timeout=10)"
@@ -104,6 +106,9 @@ public={k:payload[k] for k in ('IMAGE_REF','LLM_IMAGE_REF','PROXY_IMAGE_REF','AP
 Path('release.env.new').write_text(''.join(k+'='+v+'\n' for k,v in public.items()))
 for name in ('compose.production.yaml','Caddyfile'):
  Path(name).write_text(payload['files'][name])
+# The shell umask remains 077 for credentials; Caddy's public config is readable
+# by the unprivileged proxy, including when replacing an older 0600 file.
+Path('Caddyfile').chmod(0o644)
 Path('runtime.env.new').replace('runtime.env')
 PY
 unset METRICS_TOKEN SPTRANS_TOKEN PC_RELEASE_B64

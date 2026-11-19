@@ -221,7 +221,7 @@ def test_guest_runtime_credentials_round_trip_raw_compose_env(tmp_path):
     sptrans = "synthetic-sptrans\\second'quote"
     env = dict(os.environ, PC_RELEASE_B64=base64.b64encode(json.dumps(payload).encode()).decode(),
                METRICS_TOKEN=metric, SPTRANS_TOKEN=sptrans, REGISTRY_TOKEN='test_registry')
-    subprocess.run([sys.executable, str(renderer_file)], cwd=tmp_path, env=env, check=True, capture_output=True, text=True)
+    subprocess.run([sys.executable, str(renderer_file)], cwd=tmp_path, env=env, check=True, capture_output=True, text=True, umask=0o077)
     result = subprocess.run(['docker', 'compose', '--env-file', str(tmp_path/'release.env.new'), '-f',
                              str(tmp_path/'compose.production.yaml'), 'config', '--format', 'json'],
                             cwd=tmp_path, check=True, capture_output=True, text=True)
@@ -229,6 +229,7 @@ def test_guest_runtime_credentials_round_trip_raw_compose_env(tmp_path):
     assert actual['METRICS_TOKEN'] == metric
     assert actual['SPTRANS_TOKEN'] == sptrans
     assert (tmp_path/'runtime.env').stat().st_mode & 0o777 == 0o600
+    assert (tmp_path/'Caddyfile').stat().st_mode & 0o777 == 0o644
     assert metric not in (tmp_path/'release.env.new').read_text()
     assert 'test_registry' not in (tmp_path/'runtime.env').read_text()
     assert 'test_registry' not in (tmp_path/'release.env.new').read_text()

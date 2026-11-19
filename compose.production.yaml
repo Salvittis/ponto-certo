@@ -44,6 +44,17 @@ services:
       app: {condition: service_healthy}
     environment:
       PUBLIC_HOST: ${PUBLIC_HOST:?Set the Azure public DNS host}
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          printf 'GET /healthz HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n' "$$PUBLIC_HOST" |
+          nc -w 3 127.0.0.1 8080 |
+          grep -q '^HTTP/1.1 308'
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
     ports: ["80:8080", "443:8443"]
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
