@@ -1,0 +1,165 @@
+{
+  "checked_at": "2026-11-19T12:44:08.758220+00:00",
+  "provider": "aws-academy",
+  "account_id": "820278553581",
+  "region": "us-east-1",
+  "result": "infrastructure_applied",
+  "plan": {
+    "add": 11,
+    "change": 0,
+    "destroy": 0
+  },
+  "apply": {
+    "added": 11,
+    "changed": 0,
+    "destroyed": 0
+  },
+  "resources": [
+    {
+      "type": "aws_instance",
+      "name": "app",
+      "id": "i-057462c89acfbf45f",
+      "index": null,
+      "ami": "ami-0109d2b556bd3d7e1",
+      "instance_type": "t2.medium",
+      "instance_state": "running",
+      "public_ip": "3.83.184.174",
+      "availability_zone": "us-east-1a",
+      "key_name": "",
+      "iam_instance_profile": "LabInstanceProfile",
+      "monitoring": false,
+      "metadata_options": [
+        {
+          "http_endpoint": "enabled",
+          "http_protocol_ipv6": "disabled",
+          "http_put_response_hop_limit": 1,
+          "http_tokens": "required",
+          "instance_metadata_tags": "disabled"
+        }
+      ],
+      "credit_specification": [
+        {
+          "cpu_credits": "standard"
+        }
+      ],
+      "root_block_device": [
+        {
+          "delete_on_termination": true,
+          "encrypted": true,
+          "volume_id": "vol-0527c2ddb6fe038ff",
+          "volume_size": 32,
+          "volume_type": "gp2"
+        }
+      ]
+    },
+    {
+      "type": "aws_internet_gateway",
+      "name": "app",
+      "id": "igw-0b8852341887c5338",
+      "index": null
+    },
+    {
+      "type": "aws_route",
+      "name": "internet",
+      "id": "r-rtb-0ce4bfbfd2a15be121080289494",
+      "index": null
+    },
+    {
+      "type": "aws_route_table",
+      "name": "app",
+      "id": "rtb-0ce4bfbfd2a15be12",
+      "index": null
+    },
+    {
+      "type": "aws_route_table_association",
+      "name": "app",
+      "id": "rtbassoc-0cc3a9c19816c8a4f",
+      "index": null
+    },
+    {
+      "type": "aws_security_group",
+      "name": "app",
+      "id": "sg-0fe8596e175468e22",
+      "index": null
+    },
+    {
+      "type": "aws_subnet",
+      "name": "app",
+      "id": "subnet-0688a8c6078c4d3d5",
+      "index": null
+    },
+    {
+      "type": "aws_vpc",
+      "name": "app",
+      "id": "vpc-01e4530ff8fabd443",
+      "index": null
+    },
+    {
+      "type": "aws_vpc_security_group_egress_rule",
+      "name": "outbound",
+      "id": "sgr-0e9af1ad36874cb4f",
+      "index": null,
+      "from_port": null,
+      "to_port": null,
+      "ip_protocol": "-1",
+      "cidr_ipv4": "0.0.0.0/0"
+    },
+    {
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "web",
+      "id": "sgr-05df6c32402652ecc",
+      "index": "443",
+      "from_port": 443,
+      "to_port": 443,
+      "ip_protocol": "tcp",
+      "cidr_ipv4": "0.0.0.0/0"
+    },
+    {
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "web",
+      "id": "sgr-028dceae7f38084aa",
+      "index": "80",
+      "from_port": 80,
+      "to_port": 80,
+      "ip_protocol": "tcp",
+      "cidr_ipv4": "0.0.0.0/0"
+    }
+  ],
+  "outputs": {
+    "aws_public_dns": "ec2-3-83-184-174.compute-1.amazonaws.com",
+    "instance_id": "i-057462c89acfbf45f",
+    "instance_profile_name": "LabInstanceProfile",
+    "instance_type": "t2.medium",
+    "public_host": "3-83-184-174.sslip.io",
+    "public_ip": "3.83.184.174",
+    "public_url": "https://3-83-184-174.sslip.io",
+    "region": "us-east-1",
+    "security_group_id": "sg-0fe8596e175468e22",
+    "ubuntu_ami_id": "ami-0109d2b556bd3d7e1",
+    "ubuntu_ami_name": "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-20261119",
+    "vpc_id": "vpc-01e4530ff8fabd443"
+  },
+  "state": {
+    "location": "outside Git, dedicated terraform-aws directory",
+    "permissions": "0600; parent directories0700",
+    "sha256": "e08140fa8d6d4eae2121fcf4554ad4e80dc4533605418123a4989ea406b2376a",
+    "backup": "same encrypted local disk; not off-site"
+  },
+  "session": {
+    "start": "2026-11-19T12:35:56Z",
+    "declared_deadline": "2026-11-19T15:35:56Z",
+    "duration_minutes": 180,
+    "resources_deleted_when_session_ends": true
+  },
+  "preflight": {
+    "identity": "STS matched820278553581 and voclabs role; separate credential files from personal/work accounts",
+    "ami_owner": "099720109477",
+    "ami_name": "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-20261119",
+    "architecture": "x86_64",
+    "virtualization": "hvm",
+    "lab_instance_profile": "LabInstanceProfile",
+    "ssm": "Online",
+    "application": "not yet deployed or validated"
+  },
+  "scope": "Only 11 tagged project resources. Academy-provided Bastion Host and Lab Instance unchanged."
+}

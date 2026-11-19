@@ -1,0 +1,125 @@
+#cloud-config
+# Public host bootstrap only. No Lab, registry or application credentials here.
+package_update: true
+package_upgrade: true
+packages:
+  - ca-certificates
+  - curl
+  - gnupg
+  - jq
+  - unzip
+  - groff
+  - less
+  - snapd
+write_files:
+  # AWS CLI Team key from the official installation guide; fingerprint checked below.
+  - path: /etc/ponto-certo/awscli-team.asc
+    owner: root:root
+    permissions: '0644'
+    content: |
+      -----BEGIN PGP PUBLIC KEY BLOCK-----
+      
+      mQINBF2Cr7UBEADJZHcgusOJl7ENSyumXh85z0TRV0xJorM2B/JL0kHOyigQluUG
+      ZMLhENaG0bYatdrKP+3H91lvK050pXwnO/R7fB/FSTouki4ciIx5OuLlnJZIxSzx
+      PqGl0mkxImLNbGWoi6Lto0LYxqHN2iQtzlwTVmq9733zd3XfcXrZ3+LblHAgEt5G
+      TfNxEKJ8soPLyWmwDH6HWCnjZ/aIQRBTIQ05uVeEoYxSh6wOai7ss/KveoSNBbYz
+      gbdzoqI2Y8cgH2nbfgp3DSasaLZEdCSsIsK1u05CinE7k2qZ7KgKAUIcT/cR/grk
+      C6VwsnDU0OUCideXcQ8WeHutqvgZH1JgKDbznoIzeQHJD238GEu+eKhRHcz8/jeG
+      94zkcgJOz3KbZGYMiTh277Fvj9zzvZsbMBCedV1BTg3TqgvdX4bdkhf5cH+7NtWO
+      lrFj6UwAsGukBTAOxC0l/dnSmZhJ7Z1KmEWilro/gOrjtOxqRQutlIqG22TaqoPG
+      fYVN+en3Zwbt97kcgZDwqbuykNt64oZWc4XKCa3mprEGC3IbJTBFqglXmZ7l9ywG
+      EEUJYOlb2XrSuPWml39beWdKM8kzr1OjnlOm6+lpTRCBfo0wa9F8YZRhHPAkwKkX
+      XDeOGpWRj4ohOx0d2GWkyV5xyN14p2tQOCdOODmz80yUTgRpPVQUtOEhXQARAQAB
+      tCFBV1MgQ0xJIFRlYW0gPGF3cy1jbGlAYW1hem9uLmNvbT6JAlQEEwEIAD4CGwMF
+      CwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQT7Xbd/1cEYuAURraimMQrMRnJHXAUC
+      akV0ygUJDqP4lQAKCRCmMQrMRnJHXFHjD/9eyZLYcKuQOlLvtqSDtUBiEZf6ZZjM
+      i3ygYH8rJNtuToUH+HvSpe819urJCquXhDrlK6N+aqW0hCLtNABJG/vsafIgvIYJ
+      hSGgpgtNnQyMV1jViRWqPjbouw8OkYKBThUfT1i2Y+wn58ifs6ODBCmTexWtXspA
+      Si+Gt49xDOW0APmbOPnI+a4HJW6tVEo6MWS0WjzpiBayR3d1A4pt4YrPfSdDgpLo
+      h2SLQqlRqvvVZJaWBjhkErNFpfsBA06sDcPEOb0G8LBUbR4WOcdvhe5LubJbZuxC
+      AG9kNPCVeQP1ixwjgjXKysaxeQ6rv0VzIQgRp6tLVLWhy6AKDNvLjFSsmXZ1Wl08
+      Y/RlOHXlzLuQMRE6sR1wOdRxc9TsrNWTGiBK65cvSWOy03JeBkQQ8pesqltiyxI9
+      U21kkgiXtTSKNGfKK8pO27D81YANhRqPK7iTp6kuFiY2WtOg90KTMNlIT+Ff85Y2
+      b1rHj6Z0SrCkJujhWk3IBPic/wJgz01LEc/OAdUPlby90RJZcIBhSlWhT7mXnXIO
+      c0HWlNQrns2s3CTyYwZSiSlYe9ApeLwhjDo8NhbFuCAy61l6O5UsR4AfZxx/rGKv
+      2wFb1/RN/P4gNe6vmxZAPjR0AQcwD3tc2McimOLr/22kmPz8IH3I0X7WoSFr0Biz
+      E91G7bb0hOb/cA==
+      =knv7
+      -----END PGP PUBLIC KEY BLOCK-----
+  - path: /etc/docker/daemon.json
+    owner: root:root
+    permissions: '0644'
+    content: |
+      {
+        "log-driver": "local",
+        "log-opts": {"max-size": "5m", "max-file": "3"},
+        "live-restore": true,
+        "no-new-privileges": true
+      }
+  - path: /usr/local/sbin/ponto-certo-bootstrap
+    owner: root:root
+    permissions: '0700'
+    content: |
+      #!/bin/bash
+      set -euo pipefail
+      umask 077
+      export DEBIAN_FRONTEND=noninteractive
+      install -d -m 0755 /etc/apt/keyrings
+      curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 \
+        https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+      chmod 0644 /etc/apt/keyrings/docker.asc
+      cat > /etc/apt/sources.list.d/docker.sources <<'DOCKER_REPO'
+      Types: deb
+      URIs: https://download.docker.com/linux/ubuntu
+      Suites: noble
+      Components: stable
+      Architectures: amd64
+      Signed-By: /etc/apt/keyrings/docker.asc
+      DOCKER_REPO
+      chmod 0644 /etc/apt/sources.list.d/docker.sources
+      apt-get update
+      apt-get install -y --no-install-recommends docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      # Noble does not provide the awscli package in this AMI's apt sources.
+      # Pin the official v2 distribution and verify its detached signature before execution.
+      # Source: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+      aws_cli_version='2.41.1'
+      aws_cli_tmp="$(mktemp -d /tmp/ponto-certo-awscli.XXXXXX)"
+      trap 'rm -rf "$aws_cli_tmp"' EXIT
+      install -d -m 0700 "$aws_cli_tmp/gnupg"
+      aws_cli_fingerprint="$(gpg --homedir "$aws_cli_tmp/gnupg" --batch --with-colons \
+        --import-options show-only --import /etc/ponto-certo/awscli-team.asc | awk -F: '$1 == "fpr" { print $10; exit }')"
+      test "$aws_cli_fingerprint" = 'FB5DB77FD5C118B80511ADA8A6310ACC4672475C'
+      gpg --homedir "$aws_cli_tmp/gnupg" --batch --import /etc/ponto-certo/awscli-team.asc
+      for artifact in zip zip.sig; do
+        curl --fail --silent --show-error --location --retry 3 --proto '=https' --tlsv1.2 \
+          "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${aws_cli_version}.${artifact}" \
+          -o "$aws_cli_tmp/awscliv2.${artifact}"
+      done
+      gpg --homedir "$aws_cli_tmp/gnupg" --batch --verify "$aws_cli_tmp/awscliv2.zip.sig" "$aws_cli_tmp/awscliv2.zip"
+      unzip -q "$aws_cli_tmp/awscliv2.zip" -d "$aws_cli_tmp"
+      "$aws_cli_tmp/aws/install" --install-dir /usr/local/aws-cli --bin-dir /usr/local/bin
+      /usr/local/bin/aws --version | grep -F "aws-cli/${aws_cli_version} "
+      install -d -o root -g root -m 0700 /opt/ponto-certo
+      # Docker remains privileged at the host; nobody is added to its group.
+      # No TCP Docker socket, SSH key, inbound management port or application secret.
+      systemctl enable --now docker
+      if snap list amazon-ssm-agent >/dev/null 2>&1; then
+        snap start --enable amazon-ssm-agent
+        systemctl is-active --quiet snap.amazon-ssm-agent.amazon-ssm-agent.service
+      elif systemctl list-unit-files amazon-ssm-agent.service --no-legend | grep -q '^amazon-ssm-agent.service'; then
+        # Avoid installing a duplicate Snap agent if the AMI already uses a deb.
+        systemctl enable --now amazon-ssm-agent
+        systemctl is-active --quiet amazon-ssm-agent
+      else
+        timeout 180 snap wait system seed.loaded
+        snap install amazon-ssm-agent --classic
+        snap start --enable amazon-ssm-agent
+        systemctl is-active --quiet snap.amazon-ssm-agent.amazon-ssm-agent.service
+      fi
+      docker version --format '{{.Server.Version}}' > /opt/ponto-certo/docker-version.txt
+      docker compose version --short > /opt/ponto-certo/compose-version.txt
+      aws --version > /opt/ponto-certo/aws-cli-version.txt 2>&1
+      date -u +%FT%TZ > /opt/ponto-certo/bootstrap-ready.txt
+runcmd:
+  - ['/usr/local/sbin/ponto-certo-bootstrap']
+final_message: "Ponto Certo Academy host bootstrap finished; SSM registration and gated application deployment must be verified separately."

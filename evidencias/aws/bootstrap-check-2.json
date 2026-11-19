@@ -1,0 +1,10 @@
+{
+  "CommandId": "15ea7fdc-8dbc-4539-a450-842a39dc0104",
+  "InstanceId": "i-0cd7e82843509189b",
+  "Status": "Success",
+  "ResponseCode": 0,
+  "ExecutionStartDateTime": "2026-11-19T12:53:40.229Z",
+  "ExecutionEndDateTime": "2026-11-19T12:53:40.229Z",
+  "StandardOutputContent": "{\n  \"boot_status_code\": \"enabled-by-generator\",\n  \"datasource\": \"ec2local\",\n  \"detail\": \"DataSourceEc2Local\",\n  \"errors\": [],\n  \"extended_status\": \"done\",\n  \"init\": {\n    \"errors\": [],\n    \"finished\": 9.99,\n    \"recoverable_errors\": {},\n    \"start\": 8.13\n  },\n  \"init-local\": {\n    \"errors\": [],\n    \"finished\": 6.03,\n    \"recoverable_errors\": {},\n    \"start\": 4.17\n  },\n  \"last_update\": \"Thu, 01 Jan 1970 00:00:59 +0000\",\n  \"modules-config\": {\n    \"errors\": [],\n    \"finished\": 11.15,\n    \"recoverable_errors\": {},\n    \"start\": 11.03\n  },\n  \"modules-final\": {\n    \"errors\": [],\n    \"finished\": 59.63,\n    \"recoverable_errors\": {},\n    \"start\": 13.52\n  },\n  \"recoverable_errors\": {},\n  \"stage\": null,\n  \"status\": \"done\"\n}\nBOOTSTRAP_READY=2026-11-19T12:53:31Z\nDOCKER=29.10.0\nCOMPOSE=5.8.0\nAWSCLI=aws-cli/2.41.1 Python/3.14.8 Linux/7.0.0-1017-aws exe/x86_64.ubuntu.24\n",
+  "StandardErrorContent": ""
+}

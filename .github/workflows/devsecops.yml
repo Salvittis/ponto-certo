@@ -36,6 +36,62 @@ jobs:
           retention-days: 14
           if-no-files-found: warn
 
+  deploy_aws:
+    name: Deploy to AWS Academy / session
+    needs: publish
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.AWS_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    environment: aws-academy
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Use the current Academy session credentials
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          allowed-account-ids: ${{ vars.AWS_EXPECTED_ACCOUNT_ID }}
+          force-skip-oidc: true
+          unset-current-credentials: true
+          output-credentials: false
+          mask-aws-account-id: true
+      - name: Deploy approved digests through SSM and verify public inference
+        env:
+          AWS_ENABLED: ${{ vars.AWS_ENABLED }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AWS_EXPECTED_ACCOUNT_ID: ${{ vars.AWS_EXPECTED_ACCOUNT_ID }}
+          AWS_INSTANCE_ID: ${{ vars.AWS_INSTANCE_ID }}
+          AWS_PUBLIC_URL: ${{ vars.AWS_PUBLIC_URL }}
+          AWS_SESSION_VALID_UNTIL: ${{ vars.AWS_SESSION_VALID_UNTIL }}
+          IMAGE_REF: ${{ needs.publish.outputs.app_ref }}
+          LLM_IMAGE_REF: ${{ needs.publish.outputs.llm_ref }}
+          PROXY_IMAGE_REF: ${{ needs.publish.outputs.proxy_ref }}
+          APP_REVISION: ${{ github.sha }}
+          DATA_MODE: ${{ vars.AWS_DATA_MODE || 'demo' }}
+          METRICS_TOKEN: ${{ secrets.AWS_METRICS_TOKEN }}
+          SPTRANS_TOKEN: ${{ secrets.AWS_SPTRANS_TOKEN }}
+          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REGISTRY_USERNAME: ${{ github.actor }}
+        run: python3 scripts/deploy-aws.py
+      - name: Preserve AWS validation and recovery evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: deployment-aws-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: |
+            reports/aws-deployment.json
+            reports/aws-deployment-failure.json
+            reports/aws-smoke-public.json
+          retention-days: 14
+          if-no-files-found: warn
+
   semgrep:
     name: Semgrep / security policy
     runs-on: ubuntu-24.04

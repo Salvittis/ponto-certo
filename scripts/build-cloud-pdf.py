@@ -2,7 +2,9 @@
 """Build the Cloud report from configuration and explicitly recorded evidence.
 
 No network, Git, cloud or secret-store calls. Missing evidence stays PENDENTE.
-Use --check to validate inputs without creating a PDF. Requires reportlab/Pillow.
+Use --manifest evidencias/aws/manifest.json for the AWS Cloud report.
+The default manifest preserves the Azure IA checkpoint. --check never creates a PDF.
+Requires reportlab/Pillow.
 """
 from __future__ import annotations
 
@@ -33,10 +35,11 @@ from reportlab.platypus import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 DOCUMENT_DATE = "19/11/2026"
 DEFAULT_REPO = "https://github.com/Salvittis/ponto-certo"
 DEFAULT_OUTPUT = ROOT / "output/pdf/Ponto-Certo-Deploy-Blindado.pdf"
+AZURE_IA_URL = "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com"
 INK = colors.HexColor("#102A43")
 TEAL = colors.HexColor("#007F83")
 MUTED = colors.HexColor("#536575")
@@ -78,6 +81,19 @@ SOURCES = [
     ("Prometheus / regras de alerta", "https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/"),
     ("Qwen / modelo e licença", "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF"),
     ("SPTrans / documentação Olho Vivo", "https://www.sptrans.com.br/desenvolvedores/api-do-olho-vivo-guia-de-referencia/documentacao-api"),
+]
+AWS_SOURCES = [
+    ("AWS Academy / programa", "https://aws.amazon.com/training/awsacademy/"),
+    ("Sandbox / instruções do curso", "https://awsacademy.instructure.com/courses/182549/modules/items/18007039"),
+    ("EC2 / créditos CPU Standard", "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances-standard-mode.html"),
+    ("AWS / preços EC2", "https://aws.amazon.com/ec2/pricing/on-demand/"),
+    ("AWS / preços EBS", "https://aws.amazon.com/ebs/pricing/"),
+    ("AWS / preços IPv4 público", "https://aws.amazon.com/vpc/pricing/"),
+    ("SSM / segurança e SecureString", "https://docs.aws.amazon.com/systems-manager/latest/userguide/security-best-practices.html"),
+    ("AWS / responsabilidade compartilhada", "https://aws.amazon.com/compliance/shared-responsibility-model/"),
+    SOURCES[6], SOURCES[8], SOURCES[9], SOURCES[10], SOURCES[11],
+    ("GitHub Actions / cobrança", "https://docs.github.com/en/billing/concepts/product-billing/github-actions"),
+    ("GitHub Packages / cobrança", "https://docs.github.com/en/billing/concepts/product-billing/github-packages"),
 ]
 
 
@@ -191,6 +207,17 @@ class Report:
     def __init__(self, manifest_path):
         self.manifest_path = manifest_path
         self.data = read_json(manifest_path)
+        hint = "aws" if manifest_path.parent.resolve() == (ROOT / "evidencias/aws").resolve() else "azure"
+        requested_provider = self.data.get("provider", hint)
+        self.provider = "aws" if requested_provider in ("aws", "aws-academy") else requested_provider
+        if self.provider not in ("aws", "azure"):
+            raise ValueError("Provedor do manifesto deve ser aws, aws-academy ou azure")
+        self.is_aws = self.provider == "aws"
+        self.provider_label = "AWS Academy Sandbox" if self.is_aws else "Azure / histórico da IA"
+        self.sources = AWS_SOURCES if self.is_aws else SOURCES
+        hosting = self.data.get("ia_hosting", {})
+        hosting = hosting if isinstance(hosting, dict) else {}
+        self.ia_url = public_url(hosting.get("public_url")) or AZURE_IA_URL
         self.repo = public_url(self.data.get("repository_url")) or DEFAULT_REPO
         revision = self.data.get("revision", "")
         self.revision = revision if re.fullmatch(r"[0-9a-f]{40}", str(revision)) else "PENDENTE"
@@ -314,6 +341,10 @@ class Report:
         raw = str(record.get("status", "pending")).lower()
         scope = SCOPE.get(record.get("scope"))
         documented = bool(scope and record.get("checked_at") and self.references(record))
+        record_provider = record.get("provider", self.provider)
+        record_provider = "aws" if record_provider == "aws-academy" else record_provider
+        if record_provider not in (self.provider, "shared"):
+            return "PENDENTE / PROVEDOR DIVERGENTE"
         if not documented:
             return "PENDENTE"
         label = {"passed": "VALIDADO", "failed": "FALHOU", "partial": "PARCIAL",
@@ -350,6 +381,10 @@ class Report:
             if isinstance(item, str):
                 item = {"path": item}
             if not isinstance(item, dict):
+                continue
+            item_provider = item.get("provider", self.provider)
+            item_provider = "aws" if item_provider == "aws-academy" else item_provider
+            if item_provider not in (self.provider, "shared"):
                 continue
             path = local_file(item.get("path"))
             if not path or path.suffix.lower() not in {".png", ".jpg", ".jpeg"}:
@@ -394,7 +429,7 @@ class Report:
             diagram.add(Polygon(points, fillColor=TEAL, strokeColor=TEAL))
         diagram.add(Rect(122, 6, WIDTH - 123, 140, rx=9, ry=9,
                          fillColor=colors.HexColor("#F5F8FA"), strokeColor=LINE))
-        diagram.add(String(134, 134, "VM Azure / Chile Central", fontName=self.bold_font,
+        diagram.add(String(134, 134, "EC2 AWS / us-east-1" if self.is_aws else "VM Azure / Chile Central", fontName=self.bold_font,
                            fontSize=9, fillColor=INK))
         box(0, 67, 102, 53, "Navegador", "Internet / HTTPS")
         box(133, 67, 108, 53, "Caddy", "80/443 no host")
@@ -411,16 +446,124 @@ class Report:
                               (114, 58, 250, 58), (250, 58, 250, 82)]:
             diagram.add(Line(x1, y1, x2, y2, strokeColor=TEAL, strokeWidth=1.1, strokeDashArray=[3, 2]))
         arrow(250, 82, 262, 82)
-        box(0, 153, 225, 48, "GitHub Actions / GHCR", "Gates → digest aprovado → OIDC".replace("→", ">"))
+        box(0, 153, 225, 48, "GitHub Actions / GHCR", "Gates > digest > SSM / Lab" if self.is_aws else "Gates > digest aprovado > OIDC")
         box(272, 153, WIDTH - 272, 48, "Prometheus / Grafana locais", "HTTPS /metrics + Bearer; /readyz")
         arrow(187, 153, 187, 146)
         arrow(316, 153, 316, 146)
-        diagram.add(String(135, 32, "NSG: só 80/443", fontName=self.body_font, fontSize=8.3, fillColor=MUTED))
+        diagram.add(String(135, 32, "SG: só 80/443" if self.is_aws else "NSG: só 80/443", fontName=self.body_font, fontSize=8.3, fillColor=MUTED))
         diagram.add(String(135, 20, "Sem SSH público", fontName=self.body_font, fontSize=8.3, fillColor=MUTED))
         diagram.add(String(391, 36, "Demo: sintético", fontName=self.body_font, fontSize=8, fillColor=MUTED))
         diagram.add(String(391, 24, "Tracejado: live", fontName=self.body_font, fontSize=8, fillColor=MUTED))
         diagram.add(String(391, 12, "ainda não validado", fontName=self.body_font, fontSize=8, fillColor=MUTED))
         return diagram
+
+    def aws_infrastructure(self, provisioning, provision_text):
+        p = self.p
+        return [p("Provisionamento: " + self.status(provisioning), "h2"),
+            p("Região registrada: " + clean(provisioning.get("region"), 80) +
+              ". Tipo registrado: " + clean(provisioning.get("instance_type", provisioning.get("vm_size")), 80) +
+              ". O status acima depende das evidências do manifesto AWS.", "small"),
+            p(provision_text + "Configuração versionada: VPC/subnet/IGW/rotas próprios; EC2 t2.medium "
+              "Standard, 2 vCPUs/4 GiB; Ubuntu 24.04 x86_64/HVM da Canonical, AMI explícita; "
+              "EBS gp2 cifrado de 32 GiB, removido com a instância. Provider AWS 6.73.0 fixado."),
+            self.table([["Superfície", "Controle preparado"],
+                ["Rede pública", "Security Group permite somente TCP 80/443. Sem SSH, keypair ou porta pública da LLM."],
+                ["Gestão", "SSM pela conexão de saída do agente; IMDSv2 obrigatório, hop limit 1."],
+                ["Identidade", "LabInstanceProfile existente, imposto pelo laboratório. Terraform não cria IAM."],
+                ["Bootstrap", "Docker/Compose, AWS CLI e agente SSM. Marker não comprova SSM Online nem aplicação."],
+                ["Segredos", "SecureString temporário; comando contém nome/versão. runtime.env 600; diretório 700."]], [109, WIDTH - 109]),
+            p("State isolado e conta autorizada", "h2"),
+            p("infra/aws/tf.sh usa ~/.local/share/ponto-certo/terraform-aws fora do Git e separado do "
+              "state Azure; diretórios 700, umask 077 e lock local, com um operador. Credenciais da "
+              "sessão não são variáveis Terraform. allowed_account_ids restringe a conta Academy. "
+              "State/plan/tfvars nunca são publicados. Não se presume backup AWS sem evidência."),
+            p("As permissões do perfil são as disponibilizadas pelo Sandbox, não um papel IAM criado "
+              "pela equipe. Guards verificam conta, instância/tag, x86_64 e SSM Online; não substituem "
+              "a política IAM. SSM Run Command tem poder administrativo no host.", "small"),
+            self.evidence_note("terraform"),
+            p(self.repo_link("Terraform AWS e controles", "infra/aws/main.tf") + " | " +
+              self.repo_link("State AWS", "infra/aws/tf.sh") + " | " +
+              self.repo_link("Operação do deploy AWS", "security/AWS-DEPLOY.md"), "small", markup=True)]
+
+    def aws_reproduction(self):
+        p = self.p
+        return [p("1. Reproduzir aplicação e modelo", "h2"),
+            p("Docker/Compose; METRICS_TOKEN por arquivo/ambiente protegido. Mesmo código, pesos e "
+              "dados demo da IA; sem token SPTrans no modo demo."),
+            p("docker compose -f compose.yaml config --quiet<br/>"
+              "docker compose -f compose.yaml up -d --build<br/>"
+              "python3 scripts/smoke.py --base-url http://127.0.0.1:8000<br/>"
+              "# --expect-mode demo --output reports/smoke-local.json", "code", markup=True),
+            p("2. Sessão Academy e Terraform AWS", "h2"),
+            p("Iniciar a sessão autorizada e conferir prazo restante. Usar credenciais temporárias "
+              "da conta do laboratório, fora de arquivos públicos. Verificar STS, AMI Canonical "
+              "24.04 e disponibilidade t2.medium na zona de us-east-1. Fornecer allowed_account_ids, "
+              "ubuntu_ami_id e availability_zone em tfvars externo. Revisar plano antes do apply."),
+            p("bash infra/aws/tf.sh init<br/>bash infra/aws/tf.sh validate<br/>"
+              "aws sts get-caller-identity --region us-east-1<br/>"
+              "# plan/apply com tfvars e plano no diretório AWS externo protegido", "code", markup=True),
+            p("3. Gates, SSM e observação pública", "h2"),
+            p("Environment aws-academy limitado à main; habilitar AWS_ENABLED somente na sessão. "
+              "Secrets: as três credenciais AWS temporárias e AWS_METRICS_TOKEN; SPTrans apenas "
+              "para live. Variables identificam conta, região, instância, URL e limite da sessão. "
+              "O deploy usa digests aprovados, valida SSM Online e depois HTTPS, revisão e smoke. "
+              "IP/sslip.io sugeridos pelo Terraform não comprovam DNS, certificado ou publicação."),
+            p("python3 scripts/configure-monitoring-aws.py<br/>"
+              "  --url https://URL-AWS-VALIDADA<br/>"
+              "  --metrics-token-file /CAMINHO-EXTERNO/token-aws<br/>"
+              "  --runtime-dir /CAMINHO-EXTERNO/monitoring-aws<br/>"
+              "# Comando acima em uma linha; token fonte com permissão 600.<br/>"
+              "export PC_AWS_MONITORING_DIR=/CAMINHO-EXTERNO/monitoring-aws<br/>"
+              "docker compose -f compose.monitoring.aws.yaml up -d", "code", markup=True),
+            p("Gerar tráfego real; registrar quatro métricas, reinício da LLM, disparo e recuperação. "
+              "A AWS usa projeto/volumes próprios e portas locais 9091/3002; o monitor Azure "
+              "permanece separado. Em nova sessão, preservar evidências e trocar explicitamente "
+              "o alvo AWS; o coletor rejeita histórico misturado nos últimos dez minutos. Exportar evidências antes do fim da "
+              "sessão. Expiração interrompe operações; credenciais não se renovam automaticamente."),
+            p(self.repo_link("Procedimento completo e nova sessão", "docs/CLOUD-AWS.md"), "small", markup=True)]
+
+    def aws_costs_and_session(self, cost, money):
+        p = self.p
+        session = self.data.get("session", {})
+        session = session if isinstance(session, dict) else {}
+        hours = session.get("duration_hours", 3)
+        hours = hours if isinstance(hours, (int, float)) and not isinstance(hours, bool) and math.isfinite(hours) and hours > 0 else None
+        return [p("O alvo é a conta educacional AWS Academy Sandbox autorizada. O operador informou "
+              "uma sessão de 3 horas; a janela não equivale a crédito monetário. Não foi autorizada "
+              "contratação em conta pessoal/corporativa. Não se presume saldo em dólares, fatura "
+              "pessoal ou custo zero a partir do cronômetro."),
+            self.table([["Sessão registrada", "Valor"],
+                ["Duração anunciada (horas)", escape(clean(hours, 30))],
+                ["Início / expiração", escape(clean(session.get("started_at"), 55) + " / " + clean(session.get("expires_at"), 55))],
+                ["Crédito monetário confirmado", money("lab_budget_usd")]], [230, WIDTH - 230]),
+            p("Estimativa comercial de referência", "h2"),
+            self.table([["Cotação AWS registrada", "Valor"],
+                ["Região / data da consulta", escape(clean(cost.get("region"), 60) + " / " + clean(cost.get("checked_at"), 65))],
+                ["Período estimado em horas", escape(clean(cost.get("hours"), 30))],
+                ["t2.medium por hora", money("vm_hourly_usd")],
+                ["IPv4 público por hora", money("ip_hourly_usd")],
+                ["EBS gp2 32 GiB por mês", money("disk_monthly_usd")],
+                ["Total estimado de referência", money("total_estimate_usd")]], [290, WIDTH - 290]),
+            p("Valores ausentes ficam PENDENTE e não herdam preços Azure. A estimativa usa preços "
+              "públicos e premissas do manifesto; não é cobrança observada no Sandbox. Egress, "
+              "serviços adicionais e duração podem alterar o total. Créditos CPU do modo Standard "
+              "são unidades de desempenho, não saldo financeiro; esgotá-los reduz desempenho.", "small"),
+            p("GitHub: runners padrão de repositório público não cobram minutos; GHCR informa "
+              "armazenamento/tráfego de containers gratuitos atualmente. Artefatos e caches do Actions "
+              "têm regras próprias: imagens de transferência ficam por 2 dias e relatórios por 14; "
+              "retenção não comprova ausência de cobrança. Não foram ativados runners pagos.", "small"),
+            p("Janela efêmera e continuidade da IA", "h2"),
+            p("O guia do Sandbox informa remoção de dados e recursos ao terminar a sessão ou "
+              "zerar o cronômetro. IP/URL AWS são temporários; não prometer disponibilidade AWS "
+              "durante toda a semana de correção. O professor aceitou o Sandbox conforme relato "
+              "de Pedro. Preservar prints/JSON, manifesto e comandos para reproduzir nova sessão."),
+            p("Plano de manutenção: manter a Azure para IA até pelo menos 27/11/2026 às 23h55 de São Paulo, "
+              "sujeita ao crédito Students e à manutenção documentada; não desligá-la ao encerrar "
+              "a AWS. Antes de terminar o laboratório, preservar evidências, desabilitar o deploy "
+              "AWS e remover credenciais temporárias. Expiração não substitui verificação de limpeza."),
+            p(self.link("Preços EC2", AWS_SOURCES[3][1]) + " | " +
+              self.link("EBS", AWS_SOURCES[4][1]) + " | " + self.link("IPv4", AWS_SOURCES[5][1]) + " | " +
+              self.repo_link("Procedimento AWS", "security/AWS-DEPLOY.md"), "small", markup=True)]
 
     def build_sections(self):
         self.sections = []
@@ -428,17 +571,20 @@ class Report:
         provisioning = self.data.get("provisioning", {})
         provisioning = provisioning if isinstance(provisioning, dict) else {}
         provisioned = self.status(provisioning) == "VALIDADO / PÚBLICO"
+        selected_region = "us-east-1 / Norte da Virgínia" if self.is_aws else "chilecentral / Chile Central"
+        location = "Norte da Virgínia, Estados Unidos" if self.is_aws else "Chile Central, Chile"
+        resource_kind = "Instância EC2" if self.is_aws else "VM"
         if provisioned:
             provision_text = ("O manifesto registra provisionamento concluído em " +
                 clean(provisioning.get("region"), 80) + ". A evidência de apply e leitura da API "
                 "confirma alocação; a validação da aplicação pública é registrada separadamente. ")
-            location_text = ("VM alocada na região " + clean(provisioning.get("region"), 80) +
-                ", conforme evidência de provisionamento. Chile Central fica fora do Brasil. ")
+            location_text = (resource_kind + " alocada na região " + clean(provisioning.get("region"), 80) +
+                ", conforme evidência de provisionamento. " + location + ", fora do Brasil. ")
         else:
-            provision_text = ("Seleção: Chile Central (chilecentral). A conclusão do apply ainda "
+            provision_text = ("Seleção configurada: " + selected_region + ". A conclusão do apply ainda "
                 "não está validada no manifesto; configuração e preflight não comprovam alocação. ")
             location_text = ("Região registrada: " + clean(provisioning.get("region"), 80) +
-                ". Seleção: Chile Central, fora do Brasil. Alocação ainda sem validação completa "
+                ". Seleção: " + location + ", fora do Brasil. Alocação ainda sem validação completa "
                 "no manifesto. ")
         sec = self.section("Ficha Técnica", "PONTO CERTO / DEPLOY BLINDADO / CLOUD COMPUTING")
         sec += [p("Informação de ônibus com evidência, IA local e uma publicação verificável."),
@@ -446,6 +592,7 @@ class Report:
                     ["Produto / território", "Ponto Certo / ônibus municipais de São Paulo"],
                     ["Cidadão / problema", "Pessoas que dependem do ônibus; espera e informação incerta"],
                     ["Disciplina", "Secure DevOps Tools &amp; Cloud Computing / FIAP / CitizenTech 2026.2"],
+                    ["Ambiente deste relatório", escape(self.provider_label)],
                     ["Arquitetura", "FastAPI + recuperação e consultas controladas + Qwen local + Caddy"],
                     ["Fontes / modo", "SPTrans e base documental; demonstração sintética, live depende de token"],
                     ["Modelo", escape(self.ficha["Modelo"])],
@@ -454,7 +601,7 @@ class Report:
                 Spacer(1, 10), self.table([["Integrante", "RM"], *[[escape(a), b] for a, b in self.team]], [WIDTH - 90, 90]),
                 p("Responsável por IA e Cloud: Pedro Henrique Salvitti Habiro.", "small"),
                 p(self.link("Repositório e código", self.repo) + "<br/>" +
-                  (self.link("MVP público: " + self.url, self.url) if self.url else "MVP público: <b>PENDENTE</b>"), markup=True),
+                  (self.link("MVP deste ambiente: " + self.url, self.url) if self.url else "MVP deste ambiente: <b>PENDENTE</b>"), markup=True),
                 p(f"Documento v{VERSION} | {DOCUMENT_DATE}. Evidências atualizadas: {self.updated}.<br/>"
                   f"Revisão Git registrada: {self.revision}.", "small", markup=True),
                 p("Uma URL registrada não comprova disponibilidade. O manifesto distingue configuração, "
@@ -462,6 +609,11 @@ class Report:
 
         sec = self.section("01 / Arquitetura da mesma IA", "Configuração de publicação, sem trocar a aplicação avaliada")
         sec += [self.architecture(), Spacer(1, 8),
+                p("AWS Sandbox é a entrega Cloud, conforme aceite do professor relatado por Pedro. "
+                  "A Azure permanece como hospedagem persistente da IA, separada desta implantação. " +
+                  self.link("Abrir IA na Azure", self.ia_url), "small", markup=True) if self.is_aws else
+                p("Este relatório preserva o checkpoint Azure da IA. A nova entrega Cloud usa AWS Sandbox "
+                  "e precisa de manifesto e evidências próprios.", "small"),
                 p("O navegador acessa Caddy por HTTPS. FastAPI recupera documentos e executa consultas "
                   "controladas; a geração usa Qwen2.5-1.5B-Instruct Q4_K_M no llama.cpp b12464, "
                   "dentro da infraestrutura do projeto. Não há API comercial de LLM."),
@@ -489,7 +641,7 @@ class Report:
                     ["Reinício", "unless-stopped; pesos na imagem e certificados persistentes. Healthchecks + readiness + smoke."],
                     ["Segredos", "Runtime protegido; nenhum token em imagem, repositório, cloud-init ou state."]], [100, WIDTH - 100]),
                 self.evidence_note("docker")]
-        smoke = read_json(ROOT / "evidencias/cloud/smoke-compose.json")
+        smoke = {} if self.is_aws else read_json(ROOT / "evidencias/cloud/smoke-compose.json")
         if smoke:
             checks = smoke.get("checks", [])
             checks = checks if isinstance(checks, list) else []
@@ -500,35 +652,40 @@ class Report:
                          "Não comprova URL pública nem desempenho Azure.", "small"))
         if any(item["key"] == "container" for item in self.appendices):
             sec.append(self.screenshot("container"))
+        if self.is_aws:
+            sec.extend([p("Reinício e persistência", "h2"), self.evidence_note("restart")])
         sec.append(p(self.repo_link("Compose produção", "compose.production.yaml") + " | " +
                      self.repo_link("Dockerfile app", "Dockerfile") + " | " +
                      self.repo_link("Dockerfile modelo", "Dockerfile.llm"), "small", markup=True))
 
         sec = self.section("03 / Terraform e acesso", "Rubrica: 3 pontos / fronteira administrativa restrita")
-        sec += [p("Provisionamento: " + self.status(provisioning), "h2"),
-                p("Região registrada: " + clean(provisioning.get("region"), 80) +
-                  ". SKU: " + clean(provisioning.get("vm_size"), 80) +
-                  ". Conclusão do apply conforme o status acima.", "small"),
-                p(provision_text + "Terraform administra "
-                  "RG FIAP, VNet/subnet, NIC, NSG, IP Standard/DNS, VM Ubuntu 24.04 e SSD de 32 GiB. "
-                  "A imagem Ubuntu exige versão numérica; provider AzureRM 5.14.0 e checksums ficam no lockfile."),
-                self.table([["Superfície", "Controle preparado"],
-                    ["Entrada pública", "Só TCP 80/443; negar outras entradas, inclusive SSH 22. Sem senha administrativa."],
-                    ["Bootstrap", "Docker/Compose via apt oficial, diretórios e rotação de logs. Sem aplicação ou credenciais."],
-                    ["CI / identidade", "OIDC GitHub para environment production; identidade não anexada à VM."],
-                    ["RBAC", "VM/instanceView read e Managed Run Commands read/write/delete, apenas nesta VM."],
-                    ["Segredos", "protectedParameters por JSON temporário 600; /opt/ponto-certo/runtime.env 600, diretório 700."]], [109, WIDTH - 109]),
-                p("State fora do Git", "h2"),
-                p("O wrapper infra/tf.sh usa diretório externo ~/.local/share/ponto-certo/terraform, "
-                  "permissão 700 e umask 077. State, planos, tfvars e chaves privadas nunca são artefatos "
-                  "de CI. State local é texto. FileVault protege o disco; o backup verificado é uma cópia "
-                  "nesse mesmo disco cifrado, não offsite, e não protege contra perda do computador. O lock é local "
-                  "e há um único operador; sensitive não cifra valores."),
-                p("O environment GitHub deve restringir branch main. Com environment, o subject OIDC "
-                  "não inclui branch: essa regra não é garantida só pelo Terraform. Run Command "
-                  "continua sendo administração do host, mesmo com RBAC restrito.", "small"),
-                self.evidence_note("terraform"),
-                p(self.repo_link("Operação, pré-requisitos e state", "infra/OPERACAO.md"), "small", markup=True)]
+        if self.is_aws:
+            sec += self.aws_infrastructure(provisioning, provision_text)
+        else:
+            sec += [p("Provisionamento: " + self.status(provisioning), "h2"),
+                    p("Região registrada: " + clean(provisioning.get("region"), 80) +
+                      ". SKU: " + clean(provisioning.get("vm_size"), 80) +
+                      ". Conclusão do apply conforme o status acima.", "small"),
+                    p(provision_text + "Terraform administra "
+                      "RG FIAP, VNet/subnet, NIC, NSG, IP Standard/DNS, VM Ubuntu 24.04 e SSD de 32 GiB. "
+                      "A imagem Ubuntu exige versão numérica; provider AzureRM 5.14.0 e checksums ficam no lockfile."),
+                    self.table([["Superfície", "Controle preparado"],
+                        ["Entrada pública", "Só TCP 80/443; negar outras entradas, inclusive SSH 22. Sem senha administrativa."],
+                        ["Bootstrap", "Docker/Compose via apt oficial, diretórios e rotação de logs. Sem aplicação ou credenciais."],
+                        ["CI / identidade", "OIDC GitHub para environment production; identidade não anexada à VM."],
+                        ["RBAC", "VM/instanceView read e Managed Run Commands read/write/delete, apenas nesta VM."],
+                        ["Segredos", "protectedParameters por JSON temporário 600; /opt/ponto-certo/runtime.env 600, diretório 700."]], [109, WIDTH - 109]),
+                    p("State fora do Git", "h2"),
+                    p("O wrapper infra/tf.sh usa diretório externo ~/.local/share/ponto-certo/terraform, "
+                      "permissão 700 e umask 077. State, planos, tfvars e chaves privadas nunca são artefatos "
+                      "de CI. State local é texto. FileVault protege o disco; o backup verificado é uma cópia "
+                      "nesse mesmo disco cifrado, não offsite, e não protege contra perda do computador. O lock é local "
+                      "e há um único operador; sensitive não cifra valores."),
+                    p("O environment GitHub deve restringir branch main. Com environment, o subject OIDC "
+                      "não inclui branch: essa regra não é garantida só pelo Terraform. Run Command "
+                      "continua sendo administração do host, mesmo com RBAC restrito.", "small"),
+                    self.evidence_note("terraform"),
+                    p(self.repo_link("Operação, pré-requisitos e state", "infra/OPERACAO.md"), "small", markup=True)]
         if any(item["key"] == "terraform" for item in self.appendices):
             sec.append(self.screenshot("terraform"))
 
@@ -536,9 +693,19 @@ class Report:
         sec += [p("Gitleaks (histórico) + Semgrep (política) + testes + build/Trivy (app e LLM) + "
                   "Trivy (Caddy). Os gates são dependências da publicação; severidade HIGH/CRITICAL e "
                   "segredos barram as imagens. Ações e versões são fixadas."),
+                p("Push na main publica as mesmas três imagens examinadas, sem rebuild. O job AWS "
+                  "depende da publicação aprovada e só executa com AWS_ENABLED=true, no environment "
+                  "aws-academy. STS/instância/SSM Online são verificados; depois do SSM Run Command, "
+                  "HTTPS, revisão, prontidão e smoke com LLM real precisam passar. O job Azure é separado.") if self.is_aws else
                 p("Push na main publica os mesmos arquivos de imagem examinados, sem rebuild. O GHCR "
                   "fornece os digests de app, LLM e proxy; production usa OIDC e Managed Run Command. "
                   "Depois, o job verifica TLS, revisão, prontidão e smoke com LLM real."),
+                p("AWS usa credenciais temporárias de três partes da sessão em GitHub Secrets. "
+                  "Tokens de runtime/GHCR passam por SecureString Standard temporário, alias/aws/ssm; "
+                  "o Run Command contém apenas nome/versão, não valores. EC2 lê pelo perfil Lab. "
+                  "O parâmetro é excluído ao final; limpeza não confirmada falha o job. Login Docker "
+                  "usa stdin e configuração temporária removida após pull. Falha pública aciona tentativa "
+                  "de rollback por revisão; registrar o resultado real.", "small") if self.is_aws else
                 p("Não se presume GHCR público. Pull privado usa GITHUB_TOKEN efêmero com packages: read, "
                   "parâmetro protegido e login Docker temporário removido ao final. O código público "
                   "permite reprodução por build das fontes.", "small"),
@@ -548,14 +715,18 @@ class Report:
                 self.evidence_note("ci_block"), self.screenshot("pipeline_block", 120),
                 self.evidence_note("ci_pass"), self.screenshot("pipeline_pass", 120),
                 p(self.repo_link("Workflow e gates", ".github/workflows/devsecops.yml") + " | " +
-                  self.repo_link("Ensaio controlado", "scripts/security-demo.py"), "small", markup=True)]
+                  self.repo_link("Deploy AWS e credenciais" if self.is_aws else "Ensaio controlado",
+                                 "security/AWS-DEPLOY.md" if self.is_aws else "scripts/security-demo.py"), "small", markup=True)]
 
         sec = self.section("05 / Quatro métricas de ouro", "Rubrica: 3 pontos com alerta / medir a mesma URL publicada")
         metrics = self.data.get("metrics", {})
         metrics = metrics if isinstance(metrics, dict) else {}
+        metrics_provider = metrics.get("provider", self.provider)
+        metrics_provider = "aws" if metrics_provider == "aws-academy" else metrics_provider
+        metric_target_matches = bool(self.url and metrics.get("target") == self.url and metrics_provider == self.provider)
         def measured(key, unit):
             value = metrics.get(key)
-            if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+            if not metric_target_matches or isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
                 return "PENDENTE"
             return f"{value:.4g} {unit}"
         sec += [self.table([["Sinal", "Definição", "Valor registrado"],
@@ -573,7 +744,7 @@ class Report:
                   "latência/percentual não significam zero. not_found e clarification não são falhas "
                   "de infraestrutura. Perguntas e IPs não viram rótulos."),
                 self.evidence_note("metrics"), self.screenshot("dashboard", 210),
-                p(self.repo_link("PromQL, configuração e limites", "docs/OBSERVABILIDADE.md"), "small", markup=True)]
+                p(self.repo_link("PromQL, configuração e limites", "docs/OBSERVABILIDADE-AWS.md" if self.is_aws else "docs/OBSERVABILIDADE.md"), "small", markup=True)]
 
         sec = self.section("06 / Alerta e recuperação", "Evidência operacional, sem substituir serviço real por série sintética")
         sec += [self.table([["Regra", "Condição persistente"],
@@ -593,40 +764,44 @@ class Report:
                   "Não substituem um disparo observado contra o serviço real.", "small")]
 
         sec = self.section("07 / Reproduzir e atualizar", "Execução local primeiro; publicação depende da assinatura e do pipeline")
-        sec += [p("1. Containers locais", "h2"),
-                p("Na raiz do repositório, com Docker/Compose. Configure METRICS_TOKEN por arquivo "
-                  "protegido/ambiente, sem colocá-lo no comando ou nas evidências. Demo não exige SPTrans."),
-                p("docker compose -f compose.yaml config --quiet<br/>"
-                  "docker compose -f compose.yaml up -d --build<br/>"
-                  "python3 scripts/smoke.py --base-url http://127.0.0.1:8000<br/>"
-                  "# --expect-mode demo --output reports/smoke-local.json", "code", markup=True),
-                p("2. Infraestrutura acadêmica", "h2"),
-                p("Confirmar Students, crédito, spending limit, SKU/região/quota. Chile Central passou "
-                  "no preflight com B2als_v2. Usar assinatura "
-                  "acadêmica separada. Criar chave específica e tfvars fora do Git. Init/validate são "
-                  "locais; plan consulta a conta, apply cria recursos. Revisar o plano antes de aplicar."),
-                p("bash infra/tf.sh init<br/>bash infra/tf.sh validate<br/>"
-                  "az vm image show --location chilecentral<br/>"
-                  "  --urn Canonical:ubuntu-24_04-lts:server:24.04.202611170<br/>"
-                  "# Comando Azure em uma linha; não selecionar imagem por prefixo.<br/>"
-                  "# plan/apply: tfvars e plano no diretório externo protegido", "code", markup=True),
-                p("3. Release e observabilidade", "h2"),
-                p("Configurar production limitado à main; Secrets de IDs Azure, METRICS_TOKEN e "
-                  "SPTRANS_TOKEN somente no modo live; Variables de RG/VM/URL. O pipeline publica "
-                  "digests aprovados, aplica Compose e verifica a revisão. Pesos vêm na imagem, "
-                  "certificados persistem e a configuração anterior é mantida para tentativa de rollback."),
-                p("python3 observability/configure.py --url https://URL-REAL<br/>"
-                  "docker compose -f compose.monitoring.yaml up -d", "code", markup=True),
-                p("Confirmar TLS, readiness, inferência, fontes/modo, porta 22 fechada, reinício e "
-                  "versão. Gerar tráfego real e coletar métricas, alerta e recuperação. Falha da "
-                  "validação externa aciona tentativa de recuperação; a primeira release não tem "
-                  "antecessora e é interrompida. Registrar resultado, sem presumir recuperação."),
-                self.evidence_note("restart")]
+        if self.is_aws:
+            sec += self.aws_reproduction()
+        else:
+            sec += [p("1. Containers locais", "h2"),
+                    p("Na raiz do repositório, com Docker/Compose. Configure METRICS_TOKEN por arquivo "
+                      "protegido/ambiente, sem colocá-lo no comando ou nas evidências. Demo não exige SPTrans."),
+                    p("docker compose -f compose.yaml config --quiet<br/>"
+                      "docker compose -f compose.yaml up -d --build<br/>"
+                      "python3 scripts/smoke.py --base-url http://127.0.0.1:8000<br/>"
+                      "# --expect-mode demo --output reports/smoke-local.json", "code", markup=True),
+                    p("2. Infraestrutura acadêmica", "h2"),
+                    p("Confirmar Students, crédito, spending limit, SKU/região/quota. Chile Central passou "
+                      "no preflight com B2als_v2. Usar assinatura "
+                      "acadêmica separada. Criar chave específica e tfvars fora do Git. Init/validate são "
+                      "locais; plan consulta a conta, apply cria recursos. Revisar o plano antes de aplicar."),
+                    p("bash infra/tf.sh init<br/>bash infra/tf.sh validate<br/>"
+                      "az vm image show --location chilecentral<br/>"
+                      "  --urn Canonical:ubuntu-24_04-lts:server:24.04.202611170<br/>"
+                      "# Comando Azure em uma linha; não selecionar imagem por prefixo.<br/>"
+                      "# plan/apply: tfvars e plano no diretório externo protegido", "code", markup=True),
+                    p("3. Release e observabilidade", "h2"),
+                    p("Configurar production limitado à main; Secrets de IDs Azure, METRICS_TOKEN e "
+                      "SPTRANS_TOKEN somente no modo live; Variables de RG/VM/URL. O pipeline publica "
+                      "digests aprovados, aplica Compose e verifica a revisão. Pesos vêm na imagem, "
+                      "certificados persistem e a configuração anterior é mantida para tentativa de rollback."),
+                    p("python3 observability/configure.py --url https://URL-REAL<br/>"
+                      "docker compose -f compose.monitoring.yaml up -d", "code", markup=True),
+                    p("Confirmar TLS, readiness, inferência, fontes/modo, porta 22 fechada, reinício e "
+                      "versão. Gerar tráfego real e coletar métricas, alerta e recuperação. Falha da "
+                      "validação externa aciona tentativa de recuperação; a primeira release não tem "
+                      "antecessora e é interrompida. Registrar resultado, sem presumir recuperação."),
+                    self.evidence_note("restart")]
 
         sec = self.section("08 / Dados e responsabilidades", "Minimização, acesso e localização documentados sem certificar conformidade")
         sec += [self.table([["Camada", "Responsável"],
-                    ["Datacenter, host físico, virtualização", "Microsoft na oferta IaaS"],
-                    ["Identidade, NSG, SO, patches, Docker", "Equipe / Pedro, operador IA e Cloud"],
+                    ["Datacenter, host físico, virtualização", "AWS na oferta IaaS" if self.is_aws else "Microsoft na oferta IaaS"],
+                    ["Conta e identidade", "Academy disponibiliza conta/perfil; equipe protege sessão e segredos" if self.is_aws else "Equipe protege conta, federação e segredos"],
+                    ["Rede, SO, patches e Docker", "Equipe / Pedro, operador IA e Cloud"],
                     ["Aplicação, modelo, dados, segredos", "Equipe / Pedro; validação e correção do sistema"],
                     ["Monitoramento, restore e evidências", "Operador; computador local ativo para coleta"],
                     ["Envio e confirmação acadêmica", "Pedro ou integrante designado"]], [235, WIDTH - 235]),
@@ -637,18 +812,26 @@ class Report:
                   "pergunta/IP/linha. Logs técnicos são rotacionados e precisam de inspeção. Evidências "
                   "não incluem tokens, perguntas pessoais, payloads protegidos ou state."),
                 p(location_text +
-                  "Brasil Sul foi descartado por restrições de SKU. Verificar fluxos de metadados, "
+                  ("A Azure da IA permanece no Chile, em implantação separada. " if self.is_aws else "Brasil Sul foi descartado por restrições de SKU. ") +
+                  "Verificar fluxos de metadados, "
                   "controle e contratos; não prometer residência integral por inferência."),
                 p("Antes de uso ampliado com dados pessoais, definir finalidade, base legal, aviso, "
                   "canal de direitos, retenção e eventual mecanismo de transferência internacional. "
                   "A arquitetura acadêmica não constitui certificação LGPD."),
-                p(self.link("Responsabilidade compartilhada Microsoft", SOURCES[7][1]) + "<br/>" +
+                p(self.link("Responsabilidade compartilhada AWS" if self.is_aws else "Responsabilidade compartilhada Microsoft",
+                            AWS_SOURCES[7][1] if self.is_aws else SOURCES[7][1]) + "<br/>" +
                   self.link("ANPD: transferência internacional", SOURCES[8][1]), "small", markup=True),
+                p("Sessão AWS temporária e SecureString não eliminam o acesso administrativo do "
+                  "perfil Lab e do SSM. Não criar IAM fora das permissões do curso; proteger environment, "
+                  "secrets, parâmetros e saídas. A exclusão no fim da sessão não comprova remoção de "
+                  "todas as cópias ou logs do provedor.") if self.is_aws else
                 p("Segredos ficam no servidor e no canal de configuração autorizado. OIDC evita "
                   "uma senha duradoura Azure; não elimina a necessidade de proteger branch, environment, "
                   "contas e o poder administrativo do Run Command.")]
 
-        sec = self.section("09 / Crédito e manutenção", "R$0 desembolsado é a intenção; consumo de crédito precisa ser acompanhado")
+        sec = self.section("09 / Sessão, custo e manutenção" if self.is_aws else "09 / Crédito e manutenção",
+                           "Academy: tempo de sessão, créditos CPU e preço de referência são grandezas distintas" if self.is_aws else
+                           "R$0 desembolsado é a intenção; consumo de crédito precisa ser acompanhado")
         cost = self.data.get("costs", {})
         cost = cost if isinstance(cost, dict) else {}
         def money(key):
@@ -656,32 +839,35 @@ class Report:
             if isinstance(number, bool) or not isinstance(number, (int, float)) or not math.isfinite(number):
                 return "PENDENTE"
             return f"US${number:.4f}"
-        sec += [p("Azure for Students oferece US$100 por 12 meses a elegíveis, sem cartão. A conta "
-                  "acadêmica foi ativada segundo a verificação do operador; acompanhar saldo e "
-                  "spending limit durante toda a correção. Crédito expirado/esgotado "
-                  "pode desabilitar o serviço. Não remover o limite nem converter para plano pago."),
-                self.table([["Cotação regional registrada", "Valor"],
-                    ["Região / consulta", escape(clean(cost.get("region"), 70) + " / " + clean(cost.get("checked_at"), 70))],
-                    ["Período em horas", escape(clean(cost.get("hours"), 30))],
-                    ["VM por hora", money("vm_hourly_usd")],
-                    ["IPv4 por hora", money("ip_hourly_usd")],
-                    ["SSD por mês", money("disk_monthly_usd")],
-                    ["Total estimado de crédito", money("total_estimate_usd")]], [290, WIDTH - 290]),
-                p("Estimativa selecionada: chilecentral / 216 h (9 dias) / VM US$0,0526/h "
-                  "+ IP US$0,005/h + SSD US$3,36/mês = US$13,4496 de crédito (~US$13,45). "
-                  "Disco proporcional por mês de 30 dias. Consulta Retail API em 19/11/2026. "
-                  "Operações SSD US$0,0028/10 mil, egress e duração maior alteram o total; "
-                  "estimativa não é gasto realizado.", "small"),
-                p("Manter até 27/11/2026", "h2"),
-                p("Aplicação, repositório e evidências acessíveis até pelo menos 27/11/2026 às 23h55 "
-                  "de São Paulo, confirmando fim da correção antes de encerrar. Não há desligamento "
-                  "automático. Verificar saldo/expiração, disco, readiness, créditos de CPU e alertas."),
-                p("B2als_v2 compartilha capacidade burstable; créditos esgotados podem aumentar a "
-                  "latência. Manter monitoramento local ativo e registrar lacunas. Ao encerrar, somente "
-                  "após liberação: preservar evidências/backup cifrado, revisar destroy, remover recursos "
-                  "acadêmicos e revogar federação/segredos. Parar a VM não remove custo de disco/IP."),
-                p(self.link("Preços oficiais Microsoft", SOURCES[3][1]) + " | " +
-                  self.repo_link("Planilha textual e operação", "infra/OPERACAO.md"), "small", markup=True)]
+        if self.is_aws:
+            sec += self.aws_costs_and_session(cost, money)
+        else:
+            sec += [p("Azure for Students oferece US$100 por 12 meses a elegíveis, sem cartão. A conta "
+                      "acadêmica foi ativada segundo a verificação do operador; acompanhar saldo e "
+                      "spending limit durante toda a correção. Crédito expirado/esgotado "
+                      "pode desabilitar o serviço. Não remover o limite nem converter para plano pago."),
+                    self.table([["Cotação regional registrada", "Valor"],
+                        ["Região / consulta", escape(clean(cost.get("region"), 70) + " / " + clean(cost.get("checked_at"), 70))],
+                        ["Período em horas", escape(clean(cost.get("hours"), 30))],
+                        ["VM por hora", money("vm_hourly_usd")],
+                        ["IPv4 por hora", money("ip_hourly_usd")],
+                        ["SSD por mês", money("disk_monthly_usd")],
+                        ["Total estimado de crédito", money("total_estimate_usd")]], [290, WIDTH - 290]),
+                    p("Estimativa selecionada: chilecentral / 216 h (9 dias) / VM US$0,0526/h "
+                      "+ IP US$0,005/h + SSD US$3,36/mês = US$13,4496 de crédito (~US$13,45). "
+                      "Disco proporcional por mês de 30 dias. Consulta Retail API em 19/11/2026. "
+                      "Operações SSD US$0,0028/10 mil, egress e duração maior alteram o total; "
+                      "estimativa não é gasto realizado.", "small"),
+                    p("Manter até 27/11/2026", "h2"),
+                    p("Aplicação, repositório e evidências acessíveis até pelo menos 27/11/2026 às 23h55 "
+                      "de São Paulo, confirmando fim da correção antes de encerrar. Não há desligamento "
+                      "automático. Verificar saldo/expiração, disco, readiness, créditos de CPU e alertas."),
+                    p("B2als_v2 compartilha capacidade burstable; créditos esgotados podem aumentar a "
+                      "latência. Manter monitoramento local ativo e registrar lacunas. Ao encerrar, somente "
+                      "após liberação: preservar evidências/backup cifrado, revisar destroy, remover recursos "
+                      "acadêmicos e revogar federação/segredos. Parar a VM não remove custo de disco/IP."),
+                    p(self.link("Preços oficiais Microsoft", SOURCES[3][1]) + " | " +
+                      self.repo_link("Planilha textual e operação", "infra/OPERACAO.md"), "small", markup=True)]
 
         sec = self.section("10 / Matriz de evidências", "O manifesto é um índice revisável; arquivos precisam de inspeção humana")
         rows = [["Verificação", "Situação registrada", "Escopo / data"]]
@@ -707,7 +893,7 @@ class Report:
                 sec.append(p(self.link("Abrir o manifesto desta entrega", self.data["manifest_url"]),
                              "small", markup=True))
         else:
-            sec.append(p("Manifesto ausente: evidencias/cloud/manifest.json. Nenhuma validação foi inferida.", "small"))
+            sec.append(p("Manifesto selecionado ausente. Nenhuma validação foi inferida.", "small"))
 
         sec = self.section("11 / Entrega e referências", "Reprodução e rastreabilidade para quem avalia")
         sec += [p("Prazo publicado: 19/11/2026 às 23h55, America/Sao_Paulo. O material oficial "
@@ -717,13 +903,20 @@ class Report:
                 p("Conferir antes de enviar: URL abre externamente; mesma revisão e LLM; modo demo "
                   "identificado; pipeline e evidências sem segredo; métricas com amostras; alerta e "
                   "recuperação; PDF renderizado e legível. Pendências não devem ser ocultadas."),
-                p(self.repo_link("Documento Cloud e esquema do manifesto", "docs/CLOUD.md") + "<br/>" +
+                p("Entrega Cloud: AWS Sandbox, conforme aceite do professor relatado por Pedro. "
+                  "Registrar a janela de acesso temporário e a necessidade de nova sessão para "
+                  "reproduzir. A URL Azure da IA preserva acesso ao produto, mas não substitui provas "
+                  "de infraestrutura/deploy/alerta AWS.", "small") if self.is_aws else
+                p("Este documento preserva a implantação Azure da IA. A entrega Cloud em AWS precisa "
+                  "usar seu manifesto próprio; não alterar o provedor das provas históricas.", "small"),
+                p(self.repo_link("Documento Cloud e operação", "docs/CLOUD-AWS.md" if self.is_aws else "docs/CLOUD.md") + "<br/>" +
                   self.repo_link("Estado operacional", "docs/STATUS-CLOUD.md") + "<br/>" +
                   self.repo_link("Gerador reproduzível deste PDF", "scripts/build-cloud-pdf.py"), "small", markup=True),
                 p("Fontes oficiais", "h2")]
         source_rows = []
-        for index in range(0, len(SOURCES), 2):
-            source_rows.append([self.link(*SOURCES[index]), self.link(*SOURCES[index + 1])])
+        for index in range(0, len(self.sources), 2):
+            source_rows.append([self.link(*self.sources[index]),
+                                self.link(*self.sources[index + 1]) if index + 1 < len(self.sources) else "&#160;"])
         sec += [self.table(source_rows, [WIDTH / 2, WIDTH / 2], header=False),
                 p("Documento institucional: Desafio-FIAP-GS-CitizenTech 4ES.pdf, p.18-25 (Ficha/regras), "
                   "p.28-31 (IA), p.51-53 (Cloud), preservado na pasta FIAP. Links técnicos foram "
@@ -744,7 +937,7 @@ class Report:
         canv.drawString(44, page_height - 27, "PONTO CERTO")
         canv.setFont(self.body_font, 8)
         canv.setFillColor(MUTED)
-        canv.drawRightString(page_width - 44, page_height - 27, "FIAP / CLOUD / 2026.2")
+        canv.drawRightString(page_width - 44, page_height - 27, "FIAP / CLOUD / " + self.provider.upper() + " / 2026.2")
         canv.setStrokeColor(LINE)
         canv.setLineWidth(0.5)
         canv.line(44, 37, page_width - 44, 37)
@@ -784,7 +977,8 @@ class Report:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--manifest", type=Path, default=ROOT / "evidencias/cloud/manifest.json")
+    parser.add_argument("--manifest", type=Path, default=ROOT / "evidencias/cloud/manifest.json",
+                        help="Use evidencias/aws/manifest.json for AWS; default preserves the Azure IA checkpoint")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--check", action="store_true", help="Validate inputs, without creating a PDF")
     args = parser.parse_args()
@@ -792,6 +986,7 @@ def main():
     if args.check:
         sections = report.build_sections()
         print(json.dumps({"manifest_present": args.manifest.is_file(),
+                          "provider": report.provider,
                           "sections": len(sections), "team_members": len(report.team),
                           "landscape_appendices": len(report.appendices),
                           "captures": [{"key": item["key"], "pixels": item["pixels"],

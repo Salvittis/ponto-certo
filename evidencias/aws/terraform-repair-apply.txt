@@ -1,0 +1,25 @@
+aws_instance.app: Destroying... [id=i-057462c89acfbf45f]
+aws_instance.app: Still destroying... [id=i-057462c89acfbf45f, 00m10s elapsed]
+aws_instance.app: Still destroying... [id=i-057462c89acfbf45f, 00m20s elapsed]
+aws_instance.app: Still destroying... [id=i-057462c89acfbf45f, 00m30s elapsed]
+aws_instance.app: Destruction complete after 31s
+aws_instance.app: Creating...
+aws_instance.app: Still creating... [00m10s elapsed]
+aws_instance.app: Creation complete after 15s [id=i-0cd7e82843509189b]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+
+Outputs:
+
+aws_public_dns = "ec2-54-210-161-95.compute-1.amazonaws.com"
+instance_id = "i-0cd7e82843509189b"
+instance_profile_name = "LabInstanceProfile"
+instance_type = "t2.medium"
+public_host = "54-210-161-95.sslip.io"
+public_ip = "54.210.161.95"
+public_url = "https://54-210-161-95.sslip.io"
+region = "us-east-1"
+security_group_id = "sg-0fe8596e175468e22"
+ubuntu_ami_id = "ami-0109d2b556bd3d7e1"
+ubuntu_ami_name = "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-20261119"
+vpc_id = "vpc-01e4530ff8fabd443"

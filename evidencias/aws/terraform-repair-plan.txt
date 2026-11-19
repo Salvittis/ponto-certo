@@ -1,0 +1,271 @@
+data.aws_ami.ubuntu: Reading...
+data.aws_iam_instance_profile.lab: Reading...
+aws_vpc.app: Refreshing state... [id=vpc-01e4530ff8fabd443]
+data.aws_iam_instance_profile.lab: Read complete after 1s [id=AIPA357DJNPWUM2FEURJR]
+data.aws_ami.ubuntu: Read complete after 1s [id=ami-0109d2b556bd3d7e1]
+aws_internet_gateway.app: Refreshing state... [id=igw-0b8852341887c5338]
+aws_security_group.app: Refreshing state... [id=sg-0fe8596e175468e22]
+aws_route_table.app: Refreshing state... [id=rtb-0ce4bfbfd2a15be12]
+aws_subnet.app: Refreshing state... [id=subnet-0688a8c6078c4d3d5]
+aws_vpc_security_group_egress_rule.outbound: Refreshing state... [id=sgr-0e9af1ad36874cb4f]
+aws_vpc_security_group_ingress_rule.web["80"]: Refreshing state... [id=sgr-028dceae7f38084aa]
+aws_vpc_security_group_ingress_rule.web["443"]: Refreshing state... [id=sgr-05df6c32402652ecc]
+aws_route.internet: Refreshing state... [id=r-rtb-0ce4bfbfd2a15be121080289494]
+aws_route_table_association.app: Refreshing state... [id=rtbassoc-0cc3a9c19816c8a4f]
+aws_instance.app: Refreshing state... [id=i-057462c89acfbf45f]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # aws_instance.app must be replaced
+-/+ resource "aws_instance" "app" {
+      ~ arn                                  = "arn:aws:ec2:us-east-1:820278553581:instance/i-057462c89acfbf45f" -> (known after apply)
+      ~ availability_zone                    = "us-east-1a" -> (known after apply)
+      ~ disable_api_stop                     = false -> (known after apply)
+      ~ disable_api_termination              = false -> (known after apply)
+      ~ ebs_optimized                        = false -> (known after apply)
+      + enable_primary_ipv6                  = (known after apply)
+      - hibernation                          = false -> null
+      + host_id                              = (known after apply)
+      + host_resource_group_arn              = (known after apply)
+      ~ id                                   = "i-057462c89acfbf45f" -> (known after apply)
+      ~ instance_initiated_shutdown_behavior = "stop" -> (known after apply)
+      + instance_lifecycle                   = (known after apply)
+      ~ instance_state                       = "running" -> (known after apply)
+      ~ ipv6_address_count                   = 0 -> (known after apply)
+      ~ ipv6_addresses                       = [] -> (known after apply)
+      + key_name                             = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_group_id                   = (known after apply)
+      ~ placement_partition_number           = 0 -> (known after apply)
+      ~ primary_network_interface_id         = "eni-0c707678a565dd8e9" -> (known after apply)
+      ~ private_dns                          = "ip-10-82-1-214.ec2.internal" -> (known after apply)
+      ~ private_ip                           = "10.82.1.214" -> (known after apply)
+      ~ public_dns                           = "ec2-3-83-184-174.compute-1.amazonaws.com" -> (known after apply)
+      ~ public_ip                            = "3.83.184.174" -> (known after apply)
+      ~ secondary_private_ips                = [] -> (known after apply)
+      ~ security_groups                      = [] -> (known after apply)
+      + spot_instance_request_id             = (known after apply)
+        tags                                 = {
+            "Name" = "ponto-certo-fiap-aws-vm"
+        }
+      ~ tenancy                              = "default" -> (known after apply)
+      ~ user_data                            = <<-EOT # forces replacement
+            #cloud-config
+            # Public host bootstrap only. No Lab, registry or application credentials here.
+            package_update: true
+            package_upgrade: true
+            packages:
+              - ca-certificates
+              - curl
+              - gnupg
+              - jq
+          -   - awscli
+          +   - unzip
+          +   - groff
+          +   - less
+              - snapd
+            write_files:
+          +   # AWS CLI Team key from the official installation guide; fingerprint checked below.
+          +   - path: /etc/ponto-certo/awscli-team.asc
+          +     owner: root:root
+          +     permissions: '0644'
+          +     content: |
+          +       -----BEGIN PGP PUBLIC KEY BLOCK-----
+          +       
+          +       mQINBF2Cr7UBEADJZHcgusOJl7ENSyumXh85z0TRV0xJorM2B/JL0kHOyigQluUG
+          +       ZMLhENaG0bYatdrKP+3H91lvK050pXwnO/R7fB/FSTouki4ciIx5OuLlnJZIxSzx
+          +       PqGl0mkxImLNbGWoi6Lto0LYxqHN2iQtzlwTVmq9733zd3XfcXrZ3+LblHAgEt5G
+          +       TfNxEKJ8soPLyWmwDH6HWCnjZ/aIQRBTIQ05uVeEoYxSh6wOai7ss/KveoSNBbYz
+          +       gbdzoqI2Y8cgH2nbfgp3DSasaLZEdCSsIsK1u05CinE7k2qZ7KgKAUIcT/cR/grk
+          +       C6VwsnDU0OUCideXcQ8WeHutqvgZH1JgKDbznoIzeQHJD238GEu+eKhRHcz8/jeG
+          +       94zkcgJOz3KbZGYMiTh277Fvj9zzvZsbMBCedV1BTg3TqgvdX4bdkhf5cH+7NtWO
+          +       lrFj6UwAsGukBTAOxC0l/dnSmZhJ7Z1KmEWilro/gOrjtOxqRQutlIqG22TaqoPG
+          +       fYVN+en3Zwbt97kcgZDwqbuykNt64oZWc4XKCa3mprEGC3IbJTBFqglXmZ7l9ywG
+          +       EEUJYOlb2XrSuPWml39beWdKM8kzr1OjnlOm6+lpTRCBfo0wa9F8YZRhHPAkwKkX
+          +       XDeOGpWRj4ohOx0d2GWkyV5xyN14p2tQOCdOODmz80yUTgRpPVQUtOEhXQARAQAB
+          +       tCFBV1MgQ0xJIFRlYW0gPGF3cy1jbGlAYW1hem9uLmNvbT6JAlQEEwEIAD4CGwMF
+          +       CwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQT7Xbd/1cEYuAURraimMQrMRnJHXAUC
+          +       akV0ygUJDqP4lQAKCRCmMQrMRnJHXFHjD/9eyZLYcKuQOlLvtqSDtUBiEZf6ZZjM
+          +       i3ygYH8rJNtuToUH+HvSpe819urJCquXhDrlK6N+aqW0hCLtNABJG/vsafIgvIYJ
+          +       hSGgpgtNnQyMV1jViRWqPjbouw8OkYKBThUfT1i2Y+wn58ifs6ODBCmTexWtXspA
+          +       Si+Gt49xDOW0APmbOPnI+a4HJW6tVEo6MWS0WjzpiBayR3d1A4pt4YrPfSdDgpLo
+          +       h2SLQqlRqvvVZJaWBjhkErNFpfsBA06sDcPEOb0G8LBUbR4WOcdvhe5LubJbZuxC
+          +       AG9kNPCVeQP1ixwjgjXKysaxeQ6rv0VzIQgRp6tLVLWhy6AKDNvLjFSsmXZ1Wl08
+          +       Y/RlOHXlzLuQMRE6sR1wOdRxc9TsrNWTGiBK65cvSWOy03JeBkQQ8pesqltiyxI9
+          +       U21kkgiXtTSKNGfKK8pO27D81YANhRqPK7iTp6kuFiY2WtOg90KTMNlIT+Ff85Y2
+          +       b1rHj6Z0SrCkJujhWk3IBPic/wJgz01LEc/OAdUPlby90RJZcIBhSlWhT7mXnXIO
+          +       c0HWlNQrns2s3CTyYwZSiSlYe9ApeLwhjDo8NhbFuCAy61l6O5UsR4AfZxx/rGKv
+          +       2wFb1/RN/P4gNe6vmxZAPjR0AQcwD3tc2McimOLr/22kmPz8IH3I0X7WoSFr0Biz
+          +       E91G7bb0hOb/cA==
+          +       =knv7
+          +       -----END PGP PUBLIC KEY BLOCK-----
+              - path: /etc/docker/daemon.json
+                owner: root:root
+                permissions: '0644'
+                content: |
+                  {
+                    "log-driver": "local",
+                    "log-opts": {"max-size": "5m", "max-file": "3"},
+                    "live-restore": true,
+                    "no-new-privileges": true
+                  }
+              - path: /usr/local/sbin/ponto-certo-bootstrap
+                owner: root:root
+                permissions: '0700'
+                content: |
+                  #!/bin/bash
+                  set -euo pipefail
+                  umask 077
+                  export DEBIAN_FRONTEND=noninteractive
+                  install -d -m 0755 /etc/apt/keyrings
+                  curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 \
+                    https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+                  chmod 0644 /etc/apt/keyrings/docker.asc
+                  cat > /etc/apt/sources.list.d/docker.sources <<'DOCKER_REPO'
+                  Types: deb
+                  URIs: https://download.docker.com/linux/ubuntu
+                  Suites: noble
+                  Components: stable
+                  Architectures: amd64
+                  Signed-By: /etc/apt/keyrings/docker.asc
+                  DOCKER_REPO
+                  chmod 0644 /etc/apt/sources.list.d/docker.sources
+                  apt-get update
+                  apt-get install -y --no-install-recommends docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+          +       # Noble does not provide the awscli package in this AMI's apt sources.
+          +       # Pin the official v2 distribution and verify its detached signature before execution.
+          +       # Source: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+          +       aws_cli_version='2.41.1'
+          +       aws_cli_tmp="$(mktemp -d /tmp/ponto-certo-awscli.XXXXXX)"
+          +       trap 'rm -rf "$aws_cli_tmp"' EXIT
+          +       install -d -m 0700 "$aws_cli_tmp/gnupg"
+          +       aws_cli_fingerprint="$(gpg --homedir "$aws_cli_tmp/gnupg" --batch --with-colons \
+          +         --import-options show-only --import /etc/ponto-certo/awscli-team.asc | awk -F: '$1 == "fpr" { print $10; exit }')"
+          +       test "$aws_cli_fingerprint" = 'FB5DB77FD5C118B80511ADA8A6310ACC4672475C'
+          +       gpg --homedir "$aws_cli_tmp/gnupg" --batch --import /etc/ponto-certo/awscli-team.asc
+          +       for artifact in zip zip.sig; do
+          +         curl --fail --silent --show-error --location --retry 3 --proto '=https' --tlsv1.2 \
+          +           "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${aws_cli_version}.${artifact}" \
+          +           -o "$aws_cli_tmp/awscliv2.${artifact}"
+          +       done
+          +       gpg --homedir "$aws_cli_tmp/gnupg" --batch --verify "$aws_cli_tmp/awscliv2.zip.sig" "$aws_cli_tmp/awscliv2.zip"
+          +       unzip -q "$aws_cli_tmp/awscliv2.zip" -d "$aws_cli_tmp"
+          +       "$aws_cli_tmp/aws/install" --install-dir /usr/local/aws-cli --bin-dir /usr/local/bin
+          +       /usr/local/bin/aws --version | grep -F "aws-cli/${aws_cli_version} "
+                  install -d -o root -g root -m 0700 /opt/ponto-certo
+                  # Docker remains privileged at the host; nobody is added to its group.
+                  # No TCP Docker socket, SSH key, inbound management port or application secret.
+                  systemctl enable --now docker
+                  if snap list amazon-ssm-agent >/dev/null 2>&1; then
+                    snap start --enable amazon-ssm-agent
+                    systemctl is-active --quiet snap.amazon-ssm-agent.amazon-ssm-agent.service
+                  elif systemctl list-unit-files amazon-ssm-agent.service --no-legend | grep -q '^amazon-ssm-agent.service'; then
+                    # Avoid installing a duplicate Snap agent if the AMI already uses a deb.
+                    systemctl enable --now amazon-ssm-agent
+                    systemctl is-active --quiet amazon-ssm-agent
+                  else
+                    timeout 180 snap wait system seed.loaded
+                    snap install amazon-ssm-agent --classic
+                    snap start --enable amazon-ssm-agent
+                    systemctl is-active --quiet snap.amazon-ssm-agent.amazon-ssm-agent.service
+                  fi
+                  docker version --format '{{.Server.Version}}' > /opt/ponto-certo/docker-version.txt
+                  docker compose version --short > /opt/ponto-certo/compose-version.txt
+                  aws --version > /opt/ponto-certo/aws-cli-version.txt 2>&1
+                  date -u +%FT%TZ > /opt/ponto-certo/bootstrap-ready.txt
+            runcmd:
+              - ['/usr/local/sbin/ponto-certo-bootstrap']
+            final_message: "Ponto Certo Academy host bootstrap finished; SSM registration and gated application deployment must be verified separately."
+        EOT
+      + user_data_base64                     = (known after apply)
+        # (13 unchanged attributes hidden)
+
+      ~ capacity_reservation_specification (known after apply)
+      - capacity_reservation_specification {
+          - capacity_reservation_preference = "open" -> null
+        }
+
+      ~ cpu_options (known after apply)
+      - cpu_options {
+          - core_count            = 2 -> null
+          - threads_per_core      = 1 -> null
+            # (2 unchanged attributes hidden)
+        }
+
+      ~ ebs_block_device (known after apply)
+
+      ~ enclave_options (known after apply)
+      - enclave_options {
+          - enabled = false -> null
+        }
+
+      ~ ephemeral_block_device (known after apply)
+
+      ~ instance_market_options (known after apply)
+
+      ~ maintenance_options (known after apply)
+      - maintenance_options {
+          - auto_recovery = "default" -> null
+        }
+
+      ~ network_interface (known after apply)
+
+      ~ primary_network_interface (known after apply)
+      - primary_network_interface {
+          - delete_on_termination = true -> null
+          - network_interface_id  = "eni-0c707678a565dd8e9" -> null
+        }
+
+      ~ private_dns_name_options (known after apply)
+      - private_dns_name_options {
+          - enable_resource_name_dns_a_record    = false -> null
+          - enable_resource_name_dns_aaaa_record = false -> null
+          - hostname_type                        = "ip-name" -> null
+        }
+
+      ~ root_block_device {
+          ~ device_name           = "/dev/sda1" -> (known after apply)
+          ~ iops                  = 100 -> (known after apply)
+          ~ kms_key_id            = "arn:aws:kms:us-east-1:820278553581:key/3e5a4beb-a37e-47fa-925b-6e8f13678d5d" -> (known after apply)
+            tags                  = {
+                "Name" = "ponto-certo-fiap-aws-root"
+            }
+          ~ tags_all              = {
+              - "Name"        = "ponto-certo-fiap-aws-root"
+              - "environment" = "aws-academy"
+              - "managed_by"  = "terraform"
+              - "project"     = "ponto-certo"
+              - "purpose"     = "fiap-cloud"
+            } -> (known after apply)
+          ~ throughput            = 0 -> (known after apply)
+          ~ volume_id             = "vol-0527c2ddb6fe038ff" -> (known after apply)
+            # (4 unchanged attributes hidden)
+        }
+
+      ~ secondary_network_interface (known after apply)
+
+        # (2 unchanged blocks hidden)
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+Changes to Outputs:
+  ~ aws_public_dns        = "ec2-3-83-184-174.compute-1.amazonaws.com" -> (known after apply)
+  ~ instance_id           = "i-057462c89acfbf45f" -> (known after apply)
+  ~ public_host           = "3-83-184-174.sslip.io" -> (known after apply)
+  ~ public_ip             = "3.83.184.174" -> (known after apply)
+  ~ public_url            = "https://3-83-184-174.sslip.io" -> (known after apply)
+
+─────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to:
+[external protected Terraform directory]/repair.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "[external protected Terraform directory]/repair.tfplan"

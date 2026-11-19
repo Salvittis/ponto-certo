@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-11-19T12:51:28.212122+00:00",
+  "scope": "local cryptographic verification of the exact Linux x86_64 distribution used by EC2 bootstrap; not proof of EC2 installation",
+  "version": "2.41.1",
+  "zip_url": "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.41.1.zip",
+  "signature_url": "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.41.1.zip.sig",
+  "key_source": "https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html",
+  "fingerprint": "FB5DB77FD5C118B80511ADA8A6310ACC4672475C",
+  "signature_timestamp": "2026-11-18T19:35:55Z",
+  "result": "Good signature from AWS CLI Team; pinned fingerprint matched; verification exit0",
+  "verification_environment": "ephemeral local Ubuntu24.04 container with distribution gnupg; no cloud API call",
+  "zip_sha256": "f1b67518c009e9deb94152aaba5cc015e80af6b0630a7931d3662df42b5f568e",
+  "signature_sha256": "dad9432d73f63346238eb66a575f7cf6788a6fad320d56b64ae332235361ac86",
+  "cloud_init_bytes": 6403,
+  "validation": {
+    "yaml": "Ruby Psych parsed successfully",
+    "bash": "bash -n passed",
+    "terraform": "terraform validate passed",
+    "user_data_limit": "6403 bytes below16384"
+  }
+}

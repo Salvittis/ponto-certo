@@ -1,0 +1,50 @@
+{
+  "checked_at": "2026-11-19T12:51:28.212122+00:00",
+  "provider": "AWS",
+  "region": "us-east-1",
+  "currency": "USD",
+  "scenario": "illustrative public on-demand price of one Ponto Certo EC2 for a three-hour session; not measured Academy consumption or a student bill",
+  "duration_hours": 3,
+  "month_hours_assumption": 720,
+  "rates": [
+    {
+      "resource": "t2.medium Linux/Unix Standard,2vCPU4GiB",
+      "unit": "instance-hour",
+      "usd_per_unit": 0.0464,
+      "quantity": 3,
+      "subtotal_usd": 0.1392,
+      "source": "https://aws.amazon.com/ec2/instance-types/t2/"
+    },
+    {
+      "resource": "gp2 root volume32GiB",
+      "unit": "provisioned GB-month",
+      "usd_per_unit": 0.1,
+      "quantity": 0.13333333333333333,
+      "subtotal_usd": 0.013333333333333336,
+      "source": "https://aws.amazon.com/ebs/volume-types/"
+    },
+    {
+      "resource": "one public IPv4",
+      "unit": "address-hour",
+      "usd_per_unit": 0.005,
+      "quantity": 3,
+      "subtotal_usd": 0.015,
+      "source": "https://aws.amazon.com/vpc/pricing/"
+    }
+  ],
+  "subtotal_usd": 0.1675333333333333,
+  "budget_scope": "Managed AWS Academy Sandbox session. Public price scenario does not authorize a personal paid account or claim an invoice amount.",
+  "exclusions": [
+    "Academy-provided Bastion Host and Lab Instance",
+    "initial failed EC2 and replacement overlap or extra time",
+    "data transfer and any other services",
+    "GitHub Actions storage or other CI charges",
+    "taxes or exchange conversion"
+  ],
+  "notes": [
+    "CPU credit modeStandard avoids Unlimited surplus CPU charging but can throttle whencredits runout.",
+    "Threehours is the observed session limit; duration is not proof of dollar credit balance.",
+    "Sources consulted directly on19Nov2026. EBS proration uses the official pricing example30-daymonth."
+  ],
+  "proration_source": "https://aws.amazon.com/ebs/pricing/"
+}
