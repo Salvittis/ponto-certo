@@ -9,6 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, ConfigDict, field_validator
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 from .settings import Settings
+from .limits import QueryLimits
 from .engine import Engine
 from .metrics import REQUESTS,LATENCY,ACTIVE,ASK_STATUS,MODEL_READY
 logging.getLogger('httpx').setLevel(logging.WARNING)
@@ -17,6 +18,7 @@ settings=Settings()
 engine=Engine(settings)
 ROOT=Path(__file__).resolve().parents[1]
 app=FastAPI(title='Ponto Certo',version=settings.version)
+app.add_middleware(QueryLimits,max_bytes=8192,capacity=2)
 class AskRequest(BaseModel):
     model_config=ConfigDict(extra='forbid')
     question:str=Field(min_length=1,max_length=1000)

@@ -18,7 +18,9 @@ services:
     restart: unless-stopped
     depends_on:
       llm: {condition: service_healthy}
-    env_file: runtime.env
+    env_file:
+      - path: runtime.env
+        format: raw
     environment:
       LLM_BASE_URL: http://llm:8081/v1
       LLM_MODEL: qwen2.5-1.5b-instruct
@@ -35,7 +37,7 @@ services:
       driver: local
       options: {max-size: 5m, max-file: "2"}
   proxy:
-    image: caddy:2-alpine@sha256:003a97808e781aa9f7e75cc2f43d34d461099031faf5e20faefb9f61126836f0
+    image: ${PROXY_IMAGE_REF:?Set the approved proxy image digest}
     user: "10001:10001"
     restart: unless-stopped
     depends_on:

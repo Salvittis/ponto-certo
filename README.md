@@ -9,7 +9,7 @@
 | Arquitetura | Interface web → API FastAPI → recuperação documental e agente de consultas controladas → LLM local; SPTrans como fonte dinâmica quando configurada |
 | Fontes | Documentação SPTrans Olho Vivo, portal de desenvolvedores, regras do produto e cenários sintéticos versionados; cobertura real da API pendente |
 | Modelo | Qwen2.5-1.5B-Instruct-GGUF, Q4_K_M, revisão `91cad51170dc346986eccefdc2dd33a9da36ead9`, executado localmente com llama.cpp b12464 |
-| URLs | Repositório: [Salvittis/ponto-certo](https://github.com/Salvittis/ponto-certo), criado; arquivos aguardam push. MVP público: **pendente da frente Cloud**. [Vídeo local](evidencias/ponto-certo-demonstracao.mp4), publicação pendente. Execução local: `http://127.0.0.1:8000` |
+| URLs | Repositório: [Salvittis/ponto-certo](https://github.com/Salvittis/ponto-certo), público, arquivos publicados em 19/11/2026. MVP público: **pendente da frente Cloud**. [Vídeo publicado](https://github.com/Salvittis/ponto-certo/blob/main/evidencias/ponto-certo-demonstracao.mp4). Execução local: `http://127.0.0.1:8000` |
 | Indicadores de impacto | Acerto, respostas sem suporte, cobertura e atualidade da informação; posteriormente, compreensão e incerteza percebida pelos cidadãos. Redução da espera não foi medida |
 | ODS | **ODS 11**, mobilidade urbana acessível e informação para uso do transporte coletivo; contribuição proposta à [meta 11.2 da ONU](https://sdgs.un.org/goals/goal11), sem alegação de impacto já comprovado |
 
@@ -144,4 +144,4 @@ A integração **local** foi verificada com LLM real para pergunta documental e 
 
 A interface não exige conta, CPF, nome, telefone ou geolocalização. Não informe dados pessoais na pergunta. O aplicativo não mantém histórico de conversas; a operação Cloud deve preservar essa minimização nos logs. Em falha, a interface informa indisponibilidade e permite tentar novamente; o [site da SPTrans](https://www.sptrans.com.br/) é uma alternativa externa.
 
-Pendências: push dos arquivos no repositório público, integração e URL pública verificadas, consulta SPTrans real, publicação do vídeo e envio acadêmico por um integrante. O prazo publicado é **19/11/2026 às 23h55**; a submissão no Teams fica com Pedro ou o integrante designado. A preparação técnica não equivale à submissão.
+Pendências: integração e URL pública verificadas, consulta SPTrans real e envio acadêmico por um integrante. O prazo publicado é **19/11/2026 às 23h55**; a submissão no Teams fica com Pedro ou o integrante designado. A preparação técnica não equivale à submissão.

@@ -9,7 +9,7 @@
 | Arquitetura | Interface web, API FastAPI, base documental com TF-IDF, agente de consultas SPTrans, validação temporal e LLM local |
 | Fontes | Documentação SPTrans, portal de desenvolvedores, políticas do produto e cenários sintéticos versionados; fonte ao vivo depende de acesso validado |
 | Modelo | Qwen2.5-1.5B-Instruct-GGUF Q4_K_M, revisão `91cad51170dc346986eccefdc2dd33a9da36ead9`; llama.cpp b12464 |
-| URLs | Repositório: [Salvittis/ponto-certo](https://github.com/Salvittis/ponto-certo), criado; arquivos aguardam push. MVP público: **pendente de Cloud**. [Vídeo demonstrativo local](../evidencias/ponto-certo-demonstracao.mp4), publicação pendente. Demonstração local: `http://127.0.0.1:8000` |
+| URLs | Repositório: [Salvittis/ponto-certo](https://github.com/Salvittis/ponto-certo), público, arquivos publicados em 19/11/2026. MVP público: **pendente de Cloud**. [Vídeo publicado](https://github.com/Salvittis/ponto-certo/blob/main/evidencias/ponto-certo-demonstracao.mp4). Demonstração local: `http://127.0.0.1:8000` |
 | Impacto e indicadores | Proposta de diminuir a incerteza mediante informações com fontes. Avaliam-se acerto, fundamentação, recusa, disponibilidade e atualidade; compreensão e incerteza do cidadão exigem estudo posterior |
 | ODS | **ODS 11**, especialmente acesso à mobilidade e ao transporte coletivo na [meta 11.2 da ONU](https://sdgs.un.org/goals/goal11). A proposta contribui pelo acesso à informação; não mede cumprimento da meta nem redução efetiva da espera |
 
@@ -23,7 +23,7 @@ Global Solution CitizenTech 2026.2 — Engenharia de Software, 4º ano — **Gen
 | Cássio Eid Kobaysahi Yonetsuka | RM99678 | Não detalhada nesta frente |
 | Pedro Henrique Salvitti Habiro | RM88166 | IA/ML e Cloud |
 
-A avaliação local foi executada e suas evidências estão preservadas. A entrega permanece parcial enquanto publicação, integração pública ou consulta ao vivo não tiverem evidência. O [status da frente IA](STATUS-IA.md) é o registro operacional. A submissão acadêmica cabe a um integrante, até 19/11/2026 às 23h55, conforme PDF. Não foi realizada pelo agente.
+A avaliação local foi executada e suas evidências estão preservadas. A entrega permanece parcial enquanto integração pública ou consulta ao vivo não tiverem evidência. O [status da frente IA](STATUS-IA.md) é o registro operacional. A submissão acadêmica cabe a um integrante, até 19/11/2026 às 23h55, conforme PDF. Não foi realizada pelo agente.
 
 ## Problema e tarefa da IA
 
@@ -232,10 +232,10 @@ Saúde do processo e prontidão das dependências são rotas distintas. Métrica
 
 As instruções de instalação, download do modelo, inicialização e teste estão no [README principal](../README.md). As versões e configurações devem coincidir com o [contrato IA–Cloud](CONTRATO-IA-CLOUD.md). A execução local não comprova que a URL pública passou pelos mesmos testes.
 
-A aplicação foi integrada **localmente** da interface à API e à LLM real. O smoke verificou saúde, prontidão, modo demo, uma resposta documental com fonte e uma previsão simulada com fonte/atualização; os cinco checks passaram. [Smoke local](../evidencias/smoke-local.json). O [vídeo demonstrativo de 32 segundos](../evidencias/ponto-certo-demonstracao.mp4) reúne quadros de telas reais; os dados de ônibus exibidos são sintéticos. A publicação do arquivo ainda aguarda push.
+A aplicação foi integrada **localmente** da interface à API e à LLM real. O smoke verificou saúde, prontidão, modo demo, uma resposta documental com fonte e uma previsão simulada com fonte/atualização; os cinco checks passaram. [Smoke local](../evidencias/smoke-local.json). O [vídeo demonstrativo de 32 segundos](../evidencias/ponto-certo-demonstracao.mp4) reúne quadros de telas reais; os dados de ônibus exibidos são sintéticos. O arquivo está publicado no repositório público.
 
 O [notebook](../notebooks/avaliacao-ia.ipynb) foi executado com seis células de código, 17 saídas salvas e zero erros; a [exportação HTML](../notebooks/avaliacao-ia.html) e o [gráfico](../notebooks/placar.png) acompanham o arquivo. Ele recalcula os resultados dos JSON versionados, sem nova inferência. A execução que gerou as respostas continua rastreável pelo manifesto do runner.
 
 O sistema especializado melhorou acerto semântico e conteve afirmações finais sem suporte nesta amostra, mas chegou a apenas 62,5% de acerto e ainda recusou perguntas respondíveis. O RAG simples aumentou a presença de fontes, porém também fabricou dados; fonte presente e JSON válido não bastam. O agente fornece uma base verificável para o produto, com limitações de relevância e estado que devem orientar novo desenvolvimento e avaliação em perguntas inéditas. As ferramentas, regras e cópia extrativa explicam parte central do ganho; ele não pode ser atribuído a pesos treinados.
 
-Pendências para concluir a entrega: consulta real SPTrans e cobertura verificada, push dos artefatos e do relatório no repositório já criado, URL pública validada com Cloud, publicação do vídeo e submissão acadêmica por um integrante. Essas etapas só devem ser marcadas como concluídas após evidência verificável.
+Pendências para concluir a entrega: consulta real SPTrans e cobertura verificada, URL pública validada com Cloud e submissão acadêmica por um integrante. Essas etapas só devem ser marcadas como concluídas após evidência verificável.

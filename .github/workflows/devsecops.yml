@@ -99,6 +99,9 @@ jobs:
           - component: llm
             dockerfile: Dockerfile.llm
             suffix: '-llm'
+          - component: proxy
+            dockerfile: Dockerfile.proxy
+            suffix: '-proxy'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -125,6 +128,19 @@ jobs:
           outputs: type=docker,dest=${{ runner.temp }}/${{ matrix.component }}.tar
           cache-from: type=gha,scope=${{ matrix.component }}
           cache-to: type=gha,mode=max,scope=${{ matrix.component }}
+      - name: Validate the real HTTPS proxy configuration without network access
+        if: matrix.component == 'proxy'
+        run: |
+          docker load --input "$RUNNER_TEMP/proxy.tar"
+          docker run --rm --network none --read-only --cap-drop ALL \
+            --security-opt no-new-privileges --user 10001:10001 \
+            --tmpfs /tmp:uid=10001,gid=10001,mode=1777 \
+            --tmpfs /data:uid=10001,gid=10001,mode=0700 \
+            --tmpfs /config:uid=10001,gid=10001,mode=0700 \
+            -e PUBLIC_HOST=example.com \
+            -v "$PWD/deploy/Caddyfile:/etc/caddy/Caddyfile:ro" \
+            "${{ steps.image.outputs.tag }}" caddy validate \
+            --config /etc/caddy/Caddyfile --adapter caddyfile
       - name: Block HIGH/CRITICAL vulnerabilities and secrets
         run: scripts/check-security.sh image "${{ runner.temp }}/${{ matrix.component }}.tar"
       - name: Preserve vulnerability findings
@@ -145,35 +161,9 @@ jobs:
           retention-days: 2
           if-no-files-found: error
 
-  proxy:
-    name: Trivy / HTTPS proxy
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    env:
-      PROXY_IMAGE: caddy:2-alpine@sha256:003a97808e781aa9f7e75cc2f43d34d461099031faf5e20faefb9f61126836f0
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: Fetch the exact production proxy image
-        run: |
-          docker pull --platform linux/amd64 "$PROXY_IMAGE"
-          docker tag "$PROXY_IMAGE" ponto-certo-proxy:scan
-          docker save --platform linux/amd64 --output "$RUNNER_TEMP/proxy.tar" ponto-certo-proxy:scan
-      - name: Block HIGH/CRITICAL vulnerabilities and secrets
-        run: scripts/check-security.sh image "$RUNNER_TEMP/proxy.tar"
-      - name: Preserve proxy vulnerability findings
-        if: always()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: trivy-proxy-${{ github.sha }}
-          path: reports/security/trivy-image.json
-          retention-days: 14
-          if-no-files-found: warn
-
   publish:
     name: Publish the approved images
-    needs: [gitleaks, semgrep, tests, images, proxy]
+    needs: [gitleaks, semgrep, tests, images]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -183,6 +173,7 @@ jobs:
     outputs:
       app_ref: ${{ steps.publish.outputs.app_ref }}
       llm_ref: ${{ steps.publish.outputs.llm_ref }}
+      proxy_ref: ${{ steps.publish.outputs.proxy_ref }}
     steps:
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
@@ -198,9 +189,9 @@ jobs:
         id: publish
         run: |
           repository="${GITHUB_REPOSITORY,,}"
-          for component in app llm; do
+          for component in app llm proxy; do
             suffix=''
-            if [[ "$component" == llm ]]; then suffix='-llm'; fi
+            if [[ "$component" != app ]]; then suffix="-${component}"; fi
             tag="ghcr.io/${repository}${suffix}:${GITHUB_SHA}"
             docker load --input "$RUNNER_TEMP/images/${component}.tar"
             docker push "$tag"
@@ -215,11 +206,12 @@ jobs:
     needs: publish
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     environment: production
     permissions:
       contents: read
       id-token: write
+      packages: read
     env:
       AZURE_CORE_OUTPUT: none
     steps:
@@ -237,6 +229,7 @@ jobs:
         env:
           IMAGE_REF: ${{ needs.publish.outputs.app_ref }}
           LLM_IMAGE_REF: ${{ needs.publish.outputs.llm_ref }}
+          PROXY_IMAGE_REF: ${{ needs.publish.outputs.proxy_ref }}
           APP_REVISION: ${{ github.sha }}
           AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
           AZURE_VM_NAME: ${{ vars.AZURE_VM_NAME }}
@@ -244,4 +237,17 @@ jobs:
           DATA_MODE: ${{ vars.DATA_MODE || 'demo' }}
           METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
           SPTRANS_TOKEN: ${{ secrets.SPTRANS_TOKEN }}
+          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REGISTRY_USERNAME: ${{ github.actor }}
         run: python3 scripts/deploy-azure.py
+      - name: Preserve public validation and recovery evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: deployment-${{ github.sha }}
+          path: |
+            reports/deployment.json
+            reports/deployment-failure.json
+            reports/smoke-public.json
+          retention-days: 14
+          if-no-files-found: warn

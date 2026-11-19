@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-19T11:44:11.322393+00:00",
+  "scope": "public",
+  "result": "terraform_applied",
+  "apply": {
+    "added": 12,
+    "changed": 0,
+    "destroyed": 0
+  },
+  "provider": "Azure for Students",
+  "resource_group": "ponto-certo-fiap-rg",
+  "region": "chilecentral",
+  "vm": {
+    "location": "chilecentral",
+    "name": "ponto-certo-fiap-vm",
+    "os_disk": {
+      "size_gib": null,
+      "storage_type": "StandardSSD_LRS"
+    },
+    "os_image": {
+      "offer": "ubuntu-24_04-lts",
+      "publisher": "Canonical",
+      "sku": "server",
+      "version": "24.04.202611170"
+    },
+    "password_auth_disabled": true,
+    "provisioning_state": "Succeeded",
+    "security": {
+      "secure_boot": true,
+      "security_type": "TrustedLaunch",
+      "vtpm": true
+    },
+    "vm_size": "Standard_B2als_v2"
+  },
+  "network_security_group": {
+    "location": "chilecentral",
+    "name": "ponto-certo-fiap-web-only",
+    "provisioning_state": "Succeeded",
+    "rules": [
+      {
+        "access": "Allow",
+        "destination_address": "*",
+        "destination_port": "",
+        "destination_ports": [
+          "80",
+          "443"
+        ],
+        "direction": "Inbound",
+        "name": "HTTPS-and-ACME-only",
+        "priority": 100,
+        "protocol": "Tcp",
+        "source_address": "Internet",
+        "source_ports": "*"
+      },
+      {
+        "access": "Deny",
+        "destination_address": "*",
+        "destination_port": "*",
+        "destination_ports": [],
+        "direction": "Inbound",
+        "name": "Deny-all-other-inbound",
+        "priority": 200,
+        "protocol": "*",
+        "source_address": "*",
+        "source_ports": "*"
+      }
+    ]
+  },
+  "public_ip": {
+    "allocation_method": "Static",
+    "hostname": "ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+    "ip_address": "68.211.151.183",
+    "location": "chilecentral",
+    "name": "ponto-certo-fiap-web-ip",
+    "provisioning_state": "Succeeded",
+    "sku": "Standard"
+  },
+  "public_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "application_status": "pending_deploy_and_public_validation",
+  "access_validation": {
+    "nsg_policy_verified": true,
+    "ssh_public_rule_present": false,
+    "external_port_scan_performed": false,
+    "https_application_verified": false
+  },
+  "state_protection": {
+    "outside_repository": true,
+    "directory_mode": "0700",
+    "file_mode": "0600",
+    "filevault_observed": "On",
+    "backup_created": true,
+    "backup_mode": "0600",
+    "backup_content_verified_by_sha256": true,
+    "backup_location": "same operator FileVault disk, outside repository",
+    "offsite_backup": false,
+    "state_content_or_credentials_included": false
+  },
+  "costs": {
+    "region": "chilecentral",
+    "checked_at": "2026-11-19",
+    "currency": "USD",
+    "hours": 216,
+    "vm_hourly_usd": 0.0526,
+    "ip_hourly_usd": 0.005,
+    "disk_monthly_usd": 3.36,
+    "disk_month_basis_days": 30,
+    "disk_operations_10k_usd": 0.0028,
+    "total_estimate_usd": 13.4496,
+    "estimate_not_actual_spend": true,
+    "excluded": [
+      "egress",
+      "disk_operations",
+      "duration_beyond_216_hours"
+    ]
+  },
+  "method": "Read-only Azure CLI VM, NSG and Public IP queries after successful Terraform apply; explicit field allowlist excludes subscription/tenant/principal/resource IDs and keys. Local state backup compared by SHA-256 without publishing state or digest.",
+  "limits": [
+    "VM allocation and NSG configuration do not prove application deployment, TLS, inference or external port reachability.",
+    "Backup on same disk does not protect against loss of the operator device."
+  ]
+}

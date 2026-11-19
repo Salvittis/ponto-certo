@@ -1,0 +1,71 @@
+{
+  "checked_at": "2026-11-19T11:39:46.137291+00:00",
+  "scope": "configuration",
+  "provider": "Azure for Students",
+  "region": "chilecentral",
+  "vm_size": "Standard_B2als_v2",
+  "vcpus": 2,
+  "memory_gib": 4.0,
+  "architecture": "x64",
+  "sku_restrictions": [],
+  "quotas": [
+    {
+      "name": "cores",
+      "limit": 6,
+      "current": 0
+    },
+    {
+      "name": "standardBasv2Family",
+      "limit": 10,
+      "current": 0
+    }
+  ],
+  "image_urn": "Canonical:ubuntu-24_04-lts:server:24.04.202611170",
+  "image": {
+    "architecture": "x64",
+    "features": [
+      {
+        "name": "SecurityType",
+        "value": "TrustedLaunchSupported"
+      },
+      {
+        "name": "IsAcceleratedNetworkSupported",
+        "value": "True"
+      },
+      {
+        "name": "DiskControllerTypes",
+        "value": "SCSI, NVMe"
+      },
+      {
+        "name": "IsHibernateSupported",
+        "value": "True"
+      }
+    ],
+    "hyperVGeneration": "V2",
+    "name": "24.04.202611170"
+  },
+  "dns_label": "ponto-certo-fiap-rm88166",
+  "dns_available": true,
+  "prices": {
+    "currency": "USD",
+    "hours": 192,
+    "vm_hourly_usd": 0.0526,
+    "ip_hourly_usd": 0.005,
+    "disk_monthly_usd": 3.36,
+    "disk_operations_10k_usd": 0.0028,
+    "total_estimate_usd": 11.9552,
+    "nine_day_estimate_usd": 13.4496,
+    "exclusions": [
+      "egress",
+      "disk_operations",
+      "duration_beyond_estimate"
+    ],
+    "source_urls": [
+      "https://prices.azure.com/api/retail/prices?%24filter=serviceName+eq+%27Virtual+Machines%27+and+armRegionName+eq+%27chilecentral%27+and+armSkuName+eq+%27Standard_B2als_v2%27+and+priceType+eq+%27Consumption%27",
+      "https://prices.azure.com/api/retail/prices?%24filter=serviceName+eq+%27Storage%27+and+armRegionName+eq+%27chilecentral%27+and+skuName+eq+%27E4+LRS%27+and+priceType+eq+%27Consumption%27",
+      "https://prices.azure.com/api/retail/prices?%24filter=serviceName+eq+%27Virtual+Network%27+and+armRegionName+eq+%27chilecentral%27+and+productName+eq+%27IP+Addresses%27+and+priceType+eq+%27Consumption%27"
+    ]
+  },
+  "provisioned": false,
+  "limits": "SKU/quota checks do not reserve capacity; only apply proves allocation. No cloud mutation performed by this preflight."
+}

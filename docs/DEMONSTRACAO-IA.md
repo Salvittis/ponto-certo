@@ -49,4 +49,4 @@ Vídeo gerado em 19/11/2026: 32,00 segundos, 1600×1200, 24 fps, H.264, sem áud
 - [Manifesto e hashes](../evidencias/ponto-certo-demonstracao.json)
 - [Script de reprodução](../scripts/make_demo_video.py)
 
-O link público definitivo depende do push ao repositório público da equipe. A publicação do arquivo no GitHub deve ser conferida antes de usar o link na submissão. Não existe exigência de duração ou plataforma de vídeo nas páginas 28–31 do enunciado; a duração acima é uma escolha do projeto.
+[Link público do vídeo](https://github.com/Salvittis/ponto-certo/blob/main/evidencias/ponto-certo-demonstracao.mp4), publicado e verificado por acesso anônimo em 19/11/2026 (HTTP 200, 469.989 bytes). Não existe exigência de duração ou plataforma de vídeo nas páginas 28–31 do enunciado; a duração acima é uma escolha do projeto.

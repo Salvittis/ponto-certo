@@ -1,13 +1,13 @@
 # Estado da IA — Ponto Certo 0.1.0
 
-Atualizado em 19/11/2026. Estado parcial da entrega global: aplicação e avaliação locais executadas; publicação e integração pública dependem da frente Cloud. Submissão acadêmica não realizada.
+Atualizado em 19/11/2026. Estado parcial da entrega global: aplicação e avaliação locais executadas; repositório/relatório/notebook/vídeo publicados, integração pública do aplicativo depende da frente Cloud. Submissão acadêmica não realizada.
 
 ## Funciona e foi executado
 
 - Mesma aplicação em `ponto-certo/`: FastAPI, frontend HTML/CSS/JS, LLM **local** Qwen2.5-1.5B Q4_K_M no llama.cpp b12464, recuperação TF-IDF e agente de ferramentas restritas.
 - Interface → API → recuperação/ferramenta → modelo real → resposta: verificada no navegador em consulta documental, chegada sintética e esclarecimento. Capturas desktop e viewport móvel 390×844 em `evidencias/interface-*.jpg`. Avaliação visual manual, sem auditoria completa WCAG ou usuário com leitor de tela.
 - Smoke HTTP real passou em `http://127.0.0.1:8000`, cobrindo saúde, prontidão, configuração, documental e chegada; `evidencias/smoke-local.json` preserva data/hora e checks.
-- 16 testes automatizados API passaram: validação, não exposição de tokens/entrada inválida, métricas Bearer, saúde/prontidão separadas, falha de modelo e assets. Usam modelo falso isolado; **não** são apresentados como inferência real.
+- 19 testes automatizados API/admissão passaram: validação, não exposição de tokens/entrada inválida, limite 8 KiB/fila de 2 consultas/liberação após falha, métricas Bearer, saúde/prontidão separadas, falha de modelo e assets. Usam modelo falso isolado; **não** são apresentados como inferência real.
 - Modelo GGUF SHA256 verificado. Carregamento local observado 9,477 s; RSS instantâneo 1.106.160 KiB (~1,05 GiB), Mac Apple M4/16GB. Não extrapolar para Cloud CPU; `evidencias/modelo-local.json` distingue observação e estimativa.
 - Base: 18 trechos com fonte/data/condições de uso. Recall@1=13/14 (92,86%), recall@3=14/14 (100%); limiar 0,05 calibrado em DEV. Negativas 4/4 rejeitadas; corpus e amostra pequenos.
 - Avaliação real: DEV6 + TEST24, cada qual três configurações com mesmos pesos/parâmetros. Saídas brutas, finais, hashes e condições em `avaliacao/runs/{dev-v1,test-v1}`. TEST foi reservado antes das saídas e não usado para ajustar implementação.
@@ -46,21 +46,29 @@ Use output novo para preservar os experimentos anteriores. Notebook `notebooks/a
 
 ## Dados e cobertura
 
-Pedro confirmou ausência de token e autorizou simulação. Fixture sintética versionada em `dados/fixtures/sptrans-demo.json`: 8000-10, códigos 1273/34041, ponto demonstrativo4200153, relógio19/11/2026 10:00. Não é captura externa e não comprova operação/itinerário atual. Cenários normal, vazio, antigo e falha. Nenhuma previsão histórica foi indexada como atual.
+Pedro confirmou ausência de token e autorizou simulação. Fixture sintética versionada em `dados/fixtures/sptrans-demo.json`: 8000-10, códigos 1273/34041, ponto demonstrativo 4200153, relógio 19/11/2026 10:00. Não é captura externa e não comprova operação/itinerário atual. Cenários normal, vazio, antigo e falha. Nenhuma previsão histórica foi indexada como atual.
 
 Cliente live implementado com endpoints fixos, HTTPS, token só no servidor e verificação temporal. **Não validado contra SPTrans real.** Para concluir, obter chave na área oficial, configurar `SPTRANS_TOKEN` em segredo e `DATA_MODE=live`, descobrir linhas/pontos realmente retornados e registrar consulta sanitizada com `python -m scripts.capture_live --line CODIGO --stop CODIGO`. Não usar IDs demo como cobertura presumida.
 
 ## Contrato e versão para Cloud
 
-Contrato v0.1.0 em `docs/CONTRATO-IA-CLOUD.md`, enviado ao agente Cloud; primeira versão executável comunicada em19/11/2026. Mesmos modelo/runtime alinhados, dependências runtime fixadas, portas8000/8081, health/readiness/config/metrics e smoke disponíveis. Cloud possui Docker/Compose, CI/CD, Terraform e observabilidade; não foram alterados por IA.
+Contrato v0.1.0 em `docs/CONTRATO-IA-CLOUD.md`, enviado ao agente Cloud; primeira versão executável comunicada em 19/11/2026. Mesmos modelo/runtime alinhados, dependências runtime fixadas, portas 8000/8081, health/readiness/config/metrics e smoke disponíveis. Cloud possui Docker/Compose, CI/CD, Terraform e observabilidade; não foram alterados por IA.
 
-Repositório único: https://github.com/Salvittis/ponto-certo (remoto criado por Cloud; primeiro commit/publicação ainda em coordenação). Identidade precisa do código avaliado consta dos SHA256 em `avaliacao/runs/test-v1/manifest.json`; commit não existia durante o experimento. APP_VERSION=0.1.0 e APP_REVISION devem identificar o deploy.
+Repositório único: https://github.com/Salvittis/ponto-certo (público; primeiro commit `6cdcb491ff091d9fdf8b87592d7e847ed674877a` publicado por Cloud e arquivos conferidos por acesso anônimo HTTP 200). Identidade precisa do código avaliado consta dos SHA256 em `avaliacao/runs/test-v1/manifest.json`; commit não existia durante o experimento. APP_VERSION=0.1.0 e APP_REVISION devem identificar o deploy.
 
 ## Pendências concretas
 
-1. Cloud: confirmar commit público, validar containers/modelo e jornada na URL pública. Ambiente Railway da TBC foi excluído do escopo a pedido de Pedro; conta pessoal/custo zero em definição pela outra frente. Não há URL pública validada neste registro.
+1. Cloud: confirmar commit público, validar containers/modelo e jornada na URL pública. Ambiente Railway da TBC foi excluído do escopo a pedido de Pedro; conta pessoal/custo zero em definição pela outra frente. Não há URL pública do aplicativo validada neste registro.
 2. SPTrans: obter token e validar cobertura/consulta real, separadamente da simulação.
-3. Confirmar publicação do relatório, notebook com saídas e vídeo demonstrativo junto ao primeiro push. Artefatos locais não equivalem a link público funcional.
-4. Pedro/integrante: conferir conteúdo e enviar links no Teams até19/11/2026 23h55. Manter links disponíveis durante correção. Não houve submissão.
+3. Publicação dos artefatos concluída; registrar o commit corrigido de Cloud após a demonstração controlada de bloqueio do pipeline. O primeiro commit inclui um caso de segurança sintético fora da imagem, pertencente à frente Cloud.
+4. Pedro/integrante: conferir conteúdo e enviar links no Teams até 19/11/2026 23h55. Manter links disponíveis durante correção. Não houve submissão.
 
 Nomes/RMs confirmados por Pedro: Filipe Prado Menezes RM98765; Cássio Eid Kobaysahi Yonetsuka RM99678; Pedro Henrique Salvitti Habiro RM88166. Nenhum nome ou RM foi inferido.
+
+### Ajuste posterior ao experimento
+
+A fronteira HTTP recebeu limite de corpo de 8 KiB, duas consultas simultâneas por processo e 10 s para envio do corpo. Isso evita fila ilimitada antes do slot LLM. Mudaram `app/main.py` e novo `app/limits.py`; Engine/LLM/recuperação/transit/settings/metrics e dados continuam com os hashes avaliados. O manifesto de avaliação original não foi reescrito para ocultar essa diferença. Testes 19/19 passaram, smoke da imagem final é da frente Cloud.
+
+Smoke da integração em Docker realizado por Cloud em `http://127.0.0.1:8002`: cinco checks passaram, resposta documental em 7,974 s e chegada em 4,705 s, em `evidencias/cloud/smoke-compose.json`. Essa evidência é local em containers e antecede o ajuste de admissão HTTP; não comprova deploy público.
+
+Desconexão durante o envio é tratada com resposta vazia499, sem inferência nem falso500 na telemetria. Teste da aplicação ASGI completa reproduziu e verificou a correção; contador de capacidade é liberado.

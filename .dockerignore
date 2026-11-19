@@ -2,6 +2,11 @@
 **
 !Dockerfile
 !Dockerfile.llm
+!Dockerfile.proxy
+!proxy/
+!proxy/go.mod
+!proxy/go.sum
+!proxy/main.go
 !requirements.txt
 !requirements.lock
 !app/

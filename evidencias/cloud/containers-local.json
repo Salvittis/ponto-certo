@@ -1,0 +1,54 @@
+{
+  "checked_at": "2026-11-19T11:41:29.495751+00:00",
+  "scope": "local",
+  "architecture": "linux/arm64",
+  "revision": "working-tree before corrected commit",
+  "services": [
+    {
+      "service": "app",
+      "image_id": "sha256:a86a16dba248b1c63f46b300a6577976778be1c21fd6daa24540cc2aefbf23fc",
+      "configured_user": "10001:10001",
+      "effective_uid": "10001",
+      "status": "running",
+      "health": "healthy",
+      "read_only": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "memory_limit_bytes": 536870912,
+      "cpu_nanos": 1000000000,
+      "published_ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8002"
+          }
+        ]
+      }
+    },
+    {
+      "service": "llm",
+      "image_id": "sha256:6feb6192f89349fadd36ea7ba07690ebd93a0fc4f7b896444a607f8dbe998b9c",
+      "configured_user": "10001:10001",
+      "effective_uid": "10001",
+      "status": "running",
+      "health": "healthy",
+      "read_only": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "memory_limit_bytes": 3221225472,
+      "cpu_nanos": 2000000000,
+      "published_ports": {}
+    }
+  ],
+  "model_sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+  "result": "non_root_healthy",
+  "limits": "Production Linux/AMD64 and public smoke are separate checks."
+}

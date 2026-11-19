@@ -1,0 +1,50 @@
+{
+  "consulted_at": "2026-11-19",
+  "source": "https://prices.azure.com/api/retail/prices?%24filter=armRegionName+eq+%27brazilsouth%27+and+armSkuName+eq+%27Standard_B2als_v2%27+and+priceType+eq+%27Consumption%27",
+  "prices": [
+    {
+      "currencyCode": "USD",
+      "tierMinimumUnits": 0.0,
+      "retailPrice": 0.0605,
+      "unitPrice": 0.0605,
+      "armRegionName": "brazilsouth",
+      "location": "BR South",
+      "effectiveStartDate": "2023-09-01T00:00:00Z",
+      "meterId": "45459e84-815c-5b78-be46-75f78a824d07",
+      "meterName": "B2als v2",
+      "productId": "DZH318Z0K9JH",
+      "skuId": "DZH318Z0K9JH/01CK",
+      "productName": "Virtual Machines Basv2 Series",
+      "skuName": "B2als v2",
+      "serviceName": "Virtual Machines",
+      "serviceId": "DZH313Z7MMC8",
+      "serviceFamily": "Compute",
+      "unitOfMeasure": "1 Hour",
+      "type": "Consumption",
+      "isPrimaryMeterRegion": true,
+      "armSkuName": "Standard_B2als_v2"
+    },
+    {
+      "currencyCode": "USD",
+      "tierMinimumUnits": 0.0,
+      "retailPrice": 0.0697,
+      "unitPrice": 0.0697,
+      "armRegionName": "brazilsouth",
+      "location": "BR South",
+      "effectiveStartDate": "2023-09-01T00:00:00Z",
+      "meterId": "6ec32e1a-1ece-5886-89b3-743e06c33638",
+      "meterName": "B2als v2",
+      "productId": "DZH318Z0K9JD",
+      "skuId": "DZH318Z0K9JD/00CT",
+      "productName": "Basv2 Series Cloud Services",
+      "skuName": "B2als v2",
+      "serviceName": "Virtual Machines",
+      "serviceId": "DZH313Z7MMC8",
+      "serviceFamily": "Compute",
+      "unitOfMeasure": "1 Hour",
+      "type": "Consumption",
+      "isPrimaryMeterRegion": true,
+      "armSkuName": "Standard_B2als_v2"
+    }
+  ]
+}
