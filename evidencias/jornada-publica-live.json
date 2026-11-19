@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "scope": "public_browser_journey",
+  "base_url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "expected_revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+  "data_mode": "live",
+  "steps": [
+    {
+      "observed_at": "2026-11-19T14:05:25.217Z",
+      "step": "line_discovery",
+      "question": "Quais são os sentidos da linha 8000?",
+      "status": "clarification",
+      "returned_options": 4,
+      "source_title": "Consulta SPTrans Olho Vivo",
+      "updated_at_visible": "19/11/2026, 11:05 (São Paulo)"
+    },
+    {
+      "observed_at": "2026-11-19T14:06:01.578Z",
+      "step": "stop_discovery",
+      "line_code": 2506,
+      "direction": 1,
+      "status": "ok",
+      "returned_options": 14,
+      "source_title": "Consulta SPTrans Olho Vivo",
+      "updated_at_visible": "19/11/2026, 11:05 (São Paulo)"
+    },
+    {
+      "observed_at": "2026-11-19T14:06:22.154Z",
+      "step": "arrival_live",
+      "line_code": 2506,
+      "stop_code": 7014417,
+      "direction": 1,
+      "status": "ok",
+      "forecast_time": "11:12",
+      "approximate_wait_minutes": 6,
+      "source_title": "Consulta SPTrans Olho Vivo",
+      "updated_at": "2026-11-19T14:06:00.000Z",
+      "answer": "8000-1 sentido 1: previsão 11:12 (aproximadamente 6 minutos no relógio da consulta). Previsão não é garantia de chegada; trânsito e operação podem mudar.",
+      "demo_warning_visible": false
+    }
+  ],
+  "completed_at": "2026-11-19T14:06:33.634Z",
+  "note": "Consulta real pelo formulário. Previsão histórica observada durante a verificação; não é garantia nem horário atual. Códigos foram escolhidos das opções retornadas pela API.",
+  "identity_verified_at": "2026-11-19T14:06:52.434036+00:00",
+  "identity": [
+    {
+      "path": "/healthz",
+      "http_status": 200,
+      "status": "ok",
+      "version": "0.1.0",
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552"
+    },
+    {
+      "path": "/readyz",
+      "http_status": 200,
+      "status": "ready",
+      "version": "0.1.0",
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "model_ready": true,
+      "data_ready": true,
+      "sptrans_live_verified": false
+    },
+    {
+      "path": "/api/config",
+      "http_status": 200,
+      "version": "0.1.0",
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "mode": "live",
+      "model": "qwen2.5-1.5b-instruct"
+    }
+  ],
+  "revision_verified": true,
+  "public_live_verified": true,
+  "readiness_limit": "sptrans_live_verified=false não contradiz a consulta real: readiness testa configuração/modelo; esta jornada e o HTTP live separado comprovam a integração.",
+  "screenshots": [
+    {
+      "file": "evidencias/interface-publica-live-inicio.jpg",
+      "sha256": "d25e974152353c67970523696d6887728ee05c7fd5f6f49965e45aa57bfc7398",
+      "captured_at": "2026-11-19T14:04:59.984795+00:00"
+    },
+    {
+      "file": "evidencias/interface-publica-live-linhas.jpg",
+      "sha256": "5592bb5b1f84f2b765a0e0e3ebbebb791dc25b5abf5caf7fa6dea5e4732ce2db",
+      "captured_at": "2026-11-19T14:05:25.383889+00:00"
+    },
+    {
+      "file": "evidencias/interface-publica-live-pontos.jpg",
+      "sha256": "780dc794a3dba84ae4622587cbd50807c619c2e4c42fd643978a7744079c519a",
+      "captured_at": "2026-11-19T14:06:01.731622+00:00"
+    },
+    {
+      "file": "evidencias/interface-publica-live-completa.jpg",
+      "sha256": "cfeeed1ba344d654b21bd5f34506ed8514e031621e1caa3fa27be63141a3d060",
+      "captured_at": "2026-11-19T14:06:22.348360+00:00"
+    },
+    {
+      "file": "evidencias/interface-publica-live-chegada.jpg",
+      "sha256": "5a2241b6e6ee701d62a7fb14843ee5005466b5d62a5d3af39a76c9ebfd28a4c2",
+      "captured_at": "2026-11-19T14:06:33.634356+00:00"
+    }
+  ]
+}

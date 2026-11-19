@@ -2,6 +2,18 @@
 
 A stack local coleta a **mesma API publicada** e sonda sua URL de prontidão por HTTPS. Prometheus e Grafana locais são permitidos pela rubrica oficial (p.53). A configuração, isoladamente, **não comprova** coleta pública, dashboard preenchido nem alerta disparado. As evidências efetivas ficam em `evidencias/` e são relacionadas no status Cloud.
 
+## Estado dos alvos e alcance das provas
+
+No checkpoint de **19/11/2026 às 11:04:11 de São Paulo**, os alvos usavam a revisão `8b1e298`, com **Azure live** e **AWS demo**. A [promoção live](../evidencias/cloud/azure-live-deployment.json) reexecutou somente o job Azure com os mesmos digests; os [6/6 checks públicos separados](../evidencias/cloud/azure-live-public.json) comprovaram previsão SPTrans real, resposta vazia válida e descoberta de linhas. O [smoke genérico](../evidencias/cloud/azure-live-generic-smoke.json) manteve a chegada live sem execução; não é usado como prova dessa consulta. As métricas e o ensaio final AWS de 15 checks deste documento foram coletados em demo com LLM real. O ensaio Azure anterior também é histórico demo; a promoção live não altera o modo nem a data dessas evidências.
+
+A [flag de deploy AWS está desabilitada e as três credenciais STS foram removidas do GitHub](../evidencias/cloud/live-promotion-config.json), preservando a revisão validada até o fim da sessão. Isso não desliga a EC2 nem encerra a coleta; Azure e seu monitor continuam independentes.
+
+O checkpoint das evidências AWS fica fixado em `8b1e298`; revisões documentais posteriores da Azure têm seu próprio SHA. A revisão atual de `/healthz` da Azure pode avançar sem alterar a referência histórica dos testes ou o checkpoint AWS.
+
+A [jornada pública live pelo navegador](../evidencias/jornada-publica-live.json) foi concluída em **19/11/2026 às 11:06:33 de São Paulo**, com identidade/revisão conferida às **11:06:52**: descoberta de quatro opções de linhas, seleção de 14 paradas retornadas e previsão real para a opção escolhida. As cinco capturas, horários e hashes constam do registro; a [tela final](../evidencias/interface-publica-live-chegada.jpg) mostra fonte e atualização sem aviso demo. A previsão é observação histórica da consulta, não horário atual nem garantia de chegada.
+
+Documento de entrega: [Ponto-Certo-Deploy-Blindado.pdf](https://github.com/Salvittis/ponto-certo/releases/download/entrega-cloud-2026-11-19/Ponto-Certo-Deploy-Blindado.pdf), na [release entrega-cloud-2026-11-19](https://github.com/Salvittis/ponto-certo/releases/tag/entrega-cloud-2026-11-19). O PDF reúne arquitetura, evidências, custos e links de reprodução. A publicação do documento não representa submissão acadêmica; o envio fica com Pedro/equipe.
+
 ## Componentes e limites
 
 - Prometheus 3.16.0: scrape e regras a cada 15 segundos; retenção máxima de 10 dias ou 512 MB, o que ocorrer primeiro.
@@ -60,11 +72,13 @@ Painéis complementares: `ponto_certo_model_ready`, `up`, `probe_success`, `ALER
 
 A amostragem a cada 15 segundos pode perder picos curtos de saturação. Para a evidência, gere perguntas reais sequenciais pelo smoke/teste autorizado e preserve a janela histórica; não invente séries nem apresente um gráfico vazio como prova. Dados de transporte em modo `demo` continuam identificados como sintéticos; a latência e os erros medidos no serviço são operação real.
 
-### Limitação histórica da primeira falha e correção preparada
+### Limitação histórica da primeira falha e correção comprovada
 
 No ensaio AWS da revisão `60aeedd`, em **19/11/2026**, a [pergunta pública retornou HTTP 503](../evidencias/aws/public-controlled-unavailable.json), mas os snapshots de [disparo](../evidencias/aws/observability-firing.json) e [recuperação](../evidencias/aws/observability-recovered.json) conservaram `error_rate_percent=0.0`. A consulta histórica ao contador confirmou a causa: a série rotulada de 503 surgiu já com valor **1**, sem amostra anterior em **0**. Como não havia incremento entre as amostras coletadas, `rate(...[5m])` resultou em zero. Nesse checkpoint, **0% no painel não comprova ausência de falhas HTTP**; o contrato HTTP e os alertas constituem evidências independentes. Os valores históricos permanecem intactos e o [ensaio de alerta/restauração mantém seus 12/12 checks aprovados](../evidencias/aws/alert-exercise.json).
 
-A correção no código local inicializa em zero as combinações conhecidas de status HTTP e resultados da LLM antes da primeira requisição. Também inclui recusas pelos limites anteriores ao roteamento na série fixa `route="/api/ask"`, sem usar caminhos arbitrários como labels. Testes em processo novo para a primeira resposta 503 e para uma rejeição 413 passaram. **Essa correção ainda aguarda publicação e validação do incremento real no Prometheus da nova imagem**; não se atribui esse comportamento corrigido à revisão histórica `60aeedd`. Inicializar séries conhecidas com zero segue a [recomendação oficial do Prometheus para métricas ausentes](https://prometheus.io/docs/practices/instrumentation/#avoid-missing-metrics). Para observar o primeiro incremento, a coleta precisa registrar o zero antes do evento.
+A correção publicada na revisão `8b1e298a101eb9b90bf723efad268449381e2552` inicializa em zero as combinações conhecidas de status HTTP e resultados da LLM antes da primeira requisição. Também inclui recusas pelos limites anteriores ao roteamento na série fixa `route="/api/ask"`, sem usar caminhos arbitrários como labels. Testes em processo novo para a primeira resposta 503 e uma rejeição 413 passaram; a [tentativa 1 do pipeline](../evidencias/aws/hardened/security-passed-summary.json) aprovou 125/125 testes e os dois deploys. Inicializar séries conhecidas com zero segue a [recomendação oficial do Prometheus para métricas ausentes](https://prometheus.io/docs/practices/instrumentation/#avoid-missing-metrics). Para observar o primeiro incremento, a coleta precisa registrar o zero antes do evento.
+
+A validação real no Prometheus AWS confirmou **0 → 1** nos contadores HTTP 503 e LLM indisponível: [antes, às 10:55:19 de São Paulo](../evidencias/aws/hardened/first-failure-before.json), e [depois, às 10:58:05](../evidencias/aws/hardened/first-failure-after.json), em 19/11/2026. A taxa HTTP de erro chegou a **11,1111% em cinco minutos**; a taxa específica 503 foi **0,00350877/s**. O [snapshot imediato ainda aguardando scrape](../evidencias/aws/hardened/first-failure-awaiting-scrape.json) permanece separado e não é a observação final. O [ensaio completo](../evidencias/aws/hardened/alert-exercise.json) passou **15/15 checks**, com dois alertas firing às 10:58:45 e [recuperação sem alertas ativos às 10:59:47](../evidencias/aws/hardened/observability-recovered.json). Na recuperação, a janela móvel ainda tinha **10,8168% de erros**; não foi zerada manualmente. A limitação histórica de `60aeedd` foi resolvida na nova publicação, sem modificar as evidências anteriores.
 
 ## Alertas e limiar
 

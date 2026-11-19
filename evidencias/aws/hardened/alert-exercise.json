@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "provider": "aws",
+  "scope": "public",
+  "url": "https://54-210-161-95.sslip.io",
+  "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+  "checked_at": "2026-11-19T14:00:37.814121+00:00",
+  "instance_id": "i-0cd7e82843509189b",
+  "ssm_command_id": "9b4c1ee0-27bc-4149-b66c-c2fba3adf9a0",
+  "fault": "Stop/start only the LLM container; application/proxy and VM were not stopped.",
+  "requested_pause_seconds": 120,
+  "stopped_at": "2026-11-19T13:56:52Z",
+  "start_requested_at": "2026-11-19T13:58:52Z",
+  "firing_observed_at": "2026-11-19T13:58:45.144397+00:00",
+  "recovered_observed_at": "2026-11-19T13:59:47.200846+00:00",
+  "checks": {
+    "controlled_command_succeeded": true,
+    "both_expected_alerts_fired": true,
+    "public_contract_during_failure": true,
+    "no_active_alert_after_recovery": true,
+    "ready_after_recovery": true,
+    "smoke_after_recovery": true,
+    "all_three_running": true,
+    "all_three_healthy": true,
+    "non_root": true,
+    "same_three_images": true,
+    "same_model_sha256": true,
+    "same_model_size": true,
+    "zero_error_counter_exported_before_failure": true,
+    "first_error_counted_in_rate": true,
+    "unused_vulnerable_pebble_absent": true
+  },
+  "passed": true,
+  "first_error_observation": {
+    "counter_before": 0.0,
+    "counter_after": 1.0,
+    "error_rate_percent": 11.111111111111112,
+    "window_seconds": 300
+  },
+  "model_sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+  "model_size_bytes": 1117320736,
+  "evidence": [
+    "evidencias/aws/hardened/alert-command.json",
+    "evidencias/aws/hardened/public-controlled-unavailable.json",
+    "evidencias/aws/hardened/observability-baseline.json",
+    "evidencias/aws/hardened/observability-firing.json",
+    "evidencias/aws/hardened/observability-recovered.json",
+    "evidencias/aws/hardened/containers-baseline.json",
+    "evidencias/aws/hardened/containers-recovered.json",
+    "evidencias/aws/hardened/smoke-public-recovered.json",
+    "evidencias/aws/hardened/first-failure-before.json",
+    "evidencias/aws/hardened/first-failure-awaiting-scrape.json",
+    "evidencias/aws/hardened/first-failure-after.json",
+    "evidencias/aws/hardened/pebble-runtime-verified.json"
+  ],
+  "limitations": [
+    "Container restart exercise, not VM/region failover or capacity benchmark.",
+    "An immediate snapshot after the failed request still contained the preceding scrape; it is retained separately and is not the final after observation.",
+    "The earlier60aeedd exercise and initial metric limitation remain preserved separately."
+  ]
+}

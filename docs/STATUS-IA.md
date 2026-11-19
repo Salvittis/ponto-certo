@@ -1,6 +1,6 @@
 # Estado da IA — Ponto Certo 0.1.0
 
-Atualizado em 19/11/2026. Aplicação, avaliação original e artefatos publicados. Há jornadas públicas **DEMO** e ensaios reais de indisponibilidade/recuperação da LLM comprovados na [Azure](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com) e no [AWS Sandbox](https://54-210-161-95.sslip.io/). A chave SPTrans foi criada; autenticação, consultas externas, adaptador real e preflight com LLM no container Azure passaram. **A aplicação pública continua DEMO até Cloud validar e promover o modo live.** O preflight não equivale a essa promoção. Conforme aceite do professor relatado por Pedro, AWS Sandbox é a frente de entrega Cloud; Azure permanece destinada à IA. Submissão acadêmica não realizada.
+Atualizado em 19/11/2026. **A aplicação pública na [Azure](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com) foi promovida para LIVE e validada por HTTP e formulário real às 11:03–11:06 (America/Sao_Paulo)**, na revisão `8b1e298a101eb9b90bf723efad268449381e2552`. A jornada descobriu linhas e pontos na SPTrans e exibiu uma previsão com fonte e atualização. O [AWS Sandbox](https://54-210-161-95.sslip.io/) permanece **DEMO**, na mesma revisão, com ensaio de indisponibilidade/recuperação comprovado. São evidências históricas de integração, sem garantia de previsão ou disponibilidade futura. Conforme aceite do professor relatado por Pedro, AWS Sandbox é a frente de entrega Cloud; Azure permanece destinada à IA. A avaliação original e seus artefatos estão preservados. Submissão acadêmica não realizada.
 
 ## Funciona e foi executado
 
@@ -15,6 +15,16 @@ Atualizado em 19/11/2026. Aplicação, avaliação original e artefatos publicad
 - Base: 18 trechos com fonte/data/condições de uso. Recall@1=13/14 (92,86%), recall@3=14/14 (100%); limiar 0,05 calibrado em DEV. Negativas 4/4 rejeitadas; corpus e amostra pequenos.
 - Avaliação real: DEV6 + TEST24, cada qual três configurações com mesmos pesos/parâmetros. Saídas brutas, finais, hashes e condições em `avaliacao/runs/{dev-v1,test-v1}`. TEST foi reservado antes das saídas e não usado para ajustar implementação.
 
+## Jornada pública LIVE na Azure
+
+A [implantação](../evidencias/cloud/azure-live-deployment.json) confirmou a revisão `8b1e298a101eb9b90bf723efad268449381e2552`, versão 0.1.0, modo `live` e os digests das imagens. A execução [44536511956, tentativa 1](https://github.com/Salvittis/ponto-certo/actions/runs/44536511956/attempts/1) aprovou nove jobs e publicou Azure/AWS em DEMO. Na [tentativa 2](https://github.com/Salvittis/ponto-certo/actions/runs/44536511956/attempts/2), somente o job de deploy Azure foi reexecutado para LIVE, preservando o mesmo commit e as imagens já construídas, verificadas e publicadas; AWS não foi reimplantada nessa promoção.
+
+O [smoke HTTPS LIVE](../evidencias/cloud/azure-live-public.json) passou em 19/11/2026, **11:03:49–11:04:11** (São Paulo): saúde, prontidão, configuração, duas consultas de previsão e descoberta de linhas. A consulta 35274/sentido 2/ponto 614432 retornou `not_found`, resultado vazio válido; a consulta 2506/sentido 1/ponto 7014417 retornou `ok`. Ambas exibiram fonte e atualização, sem texto de demonstração. A busca de linhas retornou quatro opções. As observações são amostras únicas, sem benchmark ou SLA.
+
+Na [jornada pelo formulário público](../evidencias/jornada-publica-live.json), às **11:05–11:06**, a busca `8000` retornou quatro registros; a seleção **2506, sentido 1** trouxe **14 pontos**; a seleção **7014417 — ANGELICA B/C** resultou em `ok`, previsão **11:12**, aproximadamente **6 minutos no relógio da consulta**, com fonte SPTrans Olho Vivo e atualização **11:06**. O aviso de simulação não estava presente. A previsão é histórica e não garante chegada. As cinco capturas registram [início](../evidencias/interface-publica-live-inicio.jpg), [linhas](../evidencias/interface-publica-live-linhas.jpg), [pontos](../evidencias/interface-publica-live-pontos.jpg), [formulário completo](../evidencias/interface-publica-live-completa.jpg) e [chegada](../evidencias/interface-publica-live-chegada.jpg).
+
+Às **11:06:52**, `/healthz`, `/readyz` e `/api/config` confirmaram a mesma revisão, e a configuração confirmou `live`. **`sptrans_live_verified=false` em `/readyz` é o contrato desse endpoint:** ele verifica configuração/modelo, sem fazer a autenticação e consulta externas. A comprovação do acesso real é a jornada HTTP/UI e seus resultados, não o sinal isolado de prontidão. Esta validação posterior não reexecuta nem substitui o TEST24.
+
 ## Recuperação operacional pública na Azure
 
 A frente Cloud concluiu o ensaio em 19/11/2026 na mesma revisão `48752d037ee6b7feaee1806ab00dc60e465ad745`: somente o container LLM foi parado/iniciado, entre **12:27:30 e 12:29:31 UTC** (09:27:30–09:29:31 de São Paulo), sem reboot da VM. Dois alertas estavam em `firing` às **12:28:51 UTC**; a API permaneceu viva, prontidão e pergunta retornaram 503 e a interface mostrou indisponibilidade. [Ensaio](../evidencias/cloud/alert-exercise.json), [contrato durante falha](../evidencias/cloud/public-model-unavailable.json) e [captura](../evidencias/cloud/screenshots/public-unavailable.jpg).
@@ -28,6 +38,10 @@ A [aplicação AWS](https://54-210-161-95.sslip.io/) foi observada no navegador 
 O ensaio controlado, conduzido por Cloud, parou somente a LLM AWS às **13:21:35 UTC** e solicitou reinício às **13:23:36 UTC** (10:21:35–10:23:36 de São Paulo), com restauração automática. Durante a falha, o navegador registrou `PublicReadyUnavailable` e `ModelNotReady` em `FIRING`, com coleta de métricas ativa. Após a restauração, as três regras estavam `INACTIVE` às 10:24:14; o dashboard às 10:24:35 mostrou **prontidão/modelo/coleta/alertas = 1/1/1/0**. Os snapshots do dashboard foram 1/1/1/0 no baseline visual, 0/0/1/2 durante a falha e 1/1/1/0 após recuperação. São observações pontuais, não prova de disponibilidade contínua.
 
 Um incidente anterior **não provocado**, entre aproximadamente 10:13 e 10:17, está separado no mesmo manifesto: houve divergência entre navegador e monitor, e a causa não foi estabelecida por essas capturas. Não foi apresentado como ensaio controlado nem ocultado no histórico dos gráficos. O ensaio AWS acrescenta evidência operacional ao produto e não reexecuta o TEST24.
+
+No **segundo ensaio**, já na revisão `8b1e298a101eb9b90bf723efad268449381e2552`, o baseline visual às 10:55:35 era 1/1/1/0; a janela também continha a breve queda do deploy. Cloud enviou o comando de parada temporária da LLM às **10:56:51**, por 120 segundos, e fez uma consulta que retornou 503. Às **10:58:37**, `PublicReadyUnavailable` e `ModelNotReady` estavam em `FIRING`, `MetricsUnavailable` em `INACTIVE`, e o dashboard mostrou **0/0/1/2**. O manifesto registra aumento visual da taxa de erro e o snapshot JSON informado por Cloud de **11,11%**, restrito à janela do ensaio. Às **10:59:28**, as três regras estavam `INACTIVE` e o dashboard voltou a **1/1/1/0**. [Observações v2](../evidencias/aws/browser-observations.json), [falha](../evidencias/aws/screenshots/dashboard-firing-v2.jpg) e [recuperação](../evidencias/aws/screenshots/dashboard-recovered-v2.jpg).
+
+O [formulário AWS](../evidencias/aws/screenshots/public-response-v2.jpg) retornou chegada **DEMO** com fonte sintética e atualização visíveis às **11:02:15**, e a identidade da revisão foi confirmada após a captura. O sucesso da Azure LIVE não altera a modalidade dessa demonstração AWS.
 
 ## Resultado original observado — TEST24
 
@@ -72,8 +86,11 @@ Posteriormente, a conta/app **Ponto Certo - FIAP CitizenTech** foi cadastrada e 
 | Verificador independente, 09:54:24–09:54:25 | Autenticação `true`; busca `8000` retornou quatro registros. Serviço `tl=1`, sentidos/códigos 1/2506 e 2/35274. Duas consultas de previsão: a primeira vazia; **somente a segunda retornou uma previsão** | [JSON sanitizado](../evidencias/sptrans-verificacao-20261119T125425332800Z.json) |
 | Adaptador da aplicação, 09:55:26 | `passed`, `mode=live`, `synthetic=false`; código 35274, ponto 614432, sentido 2, uma linha correspondente e uma previsão | [Adaptador real](../evidencias/sptrans-adaptador-real.json) |
 | Preflight Azure, 10:08:44–10:08:58 | Duas verificações aprovadas: documental e chegada live. Ambas chamaram a LLM real, produziram JSON válido e usaram fallback extrativo. A consulta live teve uma previsão utilizável, fonte/telemetria recentes e `synthetic=false` | [Preflight no container](../evidencias/cloud/azure-live-preflight.json) |
+| Preflight Azure com validação de idade após inferência, 10:56:32–10:56:54 | Três checks aprovados na revisão `8b1e298…`: documental; previsão vazia válida sem chamar a LLM; descoberta de quatro linhas reais com chamada à LLM e fallback extrativo. Nenhuma previsão utilizável nessa amostra | [Preflight posterior](../evidencias/cloud/azure-live-preflight-hardened.json) |
+| HTTPS Azure público LIVE, 11:03:49–11:04:11 | Seis checks aprovados; uma consulta de previsão vazia, outra `ok`, quatro opções de linha e revisão confirmada | [HTTP público](../evidencias/cloud/azure-live-public.json) |
+| Formulário Azure público LIVE, 11:05–11:06 | Quatro registros de linha, 14 pontos do sentido selecionado, previsão 11:12 com atualização 11:06; fonte e ressalva visíveis | [Jornada e identidade](../evidencias/jornada-publica-live.json) |
 
-O preflight registrou `app_revision=60aeeddc0509cf6c82c65485f67fae67ad494a62` e escopo **`direct_engine_preflight_not_public_http`**: valida Engine, ferramenta e modelo no runtime Azure, mas **não** demonstra `/api/ask` público em live nem uma mudança já aplicada à interface. Tempos documental/live de 7,498 s e 6,870 s são duas amostras de integração, sem benchmark. A idade do relógio da fonte foi cerca de 51,7 s e a da telemetria exibida, 31,7 s naquela consulta.
+O primeiro preflight registrou `app_revision=60aeeddc0509cf6c82c65485f67fae67ad494a62` e escopo **`direct_engine_preflight_not_public_http`**: valida Engine, ferramenta e modelo no runtime Azure, mas **não** demonstra `/api/ask` público em live nem uma mudança já aplicada à interface. Tempos documental/live de 7,498 s e 6,870 s são duas amostras de integração, sem benchmark. A idade do relógio da fonte foi cerca de 51,7 s e a da telemetria exibida, 31,7 s naquela consulta.
 
 Esses dados são evidências históricas. Uma parada por sentido não representa toda a linha; vazio não comprova falta de serviço e previsão não garante chegada. A presença de token ou `readyz` positivo não substitui autenticação e consulta reais. Condições oficiais e detalhe do primeiro acesso estão no [adendo SPTrans](SPTRANS-LIVE.md).
 
@@ -83,20 +100,18 @@ Para repetir o verificador, após o segredo estar configurado, sem colocá-lo na
 .venv/bin/python -m scripts.verify_sptrans --query 8000
 ```
 
-O aplicativo público deve manter a indicação DEMO até Cloud validar os patches de produção, promover `live` e registrar HTTP/UI públicos com fonte, atualização e comportamento de falhas. Não reutilizar os códigos da fixture como cobertura presumida da API real.
+A promoção Azure LIVE e sua jornada HTTP/UI estão comprovadas nas evidências posteriores acima. Os registros antigos em DEMO e os preflights anteriores à promoção mantêm seus respectivos escopos. AWS continua DEMO; seus avisos de simulação permanecem necessários. Não reutilizar os códigos da fixture como cobertura presumida da API real.
 
 ## Contrato e versão para Cloud
 
 Contrato v0.1.0 em `docs/CONTRATO-IA-CLOUD.md`, enviado ao agente Cloud; primeira versão executável comunicada em 19/11/2026. Mesmos modelo/runtime alinhados, dependências runtime fixadas, portas 8000/8081, health/readiness/config/metrics e smoke disponíveis. Cloud possui Docker/Compose, CI/CD, Terraform e observabilidade; não foram alterados por IA.
 
-Repositório único: [Salvittis/ponto-certo](https://github.com/Salvittis/ponto-certo), público. As revisões são **checkpoints**, não afirmação de que todo o trabalho posterior já foi publicado: Azure HTTP/UI/ensaio demo verificaram `48752d037ee6b7feaee1806ab00dc60e465ad745`; AWS demo e preflight direto Azure live registraram `60aeeddc0509cf6c82c65485f67fae67ad494a62`. Os artefatos de cada etapa documentam sua modalidade e horário. A identidade do estudo original permanece nos SHA256 de `avaliacao/runs/test-v1/manifest.json`; não havia commit durante o experimento. Cloud controla README, relatório Cloud, Git e a publicação da próxima versão.
+Repositório único: [Salvittis/ponto-certo](https://github.com/Salvittis/ponto-certo), público. As revisões são **checkpoints**, não afirmação de que todo o trabalho posterior já foi publicado: Azure HTTP/UI/ensaio demo verificaram `48752d037ee6b7feaee1806ab00dc60e465ad745`; AWS demo e primeiro preflight direto Azure live registraram `60aeeddc0509cf6c82c65485f67fae67ad494a62`; Azure HTTP/UI LIVE e AWS DEMO com segundo ensaio verificaram `8b1e298a101eb9b90bf723efad268449381e2552`. Os artefatos de cada etapa documentam sua modalidade e horário. A identidade do estudo original permanece nos SHA256 de `avaliacao/runs/test-v1/manifest.json`; não havia commit durante o experimento. Cloud controla README, relatório Cloud, Git e a publicação da próxima versão.
 
 ## Pendências concretas
 
-1. Validar os patches posteriores de produção, promover o aplicativo público para `live` sob coordenação de Cloud e verificar a jornada HTTP/UI completa. Acesso SPTrans e preflight direto passaram; a promoção pública ainda não está comprovada neste checkpoint.
-2. Consolidar commit/pipeline/documentação com a revisão efetivamente implantada, mantendo os checkpoints e a avaliação original separados. Nenhum deploy ou pipeline futuro é antecipado; Railway da TBC permanece fora do escopo.
-3. A execução AWS demo e seu ensaio de recuperação estão comprovados. A consolidação da entrega Cloud/PDF final e a manutenção do Sandbox seguem com a frente Cloud; a Azure permanece destinada à IA.
-4. Pedro/integrante: conferir o conteúdo e enviar links no Teams até 19/11/2026 às 23h55. Manter os links necessários disponíveis durante a correção. Não houve submissão.
+1. Pedro/integrante: conferir o conteúdo final e enviar os links no Teams até 19/11/2026 às 23h55. Não houve submissão.
+2. Manter os links e serviços necessários disponíveis durante a correção, sob responsabilidade da equipe, preservando a distinção Azure LIVE / AWS DEMO. A promoção LIVE e as jornadas descritas estão comprovadas; não são pendências deste checkpoint. Railway da TBC permanece fora do escopo.
 
 Nomes/RMs confirmados por Pedro: Filipe Prado Menezes RM98765; Cássio Eid Kobaysahi Yonetsuka RM99678; Pedro Henrique Salvitti Habiro RM88166. Nenhum nome ou RM foi inferido.
 

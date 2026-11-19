@@ -1,0 +1,137 @@
+{
+  "scope": "public",
+  "checked_at": "2026-11-19T13:59:48.861032+00:00",
+  "finished_at": "2026-11-19T13:59:58.700290+00:00",
+  "collection_status": "collected",
+  "services": [
+    {
+      "service": "proxy",
+      "effective_uid": 10001,
+      "read_only": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "memory_limit_bytes": 134217728.0,
+      "cpu_nanos": 500000000.0,
+      "published_ports": [
+        {
+          "container_port": "8080/tcp",
+          "host_port": "80",
+          "exposure": "all_interfaces"
+        },
+        {
+          "container_port": "8080/tcp",
+          "host_port": "80",
+          "exposure": "all_interfaces"
+        },
+        {
+          "container_port": "8443/tcp",
+          "host_port": "443",
+          "exposure": "all_interfaces"
+        },
+        {
+          "container_port": "8443/tcp",
+          "host_port": "443",
+          "exposure": "all_interfaces"
+        }
+      ],
+      "image_id": "sha256:178cef29a6937a11d91ad0a19e84aaa42c5ab3499dde525e2f7303ed4aa260ac",
+      "image_ref": "ghcr.io/salvittis/ponto-certo-proxy@sha256:178cef29a6937a11d91ad0a19e84aaa42c5ab3499dde525e2f7303ed4aa260ac",
+      "configured_user": "10001:10001",
+      "status": "running",
+      "health": "healthy",
+      "restart_policy": "unless-stopped",
+      "resources": {
+        "checked_at": "2026-11-19T13:59:51.258327+00:00",
+        "cpu_percent": 0.0,
+        "memory_usage_bytes": 29758586,
+        "memory_limit_bytes": 134217728,
+        "collection_status": "collected"
+      }
+    },
+    {
+      "service": "app",
+      "effective_uid": 10001,
+      "read_only": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "memory_limit_bytes": 536870912.0,
+      "cpu_nanos": 1000000000.0,
+      "published_ports": [],
+      "image_id": "sha256:3dcecae3302e375edf0207256ff3cac27f3abad0a970b007653786eed7acaa85",
+      "image_ref": "ghcr.io/salvittis/ponto-certo@sha256:3dcecae3302e375edf0207256ff3cac27f3abad0a970b007653786eed7acaa85",
+      "configured_user": "10001:10001",
+      "status": "running",
+      "health": "healthy",
+      "restart_policy": "unless-stopped",
+      "resources": {
+        "checked_at": "2026-11-19T13:59:51.258851+00:00",
+        "cpu_percent": 0.17,
+        "memory_usage_bytes": 62799216,
+        "memory_limit_bytes": 536870912,
+        "collection_status": "collected"
+      }
+    },
+    {
+      "service": "llm",
+      "effective_uid": 10001,
+      "read_only": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "memory_limit_bytes": 3221225472.0,
+      "cpu_nanos": 2000000000.0,
+      "published_ports": [],
+      "image_id": "sha256:3686e047b9a054db54736d921985a259cd65b4de297075ed831421fbc2697547",
+      "image_ref": "ghcr.io/salvittis/ponto-certo-llm@sha256:3686e047b9a054db54736d921985a259cd65b4de297075ed831421fbc2697547",
+      "configured_user": "10001:10001",
+      "status": "running",
+      "health": "healthy",
+      "restart_policy": "unless-stopped",
+      "resources": {
+        "checked_at": "2026-11-19T13:59:51.258870+00:00",
+        "cpu_percent": 0.0,
+        "memory_usage_bytes": 823132160,
+        "memory_limit_bytes": 3221225472,
+        "collection_status": "collected"
+      }
+    }
+  ],
+  "all_three_services_observed": true,
+  "all_effective_uids_non_root": true,
+  "all_running": true,
+  "host_memory": {
+    "checked_at": "2026-11-19T13:59:48.861129+00:00",
+    "total_bytes": 4097323008,
+    "available_bytes": 2542960640,
+    "collection_status": "collected"
+  },
+  "model_artifact": {
+    "path": "/models/qwen.gguf",
+    "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+    "size_bytes": 1117320736,
+    "checked_at": "2026-11-19T13:59:58.700275+00:00",
+    "collection_status": "collected"
+  },
+  "resource_snapshot_complete": true,
+  "resource_notes": [
+    "Point-in-time snapshot; services and host are sampled sequentially, not a load benchmark.",
+    "Host memory comes from /proc/meminfo. MemAvailable is the kernel estimate, not merely MemFree.",
+    "docker stats --no-stream CPU percent can exceed 100% across cores. Memory is CLI usage minus inactive cache on Linux; displayed units are rounded before conversion to bytes.",
+    "Resource sampling precedes SHA-256 hashing. Compare a post-restart hash/size with the pinned build artifact; this collector never performs the restart."
+  ],
+  "provider": "aws",
+  "url": "https://54-210-161-95.sslip.io",
+  "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+  "ssm_command_id": "27f8b0c7-2d06-4e7e-bba9-aecc2c695d21"
+}

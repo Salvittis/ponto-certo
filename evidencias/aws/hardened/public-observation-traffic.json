@@ -1,0 +1,77 @@
+{
+  "provider": "aws",
+  "scope": "bounded_public_demonstration_not_capacity_benchmark",
+  "url": "https://54-210-161-95.sslip.io",
+  "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+  "started_at": "2026-11-19T13:55:43.193667+00:00",
+  "finished_at": "2026-11-19T13:56:29.835736+00:00",
+  "checks": [
+    {
+      "index": 1,
+      "checked_at": "2026-11-19T13:55:50.434794+00:00",
+      "http_status": 200,
+      "seconds": 7.241,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false,
+      "passed": true
+    },
+    {
+      "index": 2,
+      "checked_at": "2026-11-19T13:55:59.167126+00:00",
+      "http_status": 200,
+      "seconds": 8.732,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true,
+      "passed": true
+    },
+    {
+      "index": 3,
+      "checked_at": "2026-11-19T13:56:06.248677+00:00",
+      "http_status": 200,
+      "seconds": 7.081,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false,
+      "passed": true
+    },
+    {
+      "index": 4,
+      "checked_at": "2026-11-19T13:56:14.287835+00:00",
+      "http_status": 200,
+      "seconds": 8.039,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true,
+      "passed": true
+    },
+    {
+      "index": 5,
+      "checked_at": "2026-11-19T13:56:21.423074+00:00",
+      "http_status": 200,
+      "seconds": 7.135,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false,
+      "passed": true
+    },
+    {
+      "index": 6,
+      "checked_at": "2026-11-19T13:56:29.835635+00:00",
+      "http_status": 200,
+      "seconds": 8.412,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

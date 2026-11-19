@@ -1,0 +1,94 @@
+{
+  "provider": "azure",
+  "scope": "public_https_live",
+  "url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "expected_revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+  "started_at": "2026-11-19T14:03:49.928417+00:00",
+  "checks": [
+    {
+      "name": "/healthz",
+      "http_status": 200,
+      "seconds": 0.235,
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "mode": null,
+      "passed": true
+    },
+    {
+      "name": "/readyz",
+      "http_status": 200,
+      "seconds": 0.238,
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "mode": "live",
+      "passed": true
+    },
+    {
+      "name": "/api/config",
+      "http_status": 200,
+      "seconds": 0.201,
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "mode": "live",
+      "passed": true
+    },
+    {
+      "name": "arrival_live",
+      "checked_at": "2026-11-19T14:03:51.454094+00:00",
+      "http_status": 200,
+      "seconds": 0.853,
+      "status": "not_found",
+      "data_mode": "live",
+      "source_count": 1,
+      "has_update": true,
+      "source_ids": [
+        "SPTRANS_QUERY"
+      ],
+      "source_clock_age_seconds_at_receipt": 51.454,
+      "synthetic_demo_text_present": false,
+      "option_count": 0,
+      "passed": true,
+      "line_code": 35274,
+      "stop_code": 614432,
+      "direction": 2
+    },
+    {
+      "name": "empty_or_current_return",
+      "checked_at": "2026-11-19T14:03:58.719918+00:00",
+      "http_status": 200,
+      "seconds": 7.266,
+      "status": "ok",
+      "data_mode": "live",
+      "source_count": 1,
+      "has_update": true,
+      "source_ids": [
+        "SPTRANS_QUERY"
+      ],
+      "source_clock_age_seconds_at_receipt": 58.72,
+      "synthetic_demo_text_present": false,
+      "option_count": 0,
+      "passed": true,
+      "line_code": 2506,
+      "stop_code": 7014417,
+      "direction": 1
+    },
+    {
+      "name": "line_discovery_live",
+      "checked_at": "2026-11-19T14:04:11.942259+00:00",
+      "http_status": 200,
+      "seconds": 13.222,
+      "status": "clarification",
+      "data_mode": "live",
+      "source_count": 1,
+      "has_update": true,
+      "source_ids": [
+        "SPTRANS_QUERY"
+      ],
+      "source_clock_age_seconds_at_receipt": 13.056,
+      "synthetic_demo_text_present": false,
+      "option_count": 4,
+      "passed": true
+    }
+  ],
+  "privacy": "Only fixed test identifiers and allowlisted metadata; no free-text responses or credentials.",
+  "finished_at": "2026-11-19T14:04:11.942317+00:00",
+  "passed": true,
+  "forecast_available_in_at_least_one_fixed_test": true
+}

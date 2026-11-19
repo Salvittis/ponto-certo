@@ -1,0 +1,91 @@
+{
+  "provider": "azure",
+  "scope": "container preflight; public service still demo",
+  "command": "live-preflight-20261119T135604Z",
+  "execution_state": "Succeeded",
+  "exit_code": 0,
+  "script_sha256": "c52dc939ead858be599057efda45e8a2829b1850dd70c8b7c1eef6f6851cdc2a",
+  "expected_revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+  "result": {
+    "schema_version": 2,
+    "scope": "direct_engine_preflight_not_public_http",
+    "freshness_reference": "current_clock_after_inference",
+    "started_at": "2026-11-19T13:56:32.066410+00:00",
+    "line_code": 35274,
+    "stop_code": 614432,
+    "direction": 2,
+    "checks": [
+      {
+        "name": "documental",
+        "status": "ok",
+        "mode": "documental",
+        "source_ids": [
+          "P01"
+        ],
+        "updated_at": null,
+        "model_called": true,
+        "model_json_valid": true,
+        "tool": null,
+        "tool_mode": null,
+        "synthetic": null,
+        "extractive_fallback": true,
+        "seconds": 7.281,
+        "passed": true
+      },
+      {
+        "name": "arrival_live",
+        "status": "not_found",
+        "mode": "live",
+        "source_ids": [
+          "SPTRANS_QUERY"
+        ],
+        "updated_at": "2026-11-19T10:56:00-03:00",
+        "model_called": false,
+        "model_json_valid": false,
+        "tool": "arrivals",
+        "tool_mode": "live",
+        "synthetic": false,
+        "extractive_fallback": false,
+        "seconds": 1.113,
+        "passed": true,
+        "returned_lines": 0,
+        "matching_lines": 0,
+        "matching_vehicles": 0,
+        "usable_forecasts": 0,
+        "queried_at": "2026-11-19T10:56:39.349290-03:00",
+        "received_at": "2026-11-19T10:56:40.461524-03:00",
+        "freshness_checked_at": "2026-11-19T10:56:40.462090-03:00",
+        "source_clock_age_seconds": 40.462,
+        "source_clock_fresh": true,
+        "displayed_vehicle_timestamps_present": true,
+        "displayed_vehicle_timestamps_fresh": false,
+        "oldest_displayed_vehicle_age_seconds": null,
+        "classification": "no_usable_forecast_after_line_direction_time_filters"
+      },
+      {
+        "name": "line_live_fallback",
+        "status": "clarification",
+        "mode": "live",
+        "source_ids": [
+          "SPTRANS_QUERY"
+        ],
+        "updated_at": "2026-11-19T10:56:40.462324-03:00",
+        "model_called": true,
+        "model_json_valid": true,
+        "tool": "lines",
+        "tool_mode": "live",
+        "synthetic": false,
+        "extractive_fallback": true,
+        "seconds": 13.809,
+        "passed": true,
+        "returned_lines": 4
+      }
+    ],
+    "passed": true,
+    "forecast_available": false,
+    "live_tool_with_model_proven": true,
+    "status": "passed_without_usable_forecast",
+    "app_revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+    "finished_at": "2026-11-19T13:56:54.270688+00:00"
+  }
+}

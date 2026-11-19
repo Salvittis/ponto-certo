@@ -1,0 +1,64 @@
+{
+  "provider": "aws",
+  "scope": "public_prometheus",
+  "public_url": "https://54-210-161-95.sslip.io",
+  "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+  "phase": "before",
+  "checked_at": "2026-11-19T13:55:19.753141+00:00",
+  "values": {
+    "http_503_count": 0.0,
+    "llm_unavailable_count": 0.0,
+    "http_503_rate": 0.0,
+    "http_error_percent": 0.0
+  },
+  "queries": {
+    "http_503_count": "ponto_certo_http_requests_total{job=\"ponto-certo-api\",route=\"/api/ask\",method=\"POST\",status=\"503\"}",
+    "llm_unavailable_count": "ponto_certo_llm_requests_total{job=\"ponto-certo-api\",outcome=\"unavailable\"}",
+    "http_503_rate": "sum(rate(ponto_certo_http_requests_total{job=\"ponto-certo-api\",route=\"/api/ask\",status=\"503\"}[5m]))",
+    "http_error_percent": "100 * sum(rate(ponto_certo_http_requests_total{job=\"ponto-certo-api\",route=\"/api/ask\",status=~\"5..\"}[5m])) / sum(rate(ponto_certo_http_requests_total{job=\"ponto-certo-api\",route=\"/api/ask\"}[5m]))"
+  },
+  "window_seconds": 300,
+  "counter_history": {
+    "http_503_count": [
+      {
+        "timestamp": 1795096474.753,
+        "value": 0.0
+      },
+      {
+        "timestamp": 1795096489.753,
+        "value": 0.0
+      },
+      {
+        "timestamp": 1795096504.753,
+        "value": 0.0
+      },
+      {
+        "timestamp": 1795096519.753,
+        "value": 0.0
+      }
+    ],
+    "llm_unavailable_count": [
+      {
+        "timestamp": 1795096474.753,
+        "value": 0.0
+      },
+      {
+        "timestamp": 1795096489.753,
+        "value": 0.0
+      },
+      {
+        "timestamp": 1795096504.753,
+        "value": 0.0
+      },
+      {
+        "timestamp": 1795096519.753,
+        "value": 0.0
+      }
+    ]
+  },
+  "passed": true,
+  "limitations": [
+    "Rates are five-minute observations, not an error-budget SLO or load benchmark.",
+    "The before/after counter values identify the first failed inference since this application process started."
+  ]
+}

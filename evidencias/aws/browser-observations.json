@@ -144,6 +144,95 @@
       "revision": "b9378adf77d26d4b1f4b94e0a0af786201c3e927",
       "observation": "GitHub Actions Failure: Build+Trivy/llm falhou; Publish e deploys AWS/Azure skipped. Demais scanners/testes/imagens passaram. Não é implantação desse commit.",
       "controlled_test": false
+    },
+    {
+      "file": "evidencias/aws/screenshots/dashboard-baseline-v2.jpg",
+      "captured_at": "2026-11-19T13:55:35.897601+00:00",
+      "sha256": "53d998beb7a5d1d4de9b474a195cc7a75724a99b06836e168b320d0f7abf5ed5",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals",
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "observation": "Estado inicial da revisão corrigida: prontidão1,modelo1,coleta1,alertas0; janela contém a queda breve do deploy.",
+      "controlled_test": true,
+      "exercise": "corrected_metrics_v2"
+    },
+    {
+      "file": "evidencias/aws/screenshots/alerts-baseline-v2.jpg",
+      "captured_at": "2026-11-19T13:55:35.910829+00:00",
+      "sha256": "0bb195e2787cf02a0085adb54e7c873efa74e47fde2d10caca915c88a30faaed",
+      "url": "http://127.0.0.1:9091/alerts",
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "observation": "Antes do segundo ensaio: três regras INACTIVE.",
+      "controlled_test": true,
+      "exercise": "corrected_metrics_v2"
+    },
+    {
+      "file": "evidencias/aws/screenshots/pipeline-passed-v2.jpg",
+      "captured_at": "2026-11-19T13:56:36.912703+00:00",
+      "sha256": "5d3ff9c56944ad896b16a03d29b7f520d92a8d3f205186b4cd34230aff0aa2ce",
+      "url": "https://github.com/Salvittis/ponto-certo/actions/runs/44536511956",
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "observation": "GitHub Actions Success10m47s, novejobs aprovados; Azure+AWS emDEMO. Existe warningnão bloqueante sobre versãoAzureCLI.",
+      "controlled_test": false,
+      "exercise": null
+    },
+    {
+      "file": "evidencias/aws/screenshots/alerts-firing-v2.jpg",
+      "captured_at": "2026-11-19T13:58:37.939519+00:00",
+      "sha256": "d6a3fb11eaf5b4d426c049cced4b9b0fdfc51f98d296ba0ab8dcd7a20921dc69",
+      "url": "http://127.0.0.1:9091/alerts",
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "observation": "Segundo ensaio: PublicReadyUnavailable e ModelNotReady FIRING; MetricsUnavailable INACTIVE.",
+      "controlled_test": true,
+      "exercise": "corrected_metrics_v2"
+    },
+    {
+      "file": "evidencias/aws/screenshots/dashboard-firing-v2.jpg",
+      "captured_at": "2026-11-19T13:58:37.962919+00:00",
+      "sha256": "d07c666d3a0799873a619270e640d343cbbeb44924d7f07fa244308ccb79bc9a",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals",
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "observation": "Segundo ensaio: prontidão0,modelo0,coleta1,alertas2.",
+      "controlled_test": true,
+      "exercise": "corrected_metrics_v2"
+    },
+    {
+      "file": "evidencias/aws/screenshots/dashboard-firing-bottom-v2.jpg",
+      "captured_at": "2026-11-19T13:58:42.069546+00:00",
+      "sha256": "c63bb2137af212c39127edd4ee071d6ee81befee431eb54c82d974cfe69d1f3e",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals",
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "observation": "Segundo ensaio: aumento visual da taxa de erro após a primeira requisição503; Cloud informou11,11% no snapshotJSON.",
+      "controlled_test": true,
+      "exercise": "corrected_metrics_v2"
+    },
+    {
+      "file": "evidencias/aws/screenshots/alerts-recovered-v2.jpg",
+      "captured_at": "2026-11-19T13:59:28.718260+00:00",
+      "sha256": "0bb195e2787cf02a0085adb54e7c873efa74e47fde2d10caca915c88a30faaed",
+      "url": "http://127.0.0.1:9091/alerts",
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "observation": "Após segundo ensaio: três regras INACTIVE.",
+      "controlled_test": true,
+      "exercise": "corrected_metrics_v2"
+    },
+    {
+      "file": "evidencias/aws/screenshots/dashboard-recovered-v2.jpg",
+      "captured_at": "2026-11-19T13:59:28.745435+00:00",
+      "sha256": "a3c82954a383878207e7cec608a97e3a91fade2940a79632baebc435c3c5f17d",
+      "url": "http://127.0.0.1:3002/d/ponto-certo-golden-signals",
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "observation": "Após segundo ensaio: prontidão1,modelo1,coleta1,alertas0; histórico mostra falha e retorno.",
+      "controlled_test": true,
+      "exercise": "corrected_metrics_v2"
+    },
+    {
+      "file": "evidencias/aws/screenshots/public-response-v2.jpg",
+      "captured_at": "2026-11-19T14:02:15.598384+00:00",
+      "sha256": "ebe5c900b86638c0cdaa5dc46692d0acc630cd1aed99832423fad050da589637",
+      "url": "https://54-210-161-95.sslip.io/",
+      "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+      "observation": "Envio real do formulário na revisão corrigida: respostaDEMO ok, fonte sintética e atualização19/11/2026 10:00 visíveis; não é previsãoao vivo. Healthz confirmou revisão depois da captura.",
+      "controlled_test": false
     }
   ],
   "note": "Capturas reais do navegador. Horários de chegada da aplicação são sintéticos; não são observações da SPTrans ao vivo.",
@@ -157,5 +246,13 @@
     "cloud_reported_restart_requested_at": "2026-11-19T13:23:36Z",
     "browser_observed_recovered": true,
     "note": "Prometheus ficou INACTIVE antes do stat Alertas ativos do Grafana retornar a0; capturas finais registradas após ambos recuperarem."
+  },
+  "controlled_test_v2": {
+    "command_id": "9b4c1ee0-27bc-4149-b66c-c2fba3adf9a0",
+    "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+    "cloud_reported_command_sent_at": "2026-11-19T13:56:51Z",
+    "planned_stop_seconds": 120,
+    "scope": "ApenasLLMAWS; consulta503 única realizada porCloud; agenteIA apenas capturou o monitor.",
+    "browser_observed_recovered": true
   }
 }

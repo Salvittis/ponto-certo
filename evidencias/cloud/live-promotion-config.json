@@ -1,0 +1,20 @@
+{
+  "checked_at": "2026-11-19T14:00:55.183014+00:00",
+  "repository": "Salvittis/ponto-certo",
+  "azure_from_revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+  "azure_next_deploy_mode": "live",
+  "aws_preserved_revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+  "aws_future_automatic_deploys_enabled": false,
+  "removed_temporary_secret_names": [
+    "AWS_ACCESS_KEY_ID",
+    "AWS_SECRET_ACCESS_KEY",
+    "AWS_SESSION_TOKEN"
+  ],
+  "sptrans_secret_scope": "GitHub environment production only; value never included in arguments or reports",
+  "preflight_evidence": "evidencias/cloud/azure-live-preflight-hardened.json",
+  "aws_exercise_evidence": "evidencias/aws/hardened/alert-exercise.json",
+  "limitations": [
+    "Configuration promotion is not a completed public deployment; next pipeline and public LIVE checks are required.",
+    "AWS resources remain running until the Academy session ends; no End Lab or resource deletion performed."
+  ]
+}

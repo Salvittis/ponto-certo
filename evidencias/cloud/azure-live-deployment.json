@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-11-19T14:03:12.635225+00:00",
+  "commit": "8b1e298a101eb9b90bf723efad268449381e2552",
+  "url": "https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com",
+  "images": {
+    "IMAGE_REF": "ghcr.io/salvittis/ponto-certo@sha256:3dcecae3302e375edf0207256ff3cac27f3abad0a970b007653786eed7acaa85",
+    "LLM_IMAGE_REF": "ghcr.io/salvittis/ponto-certo-llm@sha256:3686e047b9a054db54736d921985a259cd65b4de297075ed831421fbc2697547",
+    "PROXY_IMAGE_REF": "ghcr.io/salvittis/ponto-certo-proxy@sha256:178cef29a6937a11d91ad0a19e84aaa42c5ab3499dde525e2f7303ed4aa260ac"
+  },
+  "run_command": "deploy-8b1e298a101e-0741acc7",
+  "health": {
+    "status": "ok",
+    "version": "0.1.0",
+    "revision": "8b1e298a101eb9b90bf723efad268449381e2552"
+  },
+  "data_mode": "live",
+  "result": "public_model_verified",
+  "provider": "azure",
+  "run_id": 44536511956,
+  "run_attempt": 2,
+  "run_url": "https://github.com/Salvittis/ponto-certo/actions/runs/44536511956/attempts/2",
+  "promotion_scope": "Only Azure deployment job rerun; prior successful build/scan/publish outputs retained for the same commit and digests. AWS not rerun.",
+  "workflow_reference": "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/re-run-workflows-and-jobs"
+}

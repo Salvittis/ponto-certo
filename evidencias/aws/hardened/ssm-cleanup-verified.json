@@ -1,0 +1,9 @@
+{
+  "provider": "aws",
+  "checked_at": "2026-11-19T14:03:24.722868+00:00",
+  "account_id": "820278553581",
+  "parameter_prefix": "/ponto-certo/ci/",
+  "remaining_parameter_count": 0,
+  "cleanup_confirmed": true,
+  "scope": "Metadata-only parameter inventory; no parameter values requested."
+}

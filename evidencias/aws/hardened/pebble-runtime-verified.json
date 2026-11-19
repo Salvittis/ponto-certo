@@ -1,0 +1,12 @@
+{
+  "provider": "aws",
+  "scope": "public_host_runtime_via_ssm",
+  "checked_at": "2026-11-19T13:55:43.409080+00:00",
+  "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+  "pebble_absent": true,
+  "llama_server_sha256": "dbebde933e31d22456bfc81e1847346d192e9f7379243224bf852e16b2f60afa",
+  "image_ref": "ghcr.io/salvittis/ponto-certo-llm@sha256:3686e047b9a054db54736d921985a259cd65b4de297075ed831421fbc2697547",
+  "passed": true,
+  "command_id": "1bbf539c-b733-4dac-b765-59725ff2eba6",
+  "instance_id": "i-0cd7e82843509189b"
+}

@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-11-19T13:46:58.386074+00:00",
+  "repository": "Salvittis/ponto-certo",
+  "run_id": 44534096169,
+  "deleted_temporary_transfer_artifacts": [
+    {
+      "id": 14535586638,
+      "name": "image-app-b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+      "size_in_bytes": 28126336
+    },
+    {
+      "id": 14533494531,
+      "name": "image-proxy-b9378adf77d26d4b1f4b94e0a0af786201c3e927",
+      "size_in_bytes": 44783748
+    }
+  ],
+  "total_deleted_bytes": 72910084,
+  "preserved": [
+    "Failed LLM security finding and small reports",
+    "Source commit and blocked-pipeline evidence",
+    "Existing deployed60aeedd images in GHCR"
+  ],
+  "reason": "The vulnerable revision cannot be published. Correction is in a new commit with a full new pipeline; temporary app/proxy transfer archives from the failed run are no longer needed."
+}

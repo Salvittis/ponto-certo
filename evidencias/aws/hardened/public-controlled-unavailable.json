@@ -1,0 +1,37 @@
+{
+  "provider": "aws",
+  "scope": "public",
+  "url": "https://54-210-161-95.sslip.io",
+  "revision": "8b1e298a101eb9b90bf723efad268449381e2552",
+  "ssm_command_id": "9b4c1ee0-27bc-4149-b66c-c2fba3adf9a0",
+  "fault": "controlled llm container stop for120 seconds",
+  "checks": [
+    {
+      "name": "readiness",
+      "http_status": 503,
+      "seconds": 3.414,
+      "model_ready": false,
+      "passed": true,
+      "checked_at": "2026-11-19T13:57:28.830777+00:00"
+    },
+    {
+      "name": "liveness",
+      "http_status": 200,
+      "seconds": 0.399,
+      "passed": true,
+      "checked_at": "2026-11-19T13:57:29.229933+00:00"
+    },
+    {
+      "name": "question_fails_honestly",
+      "http_status": 503,
+      "seconds": 5.413,
+      "status": "unavailable",
+      "data_mode": "documental",
+      "source_count": 0,
+      "has_update": false,
+      "passed": true,
+      "checked_at": "2026-11-19T13:57:34.642618+00:00"
+    }
+  ],
+  "passed": true
+}

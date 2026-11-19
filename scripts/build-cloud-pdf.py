@@ -408,6 +408,8 @@ class Report:
         shots = self.data.get("screenshots", {})
         results = []
         for key, title, check in SCREENSHOTS:
+            if key == "terraform" and self.is_aws:
+                title = "Infraestrutura / AWS"
             item = shots.get(key, {}) if isinstance(shots, dict) else {}
             if isinstance(item, str):
                 item = {"path": item}

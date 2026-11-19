@@ -1,12 +1,43 @@
 # Cloud no AWS Academy — Ponto Certo
 
-A entrega de Cloud usa o **AWS Academy Sandbox**, conforme a orientação do professor relatada por Pedro em 19/11/2026. A aplicação de IA permanece separadamente na [Azure](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com), com permanência planejada até **27/11/2026 às 23h55 de São Paulo**. São duas implantações da mesma aplicação, modelo, base e contrato funcional. Evidências de uma plataforma não comprovam a outra.
+A entrega de Cloud usa o **AWS Academy Sandbox**, conforme a orientação do professor relatada por Pedro em 19/11/2026. A aplicação de IA permanece em modo **live**, com consultas SPTrans verificadas, separadamente na [Azure](https://ponto-certo-fiap-rm88166.chilecentral.cloudapp.azure.com), com permanência planejada até **27/11/2026 às 23h55 de São Paulo**. São duas implantações da mesma aplicação, modelo, base e contrato funcional. Evidências de uma plataforma não comprovam a outra.
 
 O Sandbox desta sessão informou duração de **180 minutos**, com início em **19/11/2026 às 09:35:56 de São Paulo** (`12:35:56Z`) e limite declarado de **12:35:56 de São Paulo** (`15:35:56Z`). O guia observado informa que recursos e dados são apagados no encerramento ou vencimento da sessão. Esse prazo é uma janela operacional, não um saldo financeiro nem garantia de renovação. A aceitação desse ambiente para Cloud foi relatada por Pedro; não foi deduzida do PDF da disciplina.
 
-## Estado deste checkpoint
+Documento de entrega: [Ponto-Certo-Deploy-Blindado.pdf](https://github.com/Salvittis/ponto-certo/releases/download/entrega-cloud-2026-11-19/Ponto-Certo-Deploy-Blindado.pdf), na [release entrega-cloud-2026-11-19](https://github.com/Salvittis/ponto-certo/releases/tag/entrega-cloud-2026-11-19). O PDF reúne arquitetura, evidências, custos e links de reprodução. A publicação do documento não representa submissão acadêmica; o envio fica com Pedro/equipe.
 
-A [aplicação pública AWS](https://54-210-161-95.sslip.io) foi comprovada em modo demo na revisão `60aeeddc0509cf6c82c65485f67fae67ad494a62`. O [ensaio controlado da LLM](../evidencias/aws/alert-exercise.json), comando SSM `d1be6c52-e9ca-4a4b-9e9b-0213f572438c`, foi concluído com **12/12 checks aprovados**, incluindo alertas, recuperação, inferência e integridade das imagens/pesos. A conclusão foi registrada em **19/11/2026 às 13:25:15 UTC** (10:25:15 de São Paulo). O PDF final ainda precisa de consolidação, geração e revisão visual.
+O checkpoint das evidências AWS fica fixado em `8b1e298`; revisões documentais posteriores da Azure têm seu próprio SHA. A revisão atual de `/healthz` da Azure pode avançar sem alterar a referência histórica dos testes ou o checkpoint AWS.
+
+## Checkpoint validado AWS — revisão 8b1e298
+
+A revisão **`8b1e298a101eb9b90bf723efad268449381e2552`** foi publicada na AWS e na Azure em modo demo pela [tentativa 1 do run 44536511956](https://github.com/Salvittis/ponto-certo/actions/runs/44536511956/attempts/1), concluída em **19/11/2026 às 10:55:37 de São Paulo** (`13:55:37Z`). Os [resultados sanitizados](../evidencias/aws/hardened/security-passed-summary.json) comprovam **nove jobs, 125/125 testes**, Gitleaks/Semgrep sem achados, Trivy das três imagens sem HIGH/CRITICAL/segredos segundo a política registrada, mesmos digests publicados sem rebuild e dois deploys aprovados. O smoke AWS do deploy passou **5/5**; o SecureString temporário foi excluído.
+
+A execução anterior [44534096169, revisão b9378ad](../evidencias/aws/hardened/security-blocked-summary.json) foi bloqueada por **CVE-2026-97054**, achado HIGH no executável herdado `/usr/bin/pebble`, não utilizado pela LLM. Publicação, deploy AWS e deploy Azure ficaram skipped. O executável foi removido da imagem final, sem desativar scanner ou suprimir a vulnerabilidade. A verificação corrigida ocorreu no CI Linux/AMD64, e a [inspeção SSM do runtime AWS](../evidencias/aws/hardened/pebble-runtime-verified.json) confirmou sua ausência. A validação local ARM64 anterior permanece identificada como local, sem substituir essas provas.
+
+O [ensaio final](../evidencias/aws/hardened/alert-exercise.json) passou **15/15 checks**, consolidado às **11:00:37 de São Paulo** (`14:00:37Z`). Somente a LLM sofreu stop/start:
+
+| Etapa em 19/11/2026 | São Paulo | UTC |
+|---|---|---|
+| Parada da LLM | 10:56:52 | 13:56:52Z |
+| Dois alertas firing observados | 10:58:45 | 13:58:45,144Z |
+| Reinício solicitado | 10:58:52 | 13:58:52Z |
+| Recuperação sem alertas ativos | 10:59:47 | 13:59:47,201Z |
+
+O [contrato durante a falha](../evidencias/aws/hardened/public-controlled-unavailable.json) confirmou API viva e indisponibilidade honesta. Dispararam [PontoCertoModelNotReady e PontoCertoPublicReadyUnavailable](../evidencias/aws/hardened/observability-firing.json); a [recuperação](../evidencias/aws/hardened/observability-recovered.json) confirmou prontidão e alertas resolvidos. O [smoke posterior](../evidencias/aws/hardened/smoke-public-recovered.json) passou **5/5** entre **10:59:10 e 10:59:32**, com inferência documental em 11,803 s e chegada demo em 9,250 s. Os [três containers](../evidencias/aws/hardened/containers-recovered.json) ficaram running/healthy, UID 10001, com os mesmos digests usados antes da falha e GGUF de **1.117.320.736 bytes**, SHA-256 `6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e`. Não foi teste de reboot da EC2 nem benchmark.
+
+O [baseline coletado após o deploy](../evidencias/aws/hardened/observability-baseline.json), janela de cinco minutos terminada às **10:56:42,366**, mediu **p95 22,0 s**, **0,0280701 perguntas/s**, **0% HTTP 5xx** e **0% de saturação instantânea do slot**. P95 é aproximado por buckets; a janela de cinco minutos da mesma URL começa às 10:51:42,366 e atravessa a troca da release. Ela não isola desempenho exclusivo da nova revisão nem estabelece capacidade máxima. A primeira falha foi contada em [0 antes](../evidencias/aws/hardened/first-failure-before.json) e [1 depois](../evidencias/aws/hardened/first-failure-after.json), chegando a **11,1111% HTTP 5xx/5 min**. Na recuperação, a taxa móvel ainda era **10,8168%**, pois conserva o erro anterior. A [correção da inicialização das séries](OBSERVABILIDADE.md#limitação-histórica-da-primeira-falha-e-correção-comprovada) está publicada e validada; os valores antigos não foram reescritos.
+
+A **Azure foi promovida para live** na revisão `8b1e298a101eb9b90bf723efad268449381e2552`, que identifica as provas abaixo; revisões documentais posteriores podem avançar o SHA publicado da Azure. A [tentativa 2 do mesmo run](../evidencias/cloud/azure-live-deployment.json) reexecutou somente o job Azure e preservou os três digests já examinados/publicados; AWS não foi reimplantada. O deploy foi validado às **11:03:12 de São Paulo**, em 19/11/2026. A [validação pública SPTrans separada](../evidencias/cloud/azure-live-public.json) passou **6/6 checks** entre **11:03:49 e 11:04:11**: saúde/revisão, prontidão e configuração live; chegada `not_found` para linha 35274/parada 614432/sentido 2; previsão real `ok` para linha 2506/parada 7014417/sentido 1; descoberta de linhas `8000` com `clarification` e quatro opções. As consultas registraram fonte `SPTRANS_QUERY`, atualização e relógio fresco, sem rótulo sintético/demo. São amostras verificadas, sem promessa de cobertura integral ou de previsão futura para os mesmos códigos.
+
+O [smoke genérico do job](../evidencias/cloud/azure-live-generic-smoke.json) validou saúde, prontidão, modo e inferência documental, mas deixou `arrival_live` sem execução (`passed: null`) por exigir códigos reais verificados. Esse registro foi preservado; a comprovação de chegada live vem dos seis checks HTTP separados, não do item pulado. O [preflight corrigido anterior](../evidencias/cloud/azure-live-preflight-hardened.json) permanece como teste direto do motor e não substitui a prova pública.
+
+A **AWS tem seu checkpoint demo preservado em `8b1e298`**, com o ensaio final de 15 checks preservado. A [configuração de encerramento do deploy automático](../evidencias/cloud/live-promotion-config.json) registrou `AWS_ENABLED=false` e remoção das três credenciais STS temporárias do GitHub; não foram apagados recursos nem encerrado o Lab. A [conferência SSM](../evidencias/aws/hardened/ssm-cleanup-verified.json) encontrou zero parâmetros temporários em `/ponto-certo/ci/`. Uma nova sessão exige novas credenciais e atualização explícita do alvo. A Azure permanece independente, com manutenção planejada até 27/11/2026 às 23h55 de São Paulo.
+
+A [jornada pública live pelo navegador](../evidencias/jornada-publica-live.json) foi concluída em **19/11/2026 às 11:06:33 de São Paulo**, com identidade/revisão conferida às **11:06:52**: descoberta de quatro opções de linhas, seleção de 14 paradas retornadas e previsão real para a opção escolhida. As cinco capturas, horários e hashes constam do registro; a [tela final](../evidencias/interface-publica-live-chegada.jpg) mostra fonte e atualização sem aviso demo. A previsão é observação histórica da consulta, não horário atual nem garantia de chegada.
+
+## Histórico do primeiro checkpoint 60aeedd
+
+A [aplicação pública AWS](https://54-210-161-95.sslip.io) foi inicialmente comprovada em demo na revisão `60aeeddc0509cf6c82c65485f67fae67ad494a62`. O [primeiro ensaio controlado](../evidencias/aws/alert-exercise.json) passou 12/12 checks às **13:25:15 UTC** (10:25:15 de São Paulo). As provas abaixo preservam esse histórico; a revisão final `8b1e298` e seu ensaio de 15 checks estão identificados acima. O documento final usa as provas do checkpoint corrigido `8b1e298`, mantendo este primeiro ensaio como histórico.
 
 | Etapa | Resultado observado |
 |---|---|
@@ -30,9 +61,9 @@ O [baseline Prometheus](../evidencias/aws/observability-baseline.json) registra 
 
 O [incidente de conectividade do observador Mac](../evidencias/aws/connectivity-incident.json), aproximadamente **13:08–13:15 UTC**, gerou timeouts e alertas locais enquanto a EC2 e uma VM Azure independente alcançavam a prontidão pública. A causa não foi determinada; não há evidência de queda geral da aplicação. Um problema posterior e distinto no bind mount do token foi corrigido recriando somente Prometheus AWS, preservando o volume. Esses eventos não são o ensaio planejado da LLM. Nesse ensaio, as primeiras [verificações de indisponibilidade](../evidencias/aws/public-controlled-unavailable.json), às 13:22:00–05 UTC, registraram `/healthz` 200, `/readyz` 503 e pergunta `unavailable`/503; o disparo e a restauração foram depois confirmados pelo ensaio completo abaixo.
 
-A Azure também passou o deploy da revisão `60aeedd` nesse run e permanece pública em **demo**. Um [preflight restrito SPTrans/LLM](../evidencias/cloud/azure-live-preflight.json) passou às 13:08:44–58 UTC com uma previsão real e timestamps frescos; seu escopo é execução direta do motor, não HTTP público. A publicação live aguarda hardening de frescor/coerência do código da parada, novo preflight e smoke HTTP na revisão corrigida. Não se declara cobertura integral da SPTrans nem se altera o experimento congelado.
+A Azure também passou o deploy histórico `60aeedd` em modo demo. O [primeiro preflight restrito SPTrans/LLM](../evidencias/cloud/azure-live-preflight.json) passou às 13:08:44–58 UTC com uma previsão real; após controles adicionais, o [novo preflight 8b1e298](../evidencias/cloud/azure-live-preflight-hardened.json) passou com retorno vazio de chegada e busca de linhas com LLM. Esses testes diretos do motor não comprovam HTTP público live nem cobertura geral.
 
-## Ensaio controlado e recuperação comprovados
+## Histórico do primeiro ensaio e recuperação
 
 O comando conferiu a revisão antes da falha e usou lock exclusivo, trap de restauração e timer independente de contingência. Somente o container LLM foi parado; não houve reboot do host, parada da API, alteração de rede ou substituição de imagem.
 
@@ -49,7 +80,7 @@ O snapshot intermediário às **10:23:53** já via prontidão 200, mas ainda mos
 
 Capturas reais: [dashboard anterior](../evidencias/aws/screenshots/dashboard-baseline.jpg), [alertas firing](../evidencias/aws/screenshots/alerts-firing.jpg), [dashboard durante a falha](../evidencias/aws/screenshots/dashboard-firing.jpg), [alertas resolvidos](../evidencias/aws/screenshots/alerts-recovered.jpg) e [dashboard recuperado](../evidencias/aws/screenshots/dashboard-recovered.jpg). O [registro de capturas](../evidencias/aws/browser-observations.json) conserva horário, origem, SHA e identificação do ensaio; não mistura o incidente do observador com a falha provocada da LLM.
 
-Os snapshots de disparo e recuperação preservam **0% de HTTP 5xx**, embora o contrato público tenha registrado 503. Na revisão `60aeedd`, a série do primeiro 503 surgiu em 1, sem amostra prévia em zero; a consulta histórica confirmou a limitação de `rate(...[5m])`. Isso não invalida os alertas nem a restauração comprovada. A inicialização das séries conhecidas em zero e o registro dos limites anteriores ao roteamento foram corrigidos no código local, com testes de primeira resposta 503 e rejeição 413 aprovados; a nova imagem ainda precisa ser publicada e validada no Prometheus. [Detalhamento e referência oficial](OBSERVABILIDADE.md#limitação-histórica-da-primeira-falha-e-correção-preparada). Nenhuma taxa histórica foi reescrita.
+Os snapshots históricos de disparo e recuperação preservam **0% de HTTP 5xx**, embora o contrato público tenha registrado 503. Na revisão `60aeedd`, a série do primeiro 503 surgiu em 1, sem amostra prévia em zero; a consulta histórica confirmou a limitação de `rate(...[5m])`. Alertas e restauração permaneceram comprovados. A correção foi publicada e validada no ensaio `8b1e298`, com contador **0 → 1** e taxa **11,1111%/5 min**. [Detalhamento e referência oficial](OBSERVABILIDADE.md#limitação-histórica-da-primeira-falha-e-correção-comprovada). Nenhuma taxa histórica foi reescrita.
 
 ## Arquitetura e separação
 
@@ -124,11 +155,27 @@ A entrega deve preservar fatos associados ao destino, horário e SHA, incluindo:
 
 Usar o [monitoramento AWS separado](OBSERVABILIDADE-AWS.md): Prometheus local em `127.0.0.1:9091` e Grafana em `127.0.0.1:3002`, com projeto, alvos, token e volumes próprios. O coletor deve apontar a URL AWS final e salvar em `evidencias/aws/`; suas guardas impedem atribuir séries Azure ou de outro IP a esse destino. As interfaces administrativas permanecem locais. Após uma queda de energia, reiniciar/conferir esse monitor não equivale a reiniciar a aplicação na nuvem.
 
-O PDF final de Cloud deve reunir as provas reais legíveis e seus links. Capturas Azure anteriores e o exemplo enviado por Pedro não podem preencher lacunas da AWS. Neste checkpoint, infraestrutura, publicação, inferência e runtime AWS estão comprovados; quatro métricas, alerta provocado e recuperação também passaram. A consolidação final, geração e revisão visual do PDF ainda estão pendentes. A submissão institucional continua com Pedro/equipe.
+O [PDF final Cloud](https://github.com/Salvittis/ponto-certo/releases/download/entrega-cloud-2026-11-19/Ponto-Certo-Deploy-Blindado.pdf) reúne as provas AWS legíveis e seus links na [release pública](https://github.com/Salvittis/ponto-certo/releases/tag/entrega-cloud-2026-11-19). Capturas Azure anteriores e o exemplo enviado por Pedro não substituem provas AWS. O checkpoint `8b1e298` comprova infraestrutura, publicação, inferência, runtime, quatro métricas, alerta provocado e recuperação. A submissão institucional continua com Pedro/equipe.
+
+## Reproduzir o PDF da release
+
+Para reproduzir o PDF final, use o código da tag `entrega-cloud-2026-11-19` e o [manifesto publicado como asset da release](https://github.com/Salvittis/ponto-certo/releases/download/entrega-cloud-2026-11-19/manifest-aws.json), baixado para `output/pdf/manifest-aws.json`. O arquivo versionado `evidencias/aws/manifest.json` preserva o checkpoint AWS `8b1e298`; o asset final também identifica a revisão Azure final. Os links de artefatos do manifesto versionado apontam à tag da entrega. Execute a partir da raiz do repositório, com ReportLab e Pillow disponíveis.
+
+```sh
+git checkout --detach entrega-cloud-2026-11-19
+mkdir -p output/pdf
+curl --fail --location \
+  https://github.com/Salvittis/ponto-certo/releases/download/entrega-cloud-2026-11-19/manifest-aws.json \
+  --output output/pdf/manifest-aws.json
+python3 scripts/build-cloud-pdf.py --manifest output/pdf/manifest-aws.json --check
+python3 scripts/build-cloud-pdf.py --manifest output/pdf/manifest-aws.json
+```
+
+A saída é `output/pdf/Ponto-Certo-Deploy-Blindado.pdf`. Confira os links e a renderização após gerar; o procedimento detalhado está em [CLOUD.md](CLOUD.md#manifesto-e-geração-do-pdf).
 
 ## Renovação, encerramento e custos
 
-Antes do fim da janela, preservar JSON, logs sanitizados, screenshots e o PDF fora do Sandbox. Desativar `AWS_ENABLED` ao encerrar os trabalhos dessa sessão, conferir a exclusão de parâmetros temporários e parar somente o projeto de monitoramento AWS quando o alvo deixar de existir. A aplicação Azure permanece em seu ciclo independente.
+Antes do fim da janela, preservar JSON, logs sanitizados, screenshots e o PDF fora do Sandbox. Nesta sessão, `AWS_ENABLED=false`, as três credenciais STS foram removidas do GitHub e a ausência de parâmetros temporários foi conferida. Isso congela o deploy automático na revisão validada, sem desligar a EC2. Parar somente o projeto de monitoramento AWS quando o alvo deixar de existir. A aplicação Azure permanece em seu ciclo independente.
 
 Para outra sessão, obter novas credenciais pelo Academy e conferir novamente a conta. Não reutilizar tokens expirados nem declarar renovação automática. Se a conta mudou, usar outro diretório de state AWS e `allowed_account_ids` correspondente, preservando o histórico anterior; nunca apontar um state para uma conta diferente. Na mesma conta, fazer backup do state e um novo plano com refresh normal para reconhecer recursos removidos pelo Sandbox. Não reutilizar o plano antigo nem apagar state para esconder diferenças. Revisar e aplicar o novo plano, conferir bootstrap e atualizar Secrets/Variables, ID, IP, URL e prazo; executar novamente o pipeline completo e as provas necessárias.
 
