@@ -1,0 +1,12 @@
+modules:
+  http_ready:
+    prober: http
+    timeout: 8s
+    http:
+      method: GET
+      valid_status_codes: [200]
+      preferred_ip_protocol: ip4
+      follow_redirects: false
+      # /readyz is public and returns 200 only when the model and corpus are usable.
+      tls_config:
+        insecure_skip_verify: false

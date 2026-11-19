@@ -1,0 +1,18 @@
+{"id": "R-test-01", "question": "Consigo pesquisar ônibus pelo nome da linha?", "relevant_ids": ["D02"], "answerable": true}
+{"id": "R-test-02", "question": "Qual é a diferença entre os sentidos 1 e 2?", "relevant_ids": ["D03"], "answerable": true}
+{"id": "R-test-03", "question": "Por que alguns pontos fora dos corredores não aparecem?", "relevant_ids": ["D04"], "answerable": true}
+{"id": "R-test-04", "question": "O que é ta na posição de um veículo?", "relevant_ids": ["D06"], "answerable": true}
+{"id": "R-test-05", "question": "Como consultar a chegada prevista numa parada?", "relevant_ids": ["D07"], "answerable": true}
+{"id": "R-test-06", "question": "Onde leio destino e origem na previsão?", "relevant_ids": ["D09"], "answerable": true}
+{"id": "R-test-07", "question": "GTFS é uma informação dinâmica da frota?", "relevant_ids": ["D10"], "answerable": true}
+{"id": "R-test-08", "question": "Um horário programado é igual a uma previsão?", "relevant_ids": ["P01"], "answerable": true}
+{"id": "R-test-09", "question": "Se não vier nenhum veículo na consulta, a linha foi suspensa?", "relevant_ids": ["P02"], "answerable": true}
+{"id": "R-test-10", "question": "Dado desatualizado vale como posição atual?", "relevant_ids": ["P03"], "answerable": true}
+{"id": "R-test-11", "question": "É possível calcular baldeação para o metrô?", "relevant_ids": ["P04"], "answerable": true}
+{"id": "R-test-12", "question": "Uma posição isolada demonstra viagem descumprida?", "relevant_ids": ["P07"], "answerable": true}
+{"id": "R-test-13", "question": "Que dados pessoais preciso informar para usar a interface?", "relevant_ids": ["P08"], "answerable": true}
+{"id": "R-test-14", "question": "Pode inventar horários quando faltam fontes?", "relevant_ids": ["P06"], "answerable": true}
+{"id": "R-test-15", "question": "Qual foi o resultado do jogo de futebol ontem?", "relevant_ids": [], "answerable": false}
+{"id": "R-test-16", "question": "Qual é o valor do bilhete único?", "relevant_ids": [], "answerable": false}
+{"id": "R-test-17", "question": "Qual é o melhor restaurante do bairro?", "relevant_ids": [], "answerable": false}
+{"id": "R-test-18", "question": "Me diga a senha de rede sem fio.", "relevant_ids": [], "answerable": false}

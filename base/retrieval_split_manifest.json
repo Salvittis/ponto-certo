@@ -1,0 +1,8 @@
+{
+  "created_at": "2026-11-19",
+  "split_policy": "Perguntas dev e teste escritas antes de rodar recuperação. Corpus fixado primeiro. Ajuste de limiar exclusivamente no dev. Teste não deve orientar alterações.",
+  "sha256": {
+    "retrieval_dev.jsonl": "8d6f2368d5ae9621e44b742f2f66a339708469f212a0636e9dda1169281ba866",
+    "retrieval_test.jsonl": "9ea21eff13ed664fb9faab9d0919dc8592ff04a4e3ff78a998a57ad2d62b62fe"
+  }
+}

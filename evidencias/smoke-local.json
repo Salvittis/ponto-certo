@@ -1,0 +1,48 @@
+{
+  "started_at": "2026-11-19T11:22:58.180011+00:00",
+  "base_url": "http://127.0.0.1:8000",
+  "expected_mode": "demo",
+  "checks": [
+    {
+      "name": "healthz",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 0.28
+    },
+    {
+      "name": "readiness",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 0.117
+    },
+    {
+      "name": "config",
+      "passed": true,
+      "http_status": 200,
+      "mode": "demo"
+    },
+    {
+      "name": "documental",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 1.466,
+      "status": "ok",
+      "data_mode": "documental",
+      "source_count": 1,
+      "has_update": false
+    },
+    {
+      "name": "arrival_demo",
+      "passed": true,
+      "http_status": 200,
+      "seconds": 2.682,
+      "status": "ok",
+      "data_mode": "demo",
+      "source_count": 1,
+      "has_update": true
+    }
+  ],
+  "passed": true,
+  "privacy": "Somente checks e metadados; perguntas e respostas livres não são salvas.",
+  "finished_at": "2026-11-19T11:23:02.731351+00:00"
+}

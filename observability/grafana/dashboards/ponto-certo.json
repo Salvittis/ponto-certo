@@ -1,0 +1,768 @@
+{
+  "uid": "ponto-certo-golden-signals",
+  "title": "Ponto Certo - quatro métricas de ouro",
+  "description": "Métricas reais da API pública e LLM local. Dados de transporte podem estar em modo demo; isto não simula as métricas de operação.",
+  "tags": [
+    "ponto-certo",
+    "cloud",
+    "golden-signals"
+  ],
+  "schemaVersion": 41,
+  "version": 1,
+  "editable": false,
+  "timezone": "America/Sao_Paulo",
+  "refresh": "15s",
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Prontidão pública",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ponto-certo-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 6,
+        "h": 4
+      },
+      "description": "1: HTTPS /readyz respondeu 200. 0: falha HTTP, DNS, TLS ou timeout. Mede a URL pública a cada 15 s.",
+      "targets": [
+        {
+          "expr": "probe_success{job=\"ponto-certo-ready\"}",
+          "legendFormat": "/readyz",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "min": 0,
+          "max": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 2,
+      "title": "LLM local pronta",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ponto-certo-prometheus"
+      },
+      "gridPos": {
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 4
+      },
+      "description": "1: a aplicação confirmou o modelo configurado. 0: modelo indisponível. Ausência de série não equivale a saúde.",
+      "targets": [
+        {
+          "expr": "ponto_certo_model_ready{job=\"ponto-certo-api\"}",
+          "legendFormat": "modelo",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "min": 0,
+          "max": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 3,
+      "title": "Coleta da API",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ponto-certo-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 6,
+        "h": 4
+      },
+      "description": "1: scrape autenticado teve sucesso. 0: telemetria indisponível; conferir também prontidão pública.",
+      "targets": [
+        {
+          "expr": "up{job=\"ponto-certo-api\"}",
+          "legendFormat": "/metrics",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "min": 0,
+          "max": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 4,
+      "title": "Alertas ativos",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ponto-certo-prometheus"
+      },
+      "gridPos": {
+        "x": 18,
+        "y": 0,
+        "w": 6,
+        "h": 4
+      },
+      "description": "Quantidade de alertas em firing no Prometheus; pending ainda não satisfaz a persistência de 1 minuto.",
+      "targets": [
+        {
+          "expr": "sum(ALERTS{alertname=~\"PontoCerto.*\",alertstate=\"firing\"}) or vector(0)",
+          "legendFormat": "firing",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 5,
+      "title": "1. Latência p95 do assistente e LLM",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ponto-certo-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 12,
+        "h": 8
+      },
+      "description": "Percentil 95 calculado em histogramas, janela móvel de 5 minutos. Aproximação pelos buckets; vazio sem amostras. Inclui sucesso e falhas. LLM mede desde antes do semáforo.",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(ponto_certo_http_request_duration_seconds_bucket{job=\"ponto-certo-api\",route=\"/api/ask\"}[5m])))",
+          "legendFormat": "/api/ask p95",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(ponto_certo_llm_duration_seconds_bucket{job=\"ponto-certo-api\"}[5m])))",
+          "legendFormat": "LLM p95 (inclui espera)",
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "title": "2. Tráfego real",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ponto-certo-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 4,
+        "w": 12,
+        "h": 8
+      },
+      "description": "Taxas por segundo em janela móvel de 5 minutos; probes e arquivos estáticos não contam como perguntas. Nem toda pergunta requer inferência.",
+      "targets": [
+        {
+          "expr": "sum(rate(ponto_certo_http_requests_total{job=\"ponto-certo-api\",route=\"/api/ask\"}[5m]))",
+          "legendFormat": "perguntas/s",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        },
+        {
+          "expr": "sum(rate(ponto_certo_llm_requests_total{job=\"ponto-certo-api\"}[5m]))",
+          "legendFormat": "inferências/s",
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "title": "3. Erros HTTP e de geração",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ponto-certo-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 12,
+        "w": 12,
+        "h": 8
+      },
+      "description": "Proporção de 5xx por pergunta e falhas/JSON inválido por chamada de LLM, janela 5 minutos. Zero quando há tráfego observado sem erros; sem valor se não há tráfego. Não consta/clarificação são respostas honestas, não erros.",
+      "targets": [
+        {
+          "expr": "100 * (sum(rate(ponto_certo_http_requests_total{job=\"ponto-certo-api\",route=\"/api/ask\",status=~\"5..\"}[5m])) or (0 * sum(rate(ponto_certo_http_requests_total{job=\"ponto-certo-api\",route=\"/api/ask\"}[5m])))) / sum(rate(ponto_certo_http_requests_total{job=\"ponto-certo-api\",route=\"/api/ask\"}[5m]))",
+          "legendFormat": "HTTP 5xx (%)",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        },
+        {
+          "expr": "100 * (sum(rate(ponto_certo_llm_requests_total{job=\"ponto-certo-api\",outcome!=\"ok\"}[5m])) or (0 * sum(rate(ponto_certo_llm_requests_total{job=\"ponto-certo-api\"}[5m])))) / sum(rate(ponto_certo_llm_requests_total{job=\"ponto-certo-api\"}[5m]))",
+          "legendFormat": "LLM falha/JSON inválido (%)",
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "min": 0,
+          "max": 100
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "title": "4. Saturação dos slots da LLM",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ponto-certo-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 12,
+        "w": 12,
+        "h": 8
+      },
+      "description": "Ocupação instantânea: inferências ativas / capacidade configurada (1 slot no MVP). 100% significa slot em uso; correle com latência e requisições em voo. Não representa percentual de CPU.",
+      "targets": [
+        {
+          "expr": "100 * ponto_certo_llm_inflight{job=\"ponto-certo-api\"} / ponto_certo_llm_capacity{job=\"ponto-certo-api\"}",
+          "legendFormat": "slots ocupados (%)",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "min": 0,
+          "max": 100
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "title": "Requisições e inferências em voo",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ponto-certo-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 20,
+        "w": 12,
+        "h": 7
+      },
+      "description": "Contagem instantânea a cada scrape de 15 s; requisições muito curtas podem ocorrer entre coletas. HTTP inclui sondagens e telemetria.",
+      "targets": [
+        {
+          "expr": "ponto_certo_http_inflight{job=\"ponto-certo-api\"}",
+          "legendFormat": "HTTP em voo",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        },
+        {
+          "expr": "ponto_certo_llm_inflight{job=\"ponto-certo-api\"}",
+          "legendFormat": "LLM ativa",
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "title": "Memória residente do processo API",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ponto-certo-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 20,
+        "w": 12,
+        "h": 7
+      },
+      "description": "RSS somente do processo Python da API. Não inclui memória do processo llama-server/pesos e não é memória total da nuvem.",
+      "targets": [
+        {
+          "expr": "process_resident_memory_bytes{job=\"ponto-certo-api\"}",
+          "legendFormat": "RSS API",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "title": "Estados de resposta do assistente",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ponto-certo-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 27,
+        "w": 12,
+        "h": 7
+      },
+      "description": "Aumento aproximado por status nos últimos 5 minutos. not_found e clarification são estados funcionais; unavailable significa dependência indisponível.",
+      "targets": [
+        {
+          "expr": "sum by (status) (increase(ponto_certo_answers_total{job=\"ponto-certo-api\"}[5m]))",
+          "legendFormat": "{{status}}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 12,
+      "title": "Sondagem HTTPS /readyz",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ponto-certo-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 27,
+        "w": 12,
+        "h": 7
+      },
+      "description": "Duração total do probe HTTP externo com DNS/conexão/TLS/resposta. Não executa uma inferência e não substitui testes reais da jornada.",
+      "targets": [
+        {
+          "expr": "probe_duration_seconds{job=\"ponto-certo-ready\"}",
+          "legendFormat": "duração probe",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ponto-certo-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Alertas no Prometheus local",
+      "url": "http://127.0.0.1:9090/alerts",
+      "type": "link",
+      "targetBlank": true
+    }
+  ]
+}

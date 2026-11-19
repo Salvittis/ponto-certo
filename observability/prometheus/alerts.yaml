@@ -1,0 +1,31 @@
+groups:
+  - name: ponto-certo-availability
+    interval: 15s
+    rules:
+      - alert: PontoCertoPublicReadyUnavailable
+        expr: probe_success{job="ponto-certo-ready"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: public-readiness
+        annotations:
+          summary: "Ponto Certo público sem prontidão por mais de 1 minuto"
+          description: "GET {{ $labels.instance }} não retorna HTTP 200, ou DNS/TLS/conexão falharam, em quatro ou mais sondagens. Conferir /healthz, modelo, base e logs técnicos; restaurar e verificar probe_success=1."
+      - alert: PontoCertoModelNotReady
+        expr: ponto_certo_model_ready{job="ponto-certo-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: local-llm
+        annotations:
+          summary: "LLM local sem prontidão por mais de 1 minuto"
+          description: "A aplicação está expondo métricas, mas o modelo não está pronto. Conferir pesos, memória e processo; não apresentar respostas simuladas."
+      - alert: PontoCertoMetricsUnavailable
+        expr: up{job="ponto-certo-api"} == 0
+        for: 1m
+        labels:
+          severity: warning
+          component: monitoring
+        annotations:
+          summary: "Coleta de métricas do MVP interrompida por mais de 1 minuto"
+          description: "Falha ao coletar /metrics. Verificar disponibilidade, TLS, token e contrato; o probe público distingue falha de telemetria de falha de prontidão."

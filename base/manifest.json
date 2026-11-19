@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0",
+  "obtained_at": "2026-11-19",
+  "format": "JSONL UTF-8",
+  "chunk_count": 18,
+  "method": "Trechos curtos por assunto, sínteses autorais; sem previsões indexadas. Fontes oficiais lidas no navegador em 19/11/2026.",
+  "sources": [
+    {
+      "url": "https://www.sptrans.com.br/desenvolvedores/api-do-olho-vivo-guia-de-referencia/documentacao-api",
+      "format": "HTML",
+      "chunks": 9,
+      "license": "Não identificada licença específica na documentação consultada. Cadastro/token necessário para API. Não afirmamos licença aberta."
+    },
+    {
+      "url": "https://www.sptrans.com.br/desenvolvedores",
+      "format": "HTML",
+      "chunks": 1,
+      "license": "Não identificada licença específica; link para acesso autenticado ao GTFS. Nenhum GTFS foi obtido."
+    },
+    {
+      "url": "base/POLITICA-DO-PRODUTO.md",
+      "format": "Markdown autoral",
+      "chunks": 8,
+      "license": "Licença do repositório a definir; regras de produto originadas do pedido de Pedro."
+    }
+  ],
+  "sha256_chunks": "333f335dda496ad38c2ff708b3211762d46224663d3207a6a78885e41658b5f2",
+  "not_included": [
+    "Respostas ao vivo da SPTrans",
+    "GTFS",
+    "Dados pessoais",
+    "Texto integral das fontes externas",
+    "Estatísticas da reportagem (contexto da justificativa, fora do corpus técnico)"
+  ]
+}

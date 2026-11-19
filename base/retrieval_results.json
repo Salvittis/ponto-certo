@@ -1,0 +1,1614 @@
+{
+  "method": "TF-IDF sublinear term frequency, smoothed idf, cosine; title + body; lowercase/accent removal and stopwords; ties by id.",
+  "metric_definition": "Macro recall@k = mean(|relevant_ids intersect top-k|/|relevant_ids|), only answerable questions, before threshold. All cases have one relevant chunk, so this equals hit rate. Also report recall after threshold and rejection on unanswerable questions.",
+  "selection": "Threshold selected using dev only, maximizing balanced accuracy of nonempty retrieval vs answerable label; tie: higher accepted recall@3, then smaller threshold. Grid 0.05..0.50 step 0.01. Scores are not confidence probabilities.",
+  "limitations": "Small authored corpus and curated questions; no multilingual or population-level validation. A high cosine score does not establish answerability. No held-out test tuning.",
+  "sha256": {
+    "chunks.jsonl": "333f335dda496ad38c2ff708b3211762d46224663d3207a6a78885e41658b5f2",
+    "retrieval_dev.jsonl": "8d6f2368d5ae9621e44b742f2f66a339708469f212a0636e9dda1169281ba866",
+    "retrieval_test.jsonl": "9ea21eff13ed664fb9faab9d0919dc8592ff04a4e3ff78a998a57ad2d62b62fe"
+  },
+  "selected_threshold": 0.05,
+  "dev_sweep": [
+    {
+      "threshold": 0.05,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.06,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.07,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.08,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.09,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.1,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.11,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.12,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.13,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.14,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.15,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.16,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.17,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 1.0,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 1.0
+    },
+    {
+      "threshold": 0.18,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 0.9285714285714286,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9642857142857143
+    },
+    {
+      "threshold": 0.19,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 0.9285714285714286,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9642857142857143
+    },
+    {
+      "threshold": 0.2,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 0.9285714285714286,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9642857142857143
+    },
+    {
+      "threshold": 0.21,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 0.9285714285714286,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9642857142857143
+    },
+    {
+      "threshold": 0.22,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 0.9285714285714286,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9642857142857143
+    },
+    {
+      "threshold": 0.23,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 0.9285714285714286,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9642857142857143
+    },
+    {
+      "threshold": 0.24,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 0.9285714285714286,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9642857142857143
+    },
+    {
+      "threshold": 0.25,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 0.9285714285714286,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9642857142857143
+    },
+    {
+      "threshold": 0.26,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 0.9285714285714286,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9642857142857143
+    },
+    {
+      "threshold": 0.27,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 0.9285714285714286,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9642857142857143
+    },
+    {
+      "threshold": 0.28,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.9285714285714286,
+      "answerability_tpr": 0.9285714285714286,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9642857142857143
+    },
+    {
+      "threshold": 0.29,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.8571428571428571,
+      "answerability_tpr": 0.8571428571428571,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9285714285714286
+    },
+    {
+      "threshold": 0.3,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.8571428571428571,
+      "answerability_tpr": 0.8571428571428571,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9285714285714286
+    },
+    {
+      "threshold": 0.31,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.8571428571428571,
+      "answerability_tpr": 0.8571428571428571,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9285714285714286
+    },
+    {
+      "threshold": 0.32,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.8571428571428571,
+      "answerability_tpr": 0.8571428571428571,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9285714285714286
+    },
+    {
+      "threshold": 0.33,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.8571428571428571,
+      "answerability_tpr": 0.8571428571428571,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.9285714285714286
+    },
+    {
+      "threshold": 0.34,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.6428571428571429,
+      "answerability_tpr": 0.6428571428571429,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.8214285714285714
+    },
+    {
+      "threshold": 0.35,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.6428571428571429,
+      "answerability_tpr": 0.6428571428571429,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.8214285714285714
+    },
+    {
+      "threshold": 0.36,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.6428571428571429,
+      "answerability_tpr": 0.6428571428571429,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.8214285714285714
+    },
+    {
+      "threshold": 0.37,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.6428571428571429,
+      "answerability_tpr": 0.6428571428571429,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.8214285714285714
+    },
+    {
+      "threshold": 0.38,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.6428571428571429,
+      "answerability_tpr": 0.6428571428571429,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.8214285714285714
+    },
+    {
+      "threshold": 0.39,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.6428571428571429,
+      "answerability_tpr": 0.6428571428571429,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.8214285714285714
+    },
+    {
+      "threshold": 0.4,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.6428571428571429,
+      "answerability_tpr": 0.6428571428571429,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.8214285714285714
+    },
+    {
+      "threshold": 0.41,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.6428571428571429,
+      "answerability_tpr": 0.6428571428571429,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.8214285714285714
+    },
+    {
+      "threshold": 0.42,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.42857142857142855,
+      "answerability_tpr": 0.42857142857142855,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.7142857142857143
+    },
+    {
+      "threshold": 0.43,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.35714285714285715,
+      "answerability_tpr": 0.35714285714285715,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.6785714285714286
+    },
+    {
+      "threshold": 0.44,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.35714285714285715,
+      "answerability_tpr": 0.35714285714285715,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.6785714285714286
+    },
+    {
+      "threshold": 0.45,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.35714285714285715,
+      "answerability_tpr": 0.35714285714285715,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.6785714285714286
+    },
+    {
+      "threshold": 0.46,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.35714285714285715,
+      "answerability_tpr": 0.35714285714285715,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.6785714285714286
+    },
+    {
+      "threshold": 0.47,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.35714285714285715,
+      "answerability_tpr": 0.35714285714285715,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.6785714285714286
+    },
+    {
+      "threshold": 0.48,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.2857142857142857,
+      "answerability_tpr": 0.2857142857142857,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.6428571428571428
+    },
+    {
+      "threshold": 0.49,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.2857142857142857,
+      "answerability_tpr": 0.2857142857142857,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.6428571428571428
+    },
+    {
+      "threshold": 0.5,
+      "n": 18,
+      "n_answerable": 14,
+      "n_unanswerable": 4,
+      "recall_at_1": 0.9285714285714286,
+      "recall_at_3": 0.9285714285714286,
+      "accepted_recall_at_3": 0.2857142857142857,
+      "answerability_tpr": 0.2857142857142857,
+      "unanswerable_rejection_rate": 1.0,
+      "answerability_balanced_accuracy": 0.6428571428571428
+    }
+  ],
+  "dev": {
+    "threshold": 0.05,
+    "n": 18,
+    "n_answerable": 14,
+    "n_unanswerable": 4,
+    "recall_at_1": 0.9285714285714286,
+    "recall_at_3": 0.9285714285714286,
+    "accepted_recall_at_3": 0.9285714285714286,
+    "answerability_tpr": 1.0,
+    "unanswerable_rejection_rate": 1.0,
+    "answerability_balanced_accuracy": 1.0,
+    "details": [
+      {
+        "id": "R-dev-01",
+        "question": "Quero acessar a API: preciso de token?",
+        "relevant_ids": [
+          "D01"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D01",
+            "score": 0.4778084
+          },
+          {
+            "id": "D02",
+            "score": 0.0
+          },
+          {
+            "id": "D03",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [
+          "D01"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-02",
+        "question": "Como buscar uma linha pelo número?",
+        "relevant_ids": [
+          "D02"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D02",
+            "score": 0.54158028
+          },
+          {
+            "id": "P05",
+            "score": 0.08994965
+          },
+          {
+            "id": "D05",
+            "score": 0.07667353
+          }
+        ],
+        "accepted_ids": [
+          "D02",
+          "P05",
+          "D05"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-03",
+        "question": "O que significa sentido 2?",
+        "relevant_ids": [
+          "D03"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D03",
+            "score": 0.52447779
+          },
+          {
+            "id": "P05",
+            "score": 0.13418147
+          },
+          {
+            "id": "D07",
+            "score": 0.11290448
+          }
+        ],
+        "accepted_ids": [
+          "D03",
+          "P05",
+          "D07"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-04",
+        "question": "A categoria de paradas cobre todos os pontos municipais?",
+        "relevant_ids": [
+          "D04"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D04",
+            "score": 0.62159361
+          },
+          {
+            "id": "D05",
+            "score": 0.19097705
+          },
+          {
+            "id": "P04",
+            "score": 0.06531021
+          }
+        ],
+        "accepted_ids": [
+          "D04",
+          "D05",
+          "P04"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-05",
+        "question": "Posso buscar parada pelo endereço?",
+        "relevant_ids": [
+          "D05"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D05",
+            "score": 0.33228831
+          },
+          {
+            "id": "D02",
+            "score": 0.16350817
+          },
+          {
+            "id": "D07",
+            "score": 0.14228821
+          }
+        ],
+        "accepted_ids": [
+          "D05",
+          "D02",
+          "D07"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-06",
+        "question": "O horário ta é da captura da posição?",
+        "relevant_ids": [
+          "D06"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D06",
+            "score": 0.41055065
+          },
+          {
+            "id": "P01",
+            "score": 0.20086477
+          },
+          {
+            "id": "P03",
+            "score": 0.08422335
+          }
+        ],
+        "accepted_ids": [
+          "D06",
+          "P01",
+          "P03"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-07",
+        "question": "Qual campo traz a previsão de chegada?",
+        "relevant_ids": [
+          "D07"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D07",
+            "score": 0.3374212
+          },
+          {
+            "id": "P01",
+            "score": 0.26906838
+          },
+          {
+            "id": "D06",
+            "score": 0.20856768
+          }
+        ],
+        "accepted_ids": [
+          "D07",
+          "P01",
+          "D06"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-08",
+        "question": "O campo a indica acessibilidade?",
+        "relevant_ids": [
+          "D08"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D08",
+            "score": 0.68700179
+          },
+          {
+            "id": "D01",
+            "score": 0.0
+          },
+          {
+            "id": "D02",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [
+          "D08"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-09",
+        "question": "GTFS tem dados estáticos ou dinâmicos?",
+        "relevant_ids": [
+          "D10"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D10",
+            "score": 0.28216828
+          },
+          {
+            "id": "P03",
+            "score": 0.14302265
+          },
+          {
+            "id": "D01",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [
+          "D10",
+          "P03"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-10",
+        "question": "Previsão garante que o ônibus vai chegar?",
+        "relevant_ids": [
+          "P01"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D03",
+            "score": 0.176395
+          },
+          {
+            "id": "D08",
+            "score": 0.16858425
+          },
+          {
+            "id": "D07",
+            "score": 0.13495666
+          }
+        ],
+        "accepted_ids": [
+          "D03",
+          "D08",
+          "D07"
+        ],
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "accepted_recall_at_3": 0.0
+      },
+      {
+        "id": "R-dev-11",
+        "question": "Consulta vazia significa que acabou o serviço?",
+        "relevant_ids": [
+          "P02"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "P02",
+            "score": 0.33471781
+          },
+          {
+            "id": "P03",
+            "score": 0.16661737
+          },
+          {
+            "id": "D07",
+            "score": 0.15028177
+          }
+        ],
+        "accepted_ids": [
+          "P02",
+          "P03",
+          "D07"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-12",
+        "question": "Uma captura antiga pode ser atual?",
+        "relevant_ids": [
+          "P03"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "P03",
+            "score": 0.42069668
+          },
+          {
+            "id": "D06",
+            "score": 0.12363911
+          },
+          {
+            "id": "D01",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [
+          "P03",
+          "D06"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-13",
+        "question": "O Ponto Certo planeja viagens com baldeações?",
+        "relevant_ids": [
+          "P04"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "P04",
+            "score": 0.41057365
+          },
+          {
+            "id": "P01",
+            "score": 0.12671637
+          },
+          {
+            "id": "P02",
+            "score": 0.11543736
+          }
+        ],
+        "accepted_ids": [
+          "P04",
+          "P01",
+          "P02"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-14",
+        "question": "Faltam linha sentido e ponto; o que fazer?",
+        "relevant_ids": [
+          "P05"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "P05",
+            "score": 0.4111813
+          },
+          {
+            "id": "D07",
+            "score": 0.22508924
+          },
+          {
+            "id": "D09",
+            "score": 0.21124761
+          }
+        ],
+        "accepted_ids": [
+          "P05",
+          "D07",
+          "D09"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-dev-15",
+        "question": "Quanto custa uma passagem hoje?",
+        "relevant_ids": [],
+        "answerable": false,
+        "ranked": [
+          {
+            "id": "D01",
+            "score": 0.0
+          },
+          {
+            "id": "D02",
+            "score": 0.0
+          },
+          {
+            "id": "D03",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [],
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "accepted_recall_at_3": null
+      },
+      {
+        "id": "R-dev-16",
+        "question": "Qual é a população de Marte?",
+        "relevant_ids": [],
+        "answerable": false,
+        "ranked": [
+          {
+            "id": "D01",
+            "score": 0.0
+          },
+          {
+            "id": "D02",
+            "score": 0.0
+          },
+          {
+            "id": "D03",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [],
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "accepted_recall_at_3": null
+      },
+      {
+        "id": "R-dev-17",
+        "question": "Acontecerá chuva na praia amanhã?",
+        "relevant_ids": [],
+        "answerable": false,
+        "ranked": [
+          {
+            "id": "D01",
+            "score": 0.0
+          },
+          {
+            "id": "D02",
+            "score": 0.0
+          },
+          {
+            "id": "D03",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [],
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "accepted_recall_at_3": null
+      },
+      {
+        "id": "R-dev-18",
+        "question": "Onde fica o hospital mais próximo?",
+        "relevant_ids": [],
+        "answerable": false,
+        "ranked": [
+          {
+            "id": "D01",
+            "score": 0.0
+          },
+          {
+            "id": "D02",
+            "score": 0.0
+          },
+          {
+            "id": "D03",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [],
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "accepted_recall_at_3": null
+      }
+    ]
+  },
+  "test": {
+    "threshold": 0.05,
+    "n": 18,
+    "n_answerable": 14,
+    "n_unanswerable": 4,
+    "recall_at_1": 0.9285714285714286,
+    "recall_at_3": 1.0,
+    "accepted_recall_at_3": 1.0,
+    "answerability_tpr": 1.0,
+    "unanswerable_rejection_rate": 1.0,
+    "answerability_balanced_accuracy": 1.0,
+    "details": [
+      {
+        "id": "R-test-01",
+        "question": "Consigo pesquisar ônibus pelo nome da linha?",
+        "relevant_ids": [
+          "D02"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D02",
+            "score": 0.29205752
+          },
+          {
+            "id": "D05",
+            "score": 0.23493725
+          },
+          {
+            "id": "D08",
+            "score": 0.18590685
+          }
+        ],
+        "accepted_ids": [
+          "D02",
+          "D05",
+          "D08"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-02",
+        "question": "Qual é a diferença entre os sentidos 1 e 2?",
+        "relevant_ids": [
+          "D03"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D03",
+            "score": 0.65408368
+          },
+          {
+            "id": "D01",
+            "score": 0.0
+          },
+          {
+            "id": "D02",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [
+          "D03"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-03",
+        "question": "Por que alguns pontos fora dos corredores não aparecem?",
+        "relevant_ids": [
+          "D04"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D04",
+            "score": 0.46752444
+          },
+          {
+            "id": "P06",
+            "score": 0.17253898
+          },
+          {
+            "id": "D05",
+            "score": 0.14024692
+          }
+        ],
+        "accepted_ids": [
+          "D04",
+          "P06",
+          "D05"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-04",
+        "question": "O que é ta na posição de um veículo?",
+        "relevant_ids": [
+          "D06"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D06",
+            "score": 0.33968845
+          },
+          {
+            "id": "D08",
+            "score": 0.19908957
+          },
+          {
+            "id": "P01",
+            "score": 0.08731642
+          }
+        ],
+        "accepted_ids": [
+          "D06",
+          "D08",
+          "P01"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-05",
+        "question": "Como consultar a chegada prevista numa parada?",
+        "relevant_ids": [
+          "D07"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D07",
+            "score": 0.59461655
+          },
+          {
+            "id": "P01",
+            "score": 0.18606977
+          },
+          {
+            "id": "D05",
+            "score": 0.15065308
+          }
+        ],
+        "accepted_ids": [
+          "D07",
+          "P01",
+          "D05"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-06",
+        "question": "Onde leio destino e origem na previsão?",
+        "relevant_ids": [
+          "D09"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D09",
+            "score": 0.49625789
+          },
+          {
+            "id": "D07",
+            "score": 0.12814829
+          },
+          {
+            "id": "P01",
+            "score": 0.1173764
+          }
+        ],
+        "accepted_ids": [
+          "D09",
+          "D07",
+          "P01"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-07",
+        "question": "GTFS é uma informação dinâmica da frota?",
+        "relevant_ids": [
+          "D10"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D10",
+            "score": 0.39220687
+          },
+          {
+            "id": "P03",
+            "score": 0.13100245
+          },
+          {
+            "id": "P07",
+            "score": 0.0823105
+          }
+        ],
+        "accepted_ids": [
+          "D10",
+          "P03",
+          "P07"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-08",
+        "question": "Um horário programado é igual a uma previsão?",
+        "relevant_ids": [
+          "P01"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "P01",
+            "score": 0.41342952
+          },
+          {
+            "id": "D07",
+            "score": 0.12814829
+          },
+          {
+            "id": "D09",
+            "score": 0.12026794
+          }
+        ],
+        "accepted_ids": [
+          "P01",
+          "D07",
+          "D09"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-09",
+        "question": "Se não vier nenhum veículo na consulta, a linha foi suspensa?",
+        "relevant_ids": [
+          "P02"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "P02",
+            "score": 0.27949494
+          },
+          {
+            "id": "D08",
+            "score": 0.21311425
+          },
+          {
+            "id": "D07",
+            "score": 0.20367915
+          }
+        ],
+        "accepted_ids": [
+          "P02",
+          "D08",
+          "D07"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-10",
+        "question": "Dado desatualizado vale como posição atual?",
+        "relevant_ids": [
+          "P03"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "D06",
+            "score": 0.22109961
+          },
+          {
+            "id": "P03",
+            "score": 0.15895979
+          },
+          {
+            "id": "P01",
+            "score": 0.11105466
+          }
+        ],
+        "accepted_ids": [
+          "D06",
+          "P03",
+          "P01"
+        ],
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-11",
+        "question": "É possível calcular baldeação para o metrô?",
+        "relevant_ids": [
+          "P04"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "P04",
+            "score": 0.27362201
+          },
+          {
+            "id": "D01",
+            "score": 0.0
+          },
+          {
+            "id": "D02",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [
+          "P04"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-12",
+        "question": "Uma posição isolada demonstra viagem descumprida?",
+        "relevant_ids": [
+          "P07"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "P07",
+            "score": 0.34822801
+          },
+          {
+            "id": "D06",
+            "score": 0.17383897
+          },
+          {
+            "id": "P01",
+            "score": 0.08731642
+          }
+        ],
+        "accepted_ids": [
+          "P07",
+          "D06",
+          "P01"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-13",
+        "question": "Que dados pessoais preciso informar para usar a interface?",
+        "relevant_ids": [
+          "P08"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "P08",
+            "score": 0.23960597
+          },
+          {
+            "id": "P03",
+            "score": 0.1167775
+          },
+          {
+            "id": "D01",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [
+          "P08",
+          "P03"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-14",
+        "question": "Pode inventar horários quando faltam fontes?",
+        "relevant_ids": [
+          "P06"
+        ],
+        "answerable": true,
+        "ranked": [
+          {
+            "id": "P06",
+            "score": 0.32262635
+          },
+          {
+            "id": "P05",
+            "score": 0.10840697
+          },
+          {
+            "id": "D01",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [
+          "P06",
+          "P05"
+        ],
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "accepted_recall_at_3": 1.0
+      },
+      {
+        "id": "R-test-15",
+        "question": "Qual foi o resultado do jogo de futebol ontem?",
+        "relevant_ids": [],
+        "answerable": false,
+        "ranked": [
+          {
+            "id": "D01",
+            "score": 0.0
+          },
+          {
+            "id": "D02",
+            "score": 0.0
+          },
+          {
+            "id": "D03",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [],
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "accepted_recall_at_3": null
+      },
+      {
+        "id": "R-test-16",
+        "question": "Qual é o valor do bilhete único?",
+        "relevant_ids": [],
+        "answerable": false,
+        "ranked": [
+          {
+            "id": "D01",
+            "score": 0.0
+          },
+          {
+            "id": "D02",
+            "score": 0.0
+          },
+          {
+            "id": "D03",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [],
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "accepted_recall_at_3": null
+      },
+      {
+        "id": "R-test-17",
+        "question": "Qual é o melhor restaurante do bairro?",
+        "relevant_ids": [],
+        "answerable": false,
+        "ranked": [
+          {
+            "id": "D01",
+            "score": 0.0
+          },
+          {
+            "id": "D02",
+            "score": 0.0
+          },
+          {
+            "id": "D03",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [],
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "accepted_recall_at_3": null
+      },
+      {
+        "id": "R-test-18",
+        "question": "Me diga a senha de rede sem fio.",
+        "relevant_ids": [],
+        "answerable": false,
+        "ranked": [
+          {
+            "id": "D01",
+            "score": 0.0
+          },
+          {
+            "id": "D02",
+            "score": 0.0
+          },
+          {
+            "id": "D03",
+            "score": 0.0
+          }
+        ],
+        "accepted_ids": [],
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "accepted_recall_at_3": null
+      }
+    ]
+  }
+}

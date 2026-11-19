@@ -1,0 +1,47 @@
+{
+  "started_at": "2026-11-19T11:22:50.487915+00:00",
+  "split": "dev",
+  "dataset_sha256": "7ef66ad07f996d3d9a341d0356df0aa6e1cd00786c4588b262173c6938761ba6",
+  "configurations": [
+    "baseline",
+    "rag",
+    "agent"
+  ],
+  "n_cases": 6,
+  "platform": "macOS-27.2.1-arm64-arm-64bit",
+  "python": "3.12.14",
+  "git_revision": null,
+  "code_sha256": {
+    "app/__init__.py": "cc67fd82329dce8d0f46bddefc4196bcf937fc10a8d80b66999dbc0ea03c9a4b",
+    "app/engine.py": "4c4667b69228ddb3a91e6eaf23a0b47478e3bde145f658809cbc58d89d76fdbd",
+    "app/llm.py": "237718816ddd52b8be5fefd288eaae50fb70c3fd89dac01c1b211e44328c7646",
+    "app/main.py": "b2b985ef85de540901352678ba402d34f522331f874a945062b492a795f1614e",
+    "app/metrics.py": "8916f8b6f57c69a1c59e672e5426d13a33270acd86b1a82d5589e2b4e14484a6",
+    "app/retrieval.py": "67b3d793ee72286c07cb3ea56665fd21d945158da9adcf80ebd234aa5237df84",
+    "app/settings.py": "b103101f24df82a38c7eb451c1b8d8916341346447577f3a6d29887f6376453a",
+    "app/transit.py": "357bc142d13cf57f2c814dc32df39fe4443219ba95a40d6842114caaf90e8f92",
+    "avaliacao/create_cases.py": "4977f470fe97ef055bdd1f61b56960699e6f8287c1198762fdf608a63325b4c3",
+    "avaliacao/retrieval.py": "fe48438cfbbbba204998ecf82753e4dc72fdb03e0f25cbc7a69e153849e99eb9",
+    "avaliacao/run.py": "0c408b5ed3e7d260cc6265767ff9f222cd2c8cd4cead283dd1eb1f21050408ac",
+    "base/chunks.jsonl": "333f335dda496ad38c2ff708b3211762d46224663d3207a6a78885e41658b5f2",
+    "base/manifest.json": "4db3aef66358088ebda86647b2038f3809e197de9e122689f6da86cbcbdd521a",
+    "base/retrieval_dev.jsonl": "8d6f2368d5ae9621e44b742f2f66a339708469f212a0636e9dda1169281ba866",
+    "base/retrieval_results.json": "b6f3a277590565bc96025759450c2be3df59aa8a48600f3184b45fd2286c21ca",
+    "base/retrieval_split_manifest.json": "70e4c51f1b7f01248d04c4e33960d4b3e1cefe5dffcd9ff6258b0b0011ce3cdf",
+    "base/retrieval_test.jsonl": "9ea21eff13ed664fb9faab9d0919dc8592ff04a4e3ff78a998a57ad2d62b62fe"
+  },
+  "data_condition": "same versioned synthetic fixture in A/B/C; A receives no evidence, B documented retrieval, C retrieval plus tools",
+  "model_condition": "same local model and runtime; record server/version/hash in app evidence",
+  "environment": {},
+  "notes": [
+    "Fixed A/B/C order per case; sequential runs avoid inference contention.",
+    "Question and structured fields shared across configurations.",
+    "Cold-start/warm-cache effects can affect latency; not a cloud latency benchmark.",
+    "Test set never passed to generation except individual question and allowed request fields."
+  ],
+  "finished_at": "2026-11-19T11:23:09.800682+00:00",
+  "code_unchanged_during_run": true,
+  "models_observed": [
+    "qwen2.5-1.5b-instruct"
+  ]
+}

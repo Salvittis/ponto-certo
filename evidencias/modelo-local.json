@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-11-19",
+  "runtime": "llama.cpp b12464 commit d3c3e242c",
+  "model": "Qwen2.5-1.5B-Instruct Q4_K_M",
+  "model_revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+  "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+  "file_bytes": 1117320736,
+  "hardware": {
+    "platform": "macOS-27.2.1-arm64-arm-64bit-Mach-O",
+    "architecture": "arm64",
+    "ram_bytes": 17179869184,
+    "cpu": "Apple M4"
+  },
+  "observed": {
+    "startup_seconds": 9.477,
+    "rss_kib": 1106160,
+    "context_tokens": 4096,
+    "slots": 1,
+    "model_calls_sample_seconds": [
+      2.0355,
+      0.8234
+    ]
+  },
+  "method": "Startup timestamp do log oficial do servidor; RSS por ps durante inferência local. Duas chamadas exploratórias, não benchmark repetido. Metal habilitado por padrão no binário macOS; Cloud CPU não medido aqui.",
+  "cloud_estimate": {
+    "ram_gib": "2–4",
+    "disk_gib": 2,
+    "status": "estimativa a medir"
+  }
+}

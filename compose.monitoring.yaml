@@ -1,0 +1,81 @@
+name: ponto-certo-monitoring
+
+# Administrative interfaces bind to loopback only. This stack scrapes the public MVP.
+services:
+  prometheus:
+    image: prom/prometheus:v3.16.0
+    user: "65534:65534"
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 384m
+    cpus: 0.5
+    command:
+      - --config.file=/etc/prometheus/prometheus.yaml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=10d
+      - --storage.tsdb.retention.size=512MB
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./observability/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - ./observability/prometheus/alerts.yaml:/etc/prometheus/alerts.yaml:ro
+      - ./.runtime/monitoring/metrics-targets.json:/etc/prometheus/metrics-targets.json:ro
+      - ./.runtime/monitoring/ready-targets.json:/etc/prometheus/ready-targets.json:ro
+      - prometheus-data:/prometheus
+    secrets: [metrics-token]
+    tmpfs: [/tmp]
+    depends_on: [blackbox]
+
+  blackbox:
+    image: prom/blackbox-exporter:v0.29.1
+    user: "65534:65534"
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 64m
+    cpus: 0.25
+    command: [--config.file=/etc/blackbox/blackbox.yaml]
+    volumes:
+      - ./observability/blackbox/blackbox.yaml:/etc/blackbox/blackbox.yaml:ro
+    # No published port: Prometheus alone reaches this service on the Docker network.
+
+  grafana:
+    image: grafana/grafana:13.3.1
+    user: "472:0"
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 384m
+    cpus: 0.5
+    ports:
+      - "127.0.0.1:3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD__FILE: /run/secrets/grafana-admin-password
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_LOG_MODE: console
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/ponto-certo.json
+    volumes:
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    secrets: [grafana-admin-password]
+    tmpfs: [/tmp]
+    depends_on: [prometheus]
+
+secrets:
+  metrics-token:
+    file: ./.runtime/monitoring/metrics-token
+  grafana-admin-password:
+    file: ./.runtime/monitoring/grafana-admin-password
+
+volumes:
+  prometheus-data:
+  grafana-data:

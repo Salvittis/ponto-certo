@@ -1,0 +1,18 @@
+# Allow-list: credentials, state, local models and experiments never enter builds.
+**
+!Dockerfile
+!Dockerfile.llm
+!requirements.txt
+!requirements.lock
+!app/
+!app/**
+!base/
+!base/**
+!dados/
+!dados/fixtures/
+!dados/fixtures/**
+**/__pycache__
+**/*.pyc
+**/.env*
+**/*.tfstate*
+**/*.tfvars*

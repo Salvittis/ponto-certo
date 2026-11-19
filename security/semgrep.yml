@@ -1,0 +1,66 @@
+rules:
+  - id: python-no-dynamic-evaluation
+    languages: [python]
+    severity: ERROR
+    message: "Do not execute text with eval/exec. Use a fixed operation or a structured parser."
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: exec(...)
+    metadata:
+      category: security
+      cwe: "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code"
+  - id: python-no-shell-subprocess
+    languages: [python]
+    severity: ERROR
+    message: "Pass an argument array with shell=False; never interpolate data into a shell."
+    pattern-either:
+      - pattern: subprocess.$FUNC(..., shell=True, ...)
+      - pattern: os.system(...)
+      - pattern: os.popen(...)
+    metadata:
+      category: security
+      cwe: "CWE-78: OS Command Injection"
+  - id: python-no-disabled-tls
+    languages: [python]
+    severity: ERROR
+    message: "Certificate validation must remain enabled."
+    pattern-either:
+      - pattern: $CLIENT(..., verify=False, ...)
+      - pattern: ssl._create_unverified_context(...)
+    metadata:
+      category: security
+      cwe: "CWE-295: Improper Certificate Validation"
+  - id: python-no-unsafe-deserialization
+    languages: [python]
+    severity: ERROR
+    message: "Use JSON or a validated data format instead of executable deserialization."
+    pattern-either:
+      - pattern: pickle.load(...)
+      - pattern: pickle.loads(...)
+      - pattern: yaml.unsafe_load(...)
+      - pattern: yaml.load(..., Loader=yaml.Loader, ...)
+      - pattern: yaml.load(..., Loader=yaml.UnsafeLoader, ...)
+    metadata:
+      category: security
+      cwe: "CWE-502: Deserialization of Untrusted Data"
+  - id: python-no-production-debug
+    languages: [python]
+    severity: ERROR
+    message: "Debug mode may reveal internal details; keep it disabled."
+    pattern-either:
+      - pattern: FastAPI(..., debug=True, ...)
+      - pattern: Starlette(..., debug=True, ...)
+      - pattern: $APP.run(..., debug=True, ...)
+    metadata:
+      category: security
+      cwe: "CWE-489: Active Debug Code"
+  - id: javascript-no-dynamic-evaluation
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "Do not execute untrusted JavaScript text."
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: new Function(...)
+    metadata:
+      category: security
+      cwe: "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code"

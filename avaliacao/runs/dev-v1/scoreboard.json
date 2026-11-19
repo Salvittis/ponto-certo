@@ -1,0 +1,53 @@
+{
+  "warning": "Acerto por propriedades é proxy automático, não acurácia semântica plena. Candidatos a afirmação proibida exigem auditoria. JSON final pode refletir validação/fallback do servidor; JSON bruto mede geração.",
+  "scores": [
+    {
+      "configuration": "baseline",
+      "n": 6,
+      "property_correct": 1,
+      "status_correct": 3,
+      "final_json_valid": 6,
+      "source_n": 3,
+      "sources_present": 0,
+      "refusal_n": 3,
+      "refusal_correct": 1,
+      "model_calls": 6,
+      "model_json_valid": 6,
+      "forbidden_claim_candidates": 0,
+      "mean_latency_seconds": 1.008,
+      "errors": 0
+    },
+    {
+      "configuration": "rag",
+      "n": 6,
+      "property_correct": 3,
+      "status_correct": 4,
+      "final_json_valid": 6,
+      "source_n": 3,
+      "sources_present": 3,
+      "refusal_n": 3,
+      "refusal_correct": 1,
+      "model_calls": 6,
+      "model_json_valid": 6,
+      "forbidden_claim_candidates": 0,
+      "mean_latency_seconds": 1.223,
+      "errors": 0
+    },
+    {
+      "configuration": "agent",
+      "n": 6,
+      "property_correct": 6,
+      "status_correct": 6,
+      "final_json_valid": 6,
+      "source_n": 3,
+      "sources_present": 3,
+      "refusal_n": 3,
+      "refusal_correct": 3,
+      "model_calls": 3,
+      "model_json_valid": 3,
+      "forbidden_claim_candidates": 0,
+      "mean_latency_seconds": 0.97,
+      "errors": 0
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{"id": "R-dev-01", "question": "Quero acessar a API: preciso de token?", "relevant_ids": ["D01"], "answerable": true}
+{"id": "R-dev-02", "question": "Como buscar uma linha pelo número?", "relevant_ids": ["D02"], "answerable": true}
+{"id": "R-dev-03", "question": "O que significa sentido 2?", "relevant_ids": ["D03"], "answerable": true}
+{"id": "R-dev-04", "question": "A categoria de paradas cobre todos os pontos municipais?", "relevant_ids": ["D04"], "answerable": true}
+{"id": "R-dev-05", "question": "Posso buscar parada pelo endereço?", "relevant_ids": ["D05"], "answerable": true}
+{"id": "R-dev-06", "question": "O horário ta é da captura da posição?", "relevant_ids": ["D06"], "answerable": true}
+{"id": "R-dev-07", "question": "Qual campo traz a previsão de chegada?", "relevant_ids": ["D07"], "answerable": true}
+{"id": "R-dev-08", "question": "O campo a indica acessibilidade?", "relevant_ids": ["D08"], "answerable": true}
+{"id": "R-dev-09", "question": "GTFS tem dados estáticos ou dinâmicos?", "relevant_ids": ["D10"], "answerable": true}
+{"id": "R-dev-10", "question": "Previsão garante que o ônibus vai chegar?", "relevant_ids": ["P01"], "answerable": true}
+{"id": "R-dev-11", "question": "Consulta vazia significa que acabou o serviço?", "relevant_ids": ["P02"], "answerable": true}
+{"id": "R-dev-12", "question": "Uma captura antiga pode ser atual?", "relevant_ids": ["P03"], "answerable": true}
+{"id": "R-dev-13", "question": "O Ponto Certo planeja viagens com baldeações?", "relevant_ids": ["P04"], "answerable": true}
+{"id": "R-dev-14", "question": "Faltam linha sentido e ponto; o que fazer?", "relevant_ids": ["P05"], "answerable": true}
+{"id": "R-dev-15", "question": "Quanto custa uma passagem hoje?", "relevant_ids": [], "answerable": false}
+{"id": "R-dev-16", "question": "Qual é a população de Marte?", "relevant_ids": [], "answerable": false}
+{"id": "R-dev-17", "question": "Acontecerá chuva na praia amanhã?", "relevant_ids": [], "answerable": false}
+{"id": "R-dev-18", "question": "Onde fica o hospital mais próximo?", "relevant_ids": [], "answerable": false}

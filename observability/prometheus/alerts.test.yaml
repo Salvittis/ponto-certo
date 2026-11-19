@@ -1,0 +1,112 @@
+{
+  "rule_files": [
+    "alerts.yaml"
+  ],
+  "evaluation_interval": "15s",
+  "tests": [
+    {
+      "name": "Synthetic unit test only: pending, firing after 1m, recovery",
+      "interval": "15s",
+      "input_series": [
+        {
+          "series": "probe_success{job=\"ponto-certo-ready\",instance=\"https://example.invalid/readyz\"}",
+          "values": "1 0 0 0 0 0 1 1"
+        },
+        {
+          "series": "ponto_certo_model_ready{job=\"ponto-certo-api\",instance=\"example.invalid\"}",
+          "values": "1 0 0 0 0 0 1 1"
+        },
+        {
+          "series": "up{job=\"ponto-certo-api\",instance=\"example.invalid\"}",
+          "values": "1 0 0 0 0 0 1 1"
+        }
+      ],
+      "alert_rule_test": [
+        {
+          "eval_time": "45s",
+          "alertname": "PontoCertoPublicReadyUnavailable",
+          "exp_alerts": []
+        },
+        {
+          "eval_time": "1m15s",
+          "alertname": "PontoCertoPublicReadyUnavailable",
+          "exp_alerts": [
+            {
+              "exp_labels": {
+                "job": "ponto-certo-ready",
+                "instance": "https://example.invalid/readyz",
+                "severity": "critical",
+                "component": "public-readiness"
+              },
+              "exp_annotations": {
+                "summary": "Ponto Certo público sem prontidão por mais de 1 minuto",
+                "description": "GET https://example.invalid/readyz não retorna HTTP 200, ou DNS/TLS/conexão falharam, em quatro ou mais sondagens. Conferir /healthz, modelo, base e logs técnicos; restaurar e verificar probe_success=1."
+              }
+            }
+          ]
+        },
+        {
+          "eval_time": "1m45s",
+          "alertname": "PontoCertoPublicReadyUnavailable",
+          "exp_alerts": []
+        },
+        {
+          "eval_time": "45s",
+          "alertname": "PontoCertoModelNotReady",
+          "exp_alerts": []
+        },
+        {
+          "eval_time": "1m15s",
+          "alertname": "PontoCertoModelNotReady",
+          "exp_alerts": [
+            {
+              "exp_labels": {
+                "job": "ponto-certo-api",
+                "instance": "example.invalid",
+                "severity": "critical",
+                "component": "local-llm"
+              },
+              "exp_annotations": {
+                "summary": "LLM local sem prontidão por mais de 1 minuto",
+                "description": "A aplicação está expondo métricas, mas o modelo não está pronto. Conferir pesos, memória e processo; não apresentar respostas simuladas."
+              }
+            }
+          ]
+        },
+        {
+          "eval_time": "1m45s",
+          "alertname": "PontoCertoModelNotReady",
+          "exp_alerts": []
+        },
+        {
+          "eval_time": "45s",
+          "alertname": "PontoCertoMetricsUnavailable",
+          "exp_alerts": []
+        },
+        {
+          "eval_time": "1m15s",
+          "alertname": "PontoCertoMetricsUnavailable",
+          "exp_alerts": [
+            {
+              "exp_labels": {
+                "job": "ponto-certo-api",
+                "instance": "example.invalid",
+                "severity": "warning",
+                "component": "monitoring"
+              },
+              "exp_annotations": {
+                "summary": "Coleta de métricas do MVP interrompida por mais de 1 minuto",
+                "description": "Falha ao coletar /metrics. Verificar disponibilidade, TLS, token e contrato; o probe público distingue falha de telemetria de falha de prontidão."
+              }
+            }
+          ]
+        },
+        {
+          "eval_time": "1m45s",
+          "alertname": "PontoCertoMetricsUnavailable",
+          "exp_alerts": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+#cloud-config
+# Public bootstrap only. Application secrets are provisioned separately.
+package_update: true
+package_upgrade: true
+packages:
+  - ca-certificates
+  - curl
+  - gnupg
+  - jq
+write_files:
+  - path: /etc/docker/daemon.json
+    owner: root:root
+    permissions: '0644'
+    content: |
+      {
+        "log-driver": "local",
+        "log-opts": {"max-size": "5m", "max-file": "3"},
+        "live-restore": true,
+        "no-new-privileges": true
+      }
+  - path: /usr/local/sbin/ponto-certo-bootstrap
+    owner: root:root
+    permissions: '0700'
+    content: |
+      #!/bin/bash
+      set -euo pipefail
+      export DEBIAN_FRONTEND=noninteractive
+      install -d -m 0755 /etc/apt/keyrings
+      curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 \
+        https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+      chmod 0644 /etc/apt/keyrings/docker.asc
+      cat > /etc/apt/sources.list.d/docker.sources <<'DOCKER_REPO'
+      Types: deb
+      URIs: https://download.docker.com/linux/ubuntu
+      Suites: noble
+      Components: stable
+      Architectures: amd64
+      Signed-By: /etc/apt/keyrings/docker.asc
+      DOCKER_REPO
+      apt-get update
+      apt-get install -y --no-install-recommends docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      install -d -o root -g root -m 0755 /opt/ponto-certo
+      install -d -o root -g root -m 0700 /opt/ponto-certo/secrets
+      # No user is added to the privileged Docker group; no TCP Docker socket.
+      systemctl enable --now docker
+      docker version --format '{{.Server.Version}}' > /opt/ponto-certo/docker-version.txt
+      docker compose version --short > /opt/ponto-certo/compose-version.txt
+      date -u +%FT%TZ > /opt/ponto-certo/bootstrap-ready.txt
+runcmd:
+  - ['/usr/local/sbin/ponto-certo-bootstrap']
+final_message: "Ponto Certo host bootstrap finished; application deployment is a separate security-gated step."

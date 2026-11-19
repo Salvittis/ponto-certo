@@ -1,0 +1,13 @@
+{
+  "provenance": "Cenário SINTÉTICO criado pelo projeto, inspirado no esquema da documentação SPTrans. Não é captura externa nem comprova itinerário ou operação atual.",
+  "source_url": "https://www.sptrans.com.br/desenvolvedores/api-do-olho-vivo-guia-de-referencia/documentacao-api",
+  "created_at": "2026-11-19T10:00:00-03:00",
+  "reference_time": "2026-11-19T10:00:00-03:00",
+  "lines": [
+    {"cl":1273,"lc":false,"lt":"8000","sl":1,"tl":10,"tp":"PCA. RAMOS DE AZEVEDO","ts":"TERMINAL LAPA"},
+    {"cl":34041,"lc":false,"lt":"8000","sl":2,"tl":10,"tp":"PCA. RAMOS DE AZEVEDO","ts":"TERMINAL LAPA"}
+  ],
+  "stops": [{"cp":4200153,"np":"PARADA DEMONSTRATIVA","ed":"Endereço não validado; cenário de teste","py":-23.55,"px":-46.63}],
+  "predictions": {"hr":"10:00","p":{"cp":4200153,"np":"PARADA DEMONSTRATIVA","py":-23.55,"px":-46.63,"l":[{"c":"8000-10","cl":1273,"sl":1,"lt0":"PCA. RAMOS DE AZEVEDO","lt1":"TERMINAL LAPA","qv":1,"vs":[{"p":"DEMO","t":"10:08","a":true,"ta":"2026-11-19T12:59:40Z","py":-23.55,"px":-46.63}]}]}},
+  "scenarios": {"normal":"Uma previsão sintética 10:08 às 10:00; oito minutos na simulação.","empty":"Mesma consulta sem veículos retornados.","stale":"Relógio de avaliação 10:10, resposta hr=10:00, idade 600 segundos.","unavailable":"Falha de dependência simulada."}
+}

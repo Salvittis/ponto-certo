@@ -1,0 +1,37 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  scrape_timeout: 10s
+  external_labels:
+    monitor: ponto-certo-local
+
+rule_files:
+  - /etc/prometheus/alerts.yaml
+
+scrape_configs:
+  - job_name: ponto-certo-api
+    metrics_path: /metrics
+    scheme: https
+    authorization:
+      type: Bearer
+      credentials_file: /run/secrets/metrics-token
+    file_sd_configs:
+      - files: [/etc/prometheus/metrics-targets.json]
+        refresh_interval: 15s
+    # Avoid silently accepting an unexpected redirect to another host with a credential.
+    follow_redirects: false
+
+  - job_name: ponto-certo-ready
+    metrics_path: /probe
+    params:
+      module: [http_ready]
+    file_sd_configs:
+      - files: [/etc/prometheus/ready-targets.json]
+        refresh_interval: 15s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox:9115

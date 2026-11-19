@@ -1,0 +1,25 @@
+# syntax=docker/dockerfile:1
+# Official multi-architecture llama.cpp build 12464, commit d3c3e242c.
+FROM ghcr.io/ggml-org/llama.cpp:server@sha256:5b43086e3ba7ea5794d72904654f6cd41224a9b1c6ac0398f4940ee380d30f23 AS weights
+RUN mkdir -p /models && \
+    curl --fail --location --retry 4 --proto '=https' --tlsv1.2 \
+    'https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/91cad51170dc346986eccefdc2dd33a9da36ead9/qwen2.5-1.5b-instruct-q4_k_m.gguf' \
+    --output /models/qwen.gguf && \
+    echo '6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e  /models/qwen.gguf' | sha256sum -c -
+FROM ghcr.io/ggml-org/llama.cpp:server@sha256:5b43086e3ba7ea5794d72904654f6cd41224a9b1c6ac0398f4940ee380d30f23
+ARG APP_REVISION=development
+LABEL org.opencontainers.image.source="https://github.com/Salvittis/ponto-certo" \
+      org.opencontainers.image.title="Ponto Certo local LLM" \
+      org.opencontainers.image.revision=$APP_REVISION \
+      org.opencontainers.image.licenses="MIT AND Apache-2.0"
+RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/* \
+    && groupadd --gid 10001 pontocerto \
+    && useradd --uid 10001 --gid 10001 --no-create-home --shell /usr/sbin/nologin pontocerto
+COPY --from=weights --chown=10001:10001 /models/qwen.gguf /models/qwen.gguf
+USER 10001:10001
+ENV HOME=/tmp LLAMA_ARG_HOST=0.0.0.0 LLAMA_ARG_PORT=8081
+EXPOSE 8081
+HEALTHCHECK --interval=15s --timeout=5s --start-period=120s --retries=5 \
+    CMD curl --fail --silent http://127.0.0.1:8081/health || exit 1
+ENTRYPOINT ["/app/llama-server"]
+CMD ["--model", "/models/qwen.gguf", "--alias", "qwen2.5-1.5b-instruct", "--ctx-size", "4096", "--parallel", "1", "--threads", "2", "--threads-batch", "2", "--batch-size", "256", "--ubatch-size", "128", "--poll", "0", "--no-warmup", "--metrics", "--no-webui", "--log-verbosity", "1"]

@@ -1,0 +1,63 @@
+name: ponto-certo
+services:
+  llm:
+    image: ${LLM_IMAGE_REF:?Set the approved model image digest}
+    restart: unless-stopped
+    read_only: true
+    tmpfs: ["/tmp:size=64m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    cpus: 2.0
+    mem_limit: 3g
+    networks: [backend]
+    logging:
+      driver: local
+      options: {max-size: 5m, max-file: "2"}
+  app:
+    image: ${IMAGE_REF:?Set the approved application image digest}
+    restart: unless-stopped
+    depends_on:
+      llm: {condition: service_healthy}
+    env_file: runtime.env
+    environment:
+      LLM_BASE_URL: http://llm:8081/v1
+      LLM_MODEL: qwen2.5-1.5b-instruct
+      LLM_TIMEOUT_SECONDS: "90"
+      APP_REVISION: ${APP_REVISION:?Set the full Git commit}
+    read_only: true
+    tmpfs: ["/tmp:size=64m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    cpus: 1.0
+    mem_limit: 512m
+    networks: [backend, frontend, outbound]
+    logging:
+      driver: local
+      options: {max-size: 5m, max-file: "2"}
+  proxy:
+    image: caddy:2-alpine@sha256:003a97808e781aa9f7e75cc2f43d34d461099031faf5e20faefb9f61126836f0
+    user: "10001:10001"
+    restart: unless-stopped
+    depends_on:
+      app: {condition: service_healthy}
+    environment:
+      PUBLIC_HOST: ${PUBLIC_HOST:?Set the Azure public DNS host}
+    ports: ["80:8080", "443:8443"]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+    read_only: true
+    tmpfs: ["/tmp:size=32m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 128m
+    cpus: 0.5
+    networks: [frontend, outbound]
+    logging:
+      driver: local
+      options: {max-size: 5m, max-file: "2"}
+networks:
+  backend: {internal: true}
+  frontend: {internal: true}
+  outbound: {}

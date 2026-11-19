@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102d42">
+  <meta name="description" content="Entenda as informações de linhas e espera dos ônibus municipais de São Paulo, com fontes e atualização visíveis.">
+  <title>Ponto Certo — Informação para seguir viagem</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#consulta">Pular para a consulta</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="/" aria-label="Ponto Certo, início">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M8 24V10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v14H8Z" stroke="currentColor" stroke-width="2"/><path d="M8 16h16M12 6v10M20 6v10M11 24v3M21 24v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="20" r="1.5" fill="currentColor"/><circle cx="20" cy="20" r="1.5" fill="currentColor"/></svg></span>
+        <span>Ponto <strong>Certo</strong></span>
+      </a>
+      <span class="territory">Ônibus municipais <span>São Paulo</span></span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">INFORMAÇÃO PARA SEGUIR VIAGEM</p>
+        <h1 id="page-title">Menos dúvida.<br>Mais clareza no ponto.</h1>
+        <p class="intro">Pergunte sobre linhas e informações de espera. Confira de onde vem a resposta e quando ela foi atualizada.</p>
+      </div>
+      <aside class="service-card" aria-label="Disponibilidade da consulta">
+        <div class="service-top"><span class="small-label">Modo de consulta</span><span id="mode-badge" class="badge badge-demo">DEMONSTRAÇÃO</span></div>
+        <p id="mode-description">Consultas de chegada usam dados de teste. Não use esses horários para planejar uma viagem real.</p>
+        <p id="service-status" class="service-status" role="status">Verificando disponibilidade…</p>
+      </aside>
+    </section>
+
+    <div class="workspace">
+      <section id="consulta" class="query-panel" aria-labelledby="query-title">
+        <div class="panel-heading"><span class="section-icon" aria-hidden="true">?</span><div><h2 id="query-title">Como podemos ajudar?</h2><p>Uma pergunta por vez, do seu jeito.</p></div></div>
+        <form id="ask-form">
+          <label for="question">Sua pergunta</label>
+          <textarea id="question" name="question" rows="3" maxlength="1000" placeholder="Ex.: A previsão de chegada é um horário garantido?" aria-describedby="question-help" required></textarea>
+          <p id="question-help" class="field-help">Não inclua nome, telefone ou outros dados pessoais.</p>
+          <details id="details-fields" class="optional-fields">
+            <summary>Informar linha, sentido ou ponto</summary>
+            <p class="field-help details-help">Use os códigos da consulta SPTrans, se souber. O código da linha é diferente do número exibido no ônibus.</p>
+            <div class="fields-grid">
+              <div><label for="line-code">Código da linha</label><input id="line-code" name="line_code" type="number" min="1" max="999999999" step="1" inputmode="numeric" placeholder="Opcional"></div>
+              <div><label for="stop-code">Código do ponto</label><input id="stop-code" name="stop_code" type="number" min="1" max="999999999" step="1" inputmode="numeric" placeholder="Opcional"></div>
+              <div><label for="direction">Sentido</label><select id="direction" name="direction"><option value="">Não informado</option><option value="1">1 — Principal → secundário</option><option value="2">2 — Secundário → principal</option></select></div>
+            </div>
+          </details>
+          <div class="submit-row"><p class="field-help">Se faltar informação, vamos pedir um detalhe.</p><button id="submit-button" class="primary-button" type="submit"><span id="submit-text">Consultar</span><span id="submit-spinner" class="spinner" hidden aria-hidden="true"></span></button></div>
+        </form>
+        <div class="examples" aria-labelledby="examples-title"><h3 id="examples-title">Experimente perguntar</h3><div class="example-buttons"><button type="button" data-example="Previsão de chegada é garantia de horário?">A previsão é garantida?</button><button type="button" data-example="A ausência de previsão significa que não há ônibus circulando?">Sem previsão significa sem ônibus?</button><button type="button" data-example="Quais são os sentidos da linha 8000?">Sentidos da linha 8000</button><button id="demo-example" type="button" data-demo="true">Testar uma chegada simulada</button></div></div>
+      </section>
+
+      <aside class="help-panel" aria-labelledby="help-title">
+        <p class="eyebrow">ANTES DE SAIR</p><h2 id="help-title">Informação com contexto.</h2>
+        <div class="help-item"><span class="help-number" aria-hidden="true">01</span><div><h3>Previsão não é garantia</h3><p>Trânsito e operação podem alterar o horário de chegada.</p></div></div>
+        <div class="help-item"><span class="help-number" aria-hidden="true">02</span><div><h3>Sem dado, sem adivinhação</h3><p>Quando não houver informação suficiente, a resposta vai indicar esse limite.</p></div></div>
+        <div class="help-item"><span class="help-number" aria-hidden="true">03</span><div><h3>Confira a fonte</h3><p>Os links e a atualização aparecem junto da resposta.</p></div></div>
+        <div class="official-link"><p>Precisa consultar o serviço oficial?</p><a href="https://www.sptrans.com.br/" target="_blank" rel="noopener noreferrer">Abrir o site da SPTrans <span class="sr-only">(abre em nova aba)</span></a></div>
+      </aside>
+    </div>
+
+    <section id="result" class="result-panel" aria-labelledby="result-title" hidden tabindex="-1">
+      <div class="result-heading"><div><p class="eyebrow">SUA CONSULTA</p><h2 id="result-title">Resposta</h2></div><span id="result-badge" class="badge">Informação</span></div>
+      <p id="asked-question" class="asked-question"></p>
+      <div id="answer" class="answer"></div>
+      <div id="options" class="clarification-options" hidden></div>
+      <div id="warnings-box" class="warnings-box" hidden><h3>Atenção à informação</h3><ul id="warnings"></ul></div>
+      <div id="result-meta" class="result-meta"><span id="data-mode"></span><time id="updated-at"></time></div>
+      <div id="sources-box" class="sources-box" hidden><h3>Fontes da resposta</h3><ul id="sources"></ul></div>
+      <p id="error-fallback" class="error-fallback" hidden>Você também pode <a href="https://www.sptrans.com.br/" target="_blank" rel="noopener noreferrer">consultar a SPTrans<span class="sr-only"> (abre em nova aba)</span></a>. Tente novamente em alguns instantes.</p>
+    </section>
+    <p id="announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+  </main>
+
+  <footer class="shell site-footer"><p>Ponto Certo <span>·</span> Mobilidade com informação</p><p>Atendimento restrito ao município de São Paulo. As respostas podem conter erros; confira as fontes.</p></footer>
+</body>
+</html>

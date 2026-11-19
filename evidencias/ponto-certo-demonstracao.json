@@ -1,0 +1,58 @@
+{
+  "created_at_utc": "2026-11-19T11:26:56.579250+00:00",
+  "format": "Montagem em quadros de capturas reais; não é gravação contínua de tela.",
+  "inference": "Qwen2.5-1.5B-Instruct local, conforme contrato e smoke local; sem API comercial de LLM.",
+  "transit_data": "Fixture sintética; referência 2026-11-19T10:00:00-03:00. Não é captura ao vivo.",
+  "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+  "dimensions": [
+    1600,
+    1200
+  ],
+  "fps": 24,
+  "duration_seconds": 32,
+  "audio": false,
+  "scenes": [
+    {
+      "scene": "inicio",
+      "source": "evidencias/interface-inicio.jpg",
+      "source_sha256": "486ec8b9832255db55a329d5f41599162aa18c4cfe77d13b57fc7448f507e60c",
+      "source_mtime_utc": "2026-11-19T11:25:03.375236+00:00",
+      "starts_at_seconds": 0,
+      "duration_seconds": 8,
+      "title": "Ponto Certo | Informação para seguir viagem",
+      "caption": "Interface web, API e Qwen2.5-1.5B-Instruct local.\nMontagem de capturas reais; não é uma gravação contínua."
+    },
+    {
+      "scene": "documental",
+      "source": "evidencias/interface-documental.jpg",
+      "source_sha256": "4c01cc0b69ffbf13d44253369899c0179628b50e1063d2cc6fada567efb63677",
+      "source_mtime_utc": "2026-11-19T11:24:30.757790+00:00",
+      "starts_at_seconds": 8,
+      "duration_seconds": 8,
+      "title": "Resposta documental com fonte",
+      "caption": "O RAG recupera trechos de uma base versionada com 18 trechos.\nA aplicação gera a resposta localmente e valida as fontes."
+    },
+    {
+      "scene": "chegada",
+      "source": "evidencias/interface-chegada.jpg",
+      "source_sha256": "cfe301a8177cd490e9d7e9f7df56a7a91ed6242c31e1ad44dfd4ee6a0e8b3595",
+      "source_mtime_utc": "2026-11-19T11:25:40.957901+00:00",
+      "starts_at_seconds": 16,
+      "duration_seconds": 8,
+      "title": "Chegada simulada, identificada na resposta",
+      "caption": "Fixture sintética: 19/11/2026, 10h em São Paulo; previsão às 10h08.\nNão é consulta ao vivo e não mede redução real da espera."
+    },
+    {
+      "scene": "esclarecimento",
+      "source": "evidencias/interface-esclarecimento.jpg",
+      "source_sha256": "c7634b72315693bf520ea322bc4f90988de4afc1d82f3590a298143c5074a395",
+      "source_mtime_utc": "2026-11-19T11:24:40.630968+00:00",
+      "starts_at_seconds": 24,
+      "duration_seconds": 8,
+      "title": "Uma informação a mais para responder",
+      "caption": "A pergunta incompleta recebe um pedido de esclarecimento.\nAcesso real à SPTrans e validação pública são etapas separadas."
+    }
+  ],
+  "video_sha256": "49affe889bf8dcf5fff2a8b3545a43e4b28f89ca42cf67577aa08baf2934d548",
+  "video_bytes": 469989
+}

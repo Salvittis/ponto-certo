@@ -1,0 +1,18 @@
+{
+  "frozen_at": "2026-11-19T11:18:34.491539+00:00",
+  "purpose": "Teste escrito antes do primeiro experimento; manter original e registrar alterações em nova versão. Nenhum teste é passado ao contexto de geração.",
+  "files": {
+    "dev.jsonl": "7ef66ad07f996d3d9a341d0356df0aa6e1cd00786c4588b262173c6938761ba6",
+    "test.jsonl": "4d293b9822493bd3b81d89be48eca87ad8afc709cd9700df99c5556b6e2b3530"
+  },
+  "counts": {
+    "dev": 6,
+    "test": 24
+  },
+  "dynamic_data": "cenários sintéticos; não capturas ao vivo",
+  "limitations": [
+    "Casos escritos pelo avaliador, amostra pequena e não representativa de todos os cidadãos.",
+    "Gabarito por propriedades automatizáveis é proxy; alucinação requer também revisão humana de respostas salvas.",
+    "Testes de regressão pós-ajuste não são novo teste cego."
+  ]
+}
